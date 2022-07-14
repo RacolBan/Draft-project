@@ -1,29 +1,29 @@
-const connection = require('./config_model.js')
+const sequelize = require('./config.model.js')
 const DataTypes = require('sequelize');
 
-const ProductModel = connection.define("products",
+const ProductModel = sequelize.define("products",
     {
-        productName: {
-            type: DataTypes.INTEGER,
+        name: {
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 len: {
                     args: [3, 100],
-                    msg: "wrong product name"
+                    msg: "name require number of characters must be between 3 to 100"
                 }
             }
         },
 
         price: {
-            type: DataTypes.DECIMAL(10, 2),
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
 
-        brief_description: {
+        description: {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        illustrated_image: {
+        image: {
             type: DataTypes.BLOB("medium"),
             allowNull: true
         }

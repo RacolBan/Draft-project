@@ -1,15 +1,15 @@
-const connection = require('./config_model.js')
+const sequelize = require('./config.model.js')
 const DataTypes = require('sequelize');
 
-const ManufactureModel = connection.define("manufactures",
+const ManufactureModel = sequelize.define("manufactures",
     {
-        name_manufacture: {
-            type: DataTypes.INTEGER,
+        name: {
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 len: {
                     args: [3, 25],
-                    msg: "wrong manufacturer"
+                    msg: "manufacturer require number of characters must be between 3 to 25"
                 }
             }
         },

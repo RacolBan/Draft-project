@@ -1,20 +1,20 @@
-const connection = require('./config_model.js')
+const sequelize = require('./config.model.js')
 const DataTypes = require('sequelize');
 
-const AccountModel = connection.define("accounts",
+const AccountModel = sequelize.define("accounts",
     {
-        userName: {
+        username: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
             validate: {
                 len: {
-                    args: [3, 12],
-                    msg: "invalid username"
+                    args: [3, 20],
+                    msg: "username require number of characters must be between 3 to 20 ."
                 }
             }
         },
-        hash_pwd: {
+        hashPwd: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -25,7 +25,7 @@ const AccountModel = connection.define("accounts",
             validate: {
                 isIn: {
                     args: [[0, 1, 2]],
-                    msg: "fail rule role"
+                    msg: "role require must be 0,1,2 "
                 }
             }
 

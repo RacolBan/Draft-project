@@ -1,16 +1,16 @@
-const connection = require('./config_model.js')
+const sequelize = require('./config.model.js')
 const DataTypes = require('sequelize');
 
-const OrderDetail = connection.define("orderdetails",
+const OrderdetailModel = sequelize.define("orderdetails",
     {
-        quantity_product: {
+        quantityProduct: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1,
         },
 
         VAT: {
-            type: DataTypes.STRING,
+            type: DataTypes.DECIMAL(10,2),
             allowNull: true,
         },
 
@@ -23,4 +23,4 @@ const OrderDetail = connection.define("orderdetails",
 
 );
 
-module.exports = OrderDetail;
+module.exports = OrderdetailModel;

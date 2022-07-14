@@ -1,14 +1,14 @@
-const connection = require('./config_model.js');
+const sequelize = require('./config.model.js');
 const DataTypes = require('sequelize');
 
-const CartModel = connection.define("carts",
+const CartModel = sequelize.define("carts",
     {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        quantity_product: {
+        quantityProduct: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 0

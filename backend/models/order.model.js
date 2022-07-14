@@ -1,7 +1,7 @@
-const connection = require('./config_model.js');
+const sequelize = require('./config.model.js');
 const DataTypes = require('sequelize');
 
-const OrderModel = connection.define("orders",
+const OrderModel = sequelize.define("orders",
     {
         id: {
             type: DataTypes.INTEGER,

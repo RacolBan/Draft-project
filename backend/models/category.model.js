@@ -1,15 +1,15 @@
-const connection = require('./config_model.js')
+const sequelize = require('./config.model.js')
 const DataTypes = require('sequelize');
 
-const CategoryModel = connection.define("categories",
+const CategoryModel = sequelize.define("categories",
     {
-        kindOFProduct: {
-            type: DataTypes.INTEGER,
+        name: {
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 len: {
                     args: [3, 100],
-                    msg: "wrong kind of product"
+                    msg: "name Category number of character must be between 3 to 100"
                 }
             }
         },

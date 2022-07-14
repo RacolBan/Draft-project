@@ -1,12 +1,8 @@
 .footer {
-  background-color: #f7f7f7;
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
   padding-bottom: 15px;
   margin-top: 20px;
-  display: flex;
 }
 
 .footer-col {

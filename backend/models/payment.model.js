@@ -1,15 +1,15 @@
-const connection = require('./config_model.js')
+const sequelize = require('./config.model.js')
 const DataTypes = require('sequelize');
 
-const PayModel = connection.define("payments",
+const PayModel = sequelize.define("payments",
     {
-        pay_method: {
-            type: DataTypes.INTEGER,
+        method: {
+            type: DataTypes.STRING,
             allowNull: false,
 
         },
         total: {
-            type: DataTypes.DECIMAL(10, 2),
+            type: DataTypes.INTEGER,
             allowNull: false
         }
 

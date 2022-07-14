@@ -1,7 +1,7 @@
-const connection = require('./config_model.js');
+const sequelize = require('./config.model.js');
 const DataTypes = require('sequelize');
 
-const UserModel = connection.define("user",
+const UserModel = sequelize.define("user",
     {
         id: {
             type: DataTypes.INTEGER,
@@ -14,7 +14,7 @@ const UserModel = connection.define("user",
             validate: {
                 len: {
                     args: [3, 10],
-                    msg: "invalid first name"
+                    msg: "firstName require number of characters must be between 3 to 10"
                 }
             }
         },
@@ -24,7 +24,7 @@ const UserModel = connection.define("user",
             validate: {
                 len: {
                     args: [3, 10],
-                    msg: "invalid last name"
+                    msg: "lastName require number of characters must be between 3 to 10"
                 }
             }
         },

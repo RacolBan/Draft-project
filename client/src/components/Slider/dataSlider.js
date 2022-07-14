@@ -1,24 +1,9 @@
-const dataSlider = [{
-    id: 1,
-    image:"./images/"
-},
-{
-    id: 2,
-    image:"./images/"
-},
-{
-    id: 3,
-    image:"./images/"
-},
-{
-    id: 4,
-    image:"./images/"
-    
-},
-{
-    id: 5,
-    image:"./images/"
-    
-}]
+const slides  = [
+  "./images/Slides/1.jpg",
+  "./images/Slides/2.jpg",
+  "./images/Slides/3.jpg",
+  "./images/Slides/4.jpg",
+  "./images/Slides/5.jpg",
+];
 
-export default dataSlider
+export default slides ;
