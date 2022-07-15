@@ -1,7 +1,7 @@
 const config = {
     DB: "ecommerce",
     USERNAME: "root",
-    PASSWORD: "Vanbinh123@",
+    PASSWORD: "Leokhai1@",
     HOST: "localhost",
     DIALECT: "mysql"
 }

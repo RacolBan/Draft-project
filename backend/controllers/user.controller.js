@@ -1,134 +1,96 @@
-var jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const { AccountModel } = require("../models");
-// const sendMail = require('../service/email.service');
+const { Op } = require("sequelize");
+const { UserModel } = require("../models");
 
-require("dotenv").config();
+const getProfile = async (req, res) => {
+    try {
+        const { accountId } = req.params;
 
-const createAccessToken = (user) => {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "11m" });
-};
-const createRefreshToken = (user) => {
-  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
-};
+        if (!accountId) return res.status(404).json({ msg: " not found" });
 
-const register = async (req, res) => {
-  const { username, password, role } = req.body;
+        const profileUser = await UserModel.findOne({
+            where: {
+                accountId
+            }
+        })
 
-  try {
-    const found = await AccountModel.findOne({
-      where: {
-        username,
-      },
-    });
+        if (!profileUser) return res.status(404).json({ msg: "not found" });
 
-    if (found) return res.status(409).json({ message: "username has existed" });
+        return res.status(200).json(profileUser)
+    } catch (error) {
+        return res.status(500).json({ msg: error.message })
 
-    // validate password
-    if (password.length < 6)
-      return res
-        .status(400)
-        .json({ msg: "Password is at least 6 characters long." });
-
-    //password Encryption
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const account = {
-      userName: username,
-      hash_pwd: passwordHash,
-      role,
-    };
-
-    // save data
-    const newAccount = await AccountModel.create(account);
-
-    // // send email to notify
-    // await sendMail(
-    //     `${email}`,
-    //     `Congratulation! the account of ${username} has created!`,
-    //     "You has created successfully an account in HOCMAI"
-    // )
-
-    if (!newAccount) {
-      return res
-        .status(400)
-        .json({ message: "create new Account unsuccesfully" });
     }
-    const accesstoken = createAccessToken({ id: newAccount.id });
-    const refreshtoken = createRefreshToken({ id: newAccount.id });
 
-    res.cookie("refreshtoken", refreshtoken, {
-      httpOnly: true,
-      path: "/user/refresh_token",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-    });
-
-    res.status(201).json(newAccount);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
 };
 
-const login = async (req, res) => {
-  try {
-    const { username, password } = req.body;
+const newProfile = async (req, res) => {
+    const { accountId } = req.params;
 
-    const account = await AccountModel.findOne({
-      where: {
-        userName: username,
-      },
-    });
+    const { firstName, lastName, email, address, phone } = req.body;
+    try {
+        const foundProfile = await UserModel.findOne({
+            where: {
+                accountId,
+            }
 
-    if (!account) return res.status(400).json({ msg: "User does not exist." });
+        });
+        if (!foundProfile) {
 
-    // Compare encrypted password with hash_pwd
-    const isMatch = await bcrypt.compare(password, account.hash_pwd);
-    if (!isMatch) return res.status(400).json({ msg: "Incorrect password." });
+            const profile = {
+                firstName,
+                lastName,
+                email,
+                address,
+                phone,
+                accountId
+            }
 
-    // If login success , create access token and refresh token
-    const accesstoken = createAccessToken({ id: account.id });
-    const refreshtoken = createRefreshToken({ id: account.id });
 
-    // create refreshtoken cookie
-    res.cookie("refreshtoken", refreshtoken, {
-      httpOnly: true,
-      path: "/user/refresh_token",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-    });
-    res.json({
-      msg: "login successful",
-      accesstoken,
-      id: account.id,
-    });
-  } catch (err) {
-    return res.status(500).json({ msg: err.message });
-  }
-};
+            // save data
+            const newProfile = await UserModel.create(profile);
 
-const logout = async (req, res) => {
-  try {
-    res.clearCookie("refreshtoken", { path: "/user/refresh_token" });
-    console.log(req.cookies);
-    return res.json({ msg: "Logged out" });
-  } catch (err) {
-    return res.status(500).json({ msg: err.message });
-  }
-};
 
-const refreshToken = async (req, res) => {
-  try {
-    const rf_token = req.cookies.refreshtoken;
 
-    console.log(req.cookies);
-    res.json({ rf_token });
-  } catch (err) {
-    return res.status(500).json({ msg: err.message });
-  }
+            if (!newProfile) {
+                return res
+                    .status(400)
+                    .json({ message: "create new Profile unsuccesfully" });
+            }
+
+            return res.status(201).json(newProfile);
+        }
+        else {
+            const update = {};
+            if (firstName) update.firstName = firstName;
+            if (lastName) update.lastName = lastName;
+            if (email) update.email = email;
+            if (phone) update.firstName = firstName;
+            if (address) update.firstName = firstName;
+
+
+
+
+            const updateProfile = await UserModel.update(update, {
+                where: {
+                    accountId
+                }
+            });
+
+
+            if (!updateProfile) return res.status(400).json({ msg: "update fail" })
+            return res.status(200).json({
+                msg: "update succesfully",
+            })
+        }
+
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+
 };
 
 module.exports = {
-  register,
-  login,
-  logout,
-  refreshToken,
-};
+    getProfile,
+    newProfile
+}

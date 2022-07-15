@@ -3,7 +3,7 @@ const CategoryModel = require("./category.model");
 const UserModel = require("./user.model");
 const ManufactureModel = require("./manufacture.model");
 const OrderModel = require("./order.model");
-const OrderdetailModel = require("./Orderdetail.model");
+const OrderdetailModel = require("./orderDetail.model");
 const PayModel = require("./payment.model");
 const ProductModel = require("./product.model");
 const AccountModel = require("./account.model");
@@ -21,7 +21,7 @@ UserModel.belongsTo(AccountModel, {
     },
 });
 
-// Account vs OrderModel : one to many
+// UserModel vs OrderModel : one to many
 UserModel.hasMany(OrderModel, {
     foreignKey: {
         name: "userId",
@@ -76,7 +76,7 @@ OrderdetailModel.belongsTo(OrderModel, {
 
 //ProductModel vs OrderDetail: one to one
 
-ProductModel.hasOne(OrderdetailModel,{
+ProductModel.hasOne(OrderdetailModel, {
     foreignKey: {
         name: "productId",
     },
@@ -91,14 +91,14 @@ OrderdetailModel.belongsTo(ProductModel, {
 // ProductModel vs CartModel: one to many
 
 ProductModel.hasMany(CartModel, {
-  foreignKey: {
-    name: "productId",
-  },
+    foreignKey: {
+        name: "productId",
+    },
 });
 CartModel.belongsTo(ProductModel, {
-  foreignKey: {
-    name: "productId",
-  },
+    foreignKey: {
+        name: "productId",
+    },
 });
 
 //Category vs ProductModel : one to many
@@ -144,31 +144,31 @@ CategoryModel.belongsTo(ManufactureModel, {
 });
 
 AccountModel.sync();
-
-ManufactureModel.sync();
-
-CategoryModel.sync();
 UserModel.sync();
-OrderModel.sync();
-
-OrderdetailModel.sync();
+ManufactureModel.sync();
+CategoryModel.sync();
 ProductModel.sync();
+OrderModel.sync();
+OrderdetailModel.sync();
 CartModel.sync();
-
-
-
-
-
 PayModel.sync();
 
+
+
+
+
+
+
+
+
 module.exports = {
-  UserModel,
-  AccountModel,
-  ProductModel,
-  ManufactureModel,
-  CategoryModel,
-  OrderdetailModel,
-  OrderModel,
-  CartModel,
-  PayModel,
+    UserModel,
+    AccountModel,
+    ProductModel,
+    ManufactureModel,
+    CategoryModel,
+    OrderdetailModel,
+    OrderModel,
+    CartModel,
+    PayModel,
 };
