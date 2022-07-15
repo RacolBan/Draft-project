@@ -1,16 +1,12 @@
-const express = require('express');
-const { register, login, logout, refreshToken } = require('../controllers/user.controller');
-const userRouter = express.Router();
+const router = require('express').Router();
+const { getProfile, newProfile } = require('../controllers/user.controller')
 
-userRouter.post("/register", register);
-
-userRouter.post("/login", login);
-
-userRouter.get('/logout', logout);
-
-userRouter.get('/refresh_token', refreshToken);
+router.put('/:accountId/creatProfile', newProfile)
+router.get('/:accountId/profile', getProfile)
 
 
 
 
-module.exports = userRouter;
+
+
+module.exports = router;
