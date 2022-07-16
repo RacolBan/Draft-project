@@ -1,10 +1,13 @@
 const router = require('express').Router();
-const { getProfile, newProfile } = require('../controllers/user.controller')
-
-router.put('/:accountId/creatProfile', newProfile)
-router.get('/:accountId/profile', getProfile)
+const { getInfor, updateInfor, createNewInfor, removeInfor } = require('../controllers/user.controller')
+const { verifyTok } = require('../middlewares/auth')
 
 
+router.post('/:accountId/creatProfile', createNewInfor)
+router.get('/:accountId/getInfor', verifyTok, getInfor)
+router.put('/:accountId/updateInfor', verifyTok, updateInfor)
+
+router.delete('/:accountId/deleteInfor', verifyTok, removeInfor)
 
 
 

@@ -10,11 +10,11 @@ const { AccountModel } = require("../models");
 //     `Congratulation! the account of ${username} has created!`,
 //     "You has created successfully an account in HOCMAI"
 // )
-const createAccessToken = (user) => {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "11m" });
+const createAccessToken = (account) => {
+  return jwt.sign(account, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
 };
-const createRefreshToken = (user) => {
-  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+const createRefreshToken = (account) => {
+  return jwt.sign(account, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 };
 
 const register = async (req, res) => {
@@ -63,7 +63,7 @@ const register = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
     });
 
-    res.status(201).json(newAccount);
+    res.status(201).json({ newAccount, accesstoken });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -93,7 +93,7 @@ const login = async (req, res) => {
     // create refreshtoken cookie
     res.cookie("refreshtoken", refreshtoken, {
       httpOnly: true,
-      path: "/user/refresh_token",
+      path: "/account/refresh_token",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
     });
 
@@ -125,12 +125,11 @@ const refreshToken = async (req, res) => {
 
     if (!rf_token) return res.status(400).json({ msg: "Please register or login" })
 
-    jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, account) => {
       if (err) return res.status(400).json({ msg: "Please register or login" })
 
-      const accessToken = createAccessToken({ id: user.id })
-      console.log(accessToken);
-      res.json(accessToken)
+      const accessToken = createAccessToken({ id: account.id })
+      res.json({ accessToken, account })
     })
 
   } catch (err) {

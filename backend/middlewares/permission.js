@@ -1,40 +1,37 @@
-const UserModel = require("../models/user-model");
-const permission = require("../config/permission")
+const permission = require("../config/permission");
+const { AccountModel } = require("../models");
 
 
-const isAdmin = async ( req, res, next) => {
-    const { username } = req;
-
-    // get 1 user to check username == username from fe;
-    const foundUser = await UserModel.findOne({
-        where:{
-            username,
+const isAdmin = async (req, res, next) => {
+    const id = req.id;
+    const account = await AccountModel.findOne({
+        where: {
+            id
         }
     })
 
-    if(foundUser) {
-        // check user in data is admin, isn't he?
-        if(foundUser.iam_role !== permission.admin) {
-            return res.status(401).json({message : "Unauthorized! You must have Admin Role to access"})
+    if (account) {
+
+        if (account.role !== permission.admin) {
+            return res.status(401).json({ message: "Unauthorized! You must have Admin Role to access" })
         }
         next();
     }
 }
 
-const isMember = async(req, res, next) => {
-    const { username } = req;
+const isMember = async (req, res, next) => {
+    const { id } = req.user;
 
-    // get 1 user to check username == username from fe;
-    const foundUser = await UserModel.findOne({
-        where:{
-            username,
+    const account = await AccountModel.findOne({
+        where: {
+            id,
         }
     })
 
-    if(foundUser) {
+    if (account) {
         // check user in data is admin, isn't he?
-        if(foundUser.iam_role !== permission.member) {
-            return res.status(401).json({message: "Unauthorized! You must have Memeber Role to access"})
+        if (account.role !== permission.member) {
+            return res.status(401).json({ message: "Unauthorized! You must have Memeber Role to access" })
         }
         next();
     }
