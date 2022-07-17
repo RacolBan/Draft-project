@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  padding: 20px;
+}
+.container-left {
+  flex: 1;
+  text-align: center;
+}
+.container-left img {
+  width: 400px;
+  vertical-align: center;
+  height: auto;
+}
+.container-right {
+  flex: 1;
+}
+.container-right-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+.container-right-description {
+}
+.container-right-price {
+}

@@ -1,46 +1,61 @@
 import React from "react";
-import dataLaptop from "./data";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
+import style from "./Category.module.css";
 
-function Category() {
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    arrows: true,
-    autoplay: true,
-    autoplaySpeed: 3000,
-  };
+function CategoryProduct() {
   return (
-    <div className="wrapper">
-      <div className="head">
-        <h3>Máy tính xách tay</h3>
-        <a href="#">
-          Xem tất cả
-          <i className="fa fa-angle-double-right"></i>
-        </a>
-      </div>
-      <Slider {...settings}>
-        {dataLaptop.map((item, index) => (
-          <div className="item" key={index}>
-            <a href="#" className="item-image">
-              <img src={item.imageProduct} alt="laptop" />
-            </a>
-            <span className="item-manufactory">
-              <img src={item.imageManufactory} alt="" />
-            </span>
-            <h4 className="item-name">{item.name}</h4>
-            <span className="item-price">{item.price}</span>
-            <span className="btn-addCart">{item.btn}</span>
+    <div className={`l-10 ${style["header-menu"]}`}>
+      <div className="row no-gutters">
+        <div className={style.menu}>
+          <div className={style["menu-left"]}>
+            <i className="fas fa-bars"></i>
+            DANH MỤC SẢN PHẨM
           </div>
-        ))}
-      </Slider>
+          <div className={style["menu-nav"]}>
+            <ul className={style["menu-list"]}>
+              <li className={style["menu-item"]}>
+                <img src="./images/Icon/MTXT.png" alt="MTXT" />
+                <Link to="">Máy tính xách tay</Link>
+                {/* <div className={style["sub-menu"]}>
+                        <ul className={style["sub-menu-list"]}>
+                          <li className={style["sub-menu-list-item"]}>
+                            <Link to="">Máy tính Dell</Link>
+                          </li>
+                          <li className={style["sub-menu-list-item"]}>
+                            <Link to="">Máy tính Asus</Link>
+                          </li>
+                          <li className={style["sub-menu-list-item"]}>
+                            <Link to="">Máy tính Acer</Link>
+                          </li>
+                          <li className={style["sub-menu-list-item"]}>
+                            <Link to="">Máy tính HP</Link>
+                          </li>
+                          <li className={style["sub-menu-list-item"]}>
+                            <Link to="">Máy tính Lenovo</Link>
+                          </li>
+                        </ul>
+                    </div> */}
+              </li>
+              <li className={style["menu-item"]}>
+                <img src="./images/Icon/AppleCenter.png" alt="AppleCenter" />
+                <Link to="">Apple Center</Link>
+                {/* <div className={style["sub-menu"]}>
+                        <ul className={style["sub-menu-list"]}>
+                          <li className={style["sub-menu-list-item"]}>
+                            <Link to="">Macbook Air</Link>
+                          </li>
+                          <li className={style["sub-menu-list-item"]}>
+                            <Link to="">Macbook Pro</Link>
+                          </li>
+                        </ul>
+                    </div> */}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Category;
+export default CategoryProduct;
