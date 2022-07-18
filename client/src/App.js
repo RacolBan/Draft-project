@@ -7,6 +7,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import DetailProduct from './pages/DetailProduct/DetailProduct'
 import Cart from "./pages/Cart/Cart";
+import Profile from "./pages/Profile/Profile";
 
 
 function App() {
@@ -52,6 +53,14 @@ function App() {
             element={
               <Layout>
                 <Cart />
+              </Layout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Layout>
+                <Profile />
               </Layout>
             }
           />

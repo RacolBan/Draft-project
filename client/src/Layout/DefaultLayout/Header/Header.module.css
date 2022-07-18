@@ -54,9 +54,12 @@
   flex-direction: row;
 }
 
-.header-right li {
+.header-right li ,.btn-logout{
   padding: 0 20px;
   text-align: center;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .header-right li a {
@@ -66,7 +69,7 @@
   font-size: 20px;
 }
 
-.header-right li a:hover {
+.header-right li a:hover,.btn-logout:hover {
   color: #ed1c24;
   transition: 0.3s ease-out;
 }
@@ -75,4 +78,6 @@
   font-size: 30px;
   color: #fff;
 }
+
+
 

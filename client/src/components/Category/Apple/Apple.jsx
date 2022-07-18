@@ -18,7 +18,7 @@ function Apple() {
     autoplaySpeed: 3000,
   };
   const state = useContext(GlobalState)
-  const productsApple = state.ProductApple.productsApple[0];
+  const productsApple = state.ProductsApple.productsApple[0];
   return (
     <div className={style.wrapper}>
       <div className={style.head}>

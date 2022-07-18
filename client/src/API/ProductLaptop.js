@@ -11,7 +11,7 @@ function ProductsLaptop() {
     getProducts()
   },[])
   return {
-    productsLaptop : productsLaptop
+    productsLaptop : [productsLaptop,setProductsLaptop]
   }
 }
 

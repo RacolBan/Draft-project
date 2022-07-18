@@ -11,7 +11,7 @@ function ProductsApple() {
     getProducts()
   },[])
   return {
-    productsApple : productsApple
+    productsApple : [productsApple,setProductsApple]
   }
 }
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function ProductAll() {
+function ProductsAll() {
   const [productsAll, setProductsAll] = useState([]);
   const getProducts = async () => {
     const res = await axios.get('https://fakestoreapi.com/products')
@@ -11,8 +11,8 @@ function ProductAll() {
     getProducts()
   },[])
   return {
-    productsAll : productsAll
+    productsAll : [productsAll,setProductsAll]
   }
 }
 
-export default ProductAll;
+export default ProductsAll;

@@ -18,8 +18,7 @@ function Apple() {
     autoplaySpeed: 3000,
   };
   const state = useContext(GlobalState);
-  console.log(state);
-  const productsLaptop = state.ProductLaptop.productsLaptop[0];
+  const productsLaptop = state.ProductsLaptop.productsLaptop[0];
   return (
     <div className={style.wrapper}>
       <div className={style.head}>

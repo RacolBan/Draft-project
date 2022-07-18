@@ -120,6 +120,15 @@ input[type="username"]:focus {
   clear: both;
 }
 
+.forgot-password {
+  display: block;
+  float: right;
+  margin: 5px;
+  font-size: 14px;
+  color: #1b75bc;
+  text-decoration: none;
+  cursor: pointer;
+}
 #login .inputs #submit:hover {
   background: -moz-linear-gradient(top, #a4b0cb 0%, #b9c5dd);
   background: -webkit-gradient(
