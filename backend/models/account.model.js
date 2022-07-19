@@ -22,6 +22,7 @@ const AccountModel = sequelize.define("accounts",
         role: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            defaultValue: 2,
             validate: {
                 isIn: {
                     args: [[0, 1, 2]],

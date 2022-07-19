@@ -23,7 +23,7 @@ function Login() {
       localStorage.setItem("login", JSON.stringify(login));
       window.location.href = "/";
     } catch (error) {
-      alert(error.response.data.message);
+      console.log(error.response.data.message);
     }
   };
   return (

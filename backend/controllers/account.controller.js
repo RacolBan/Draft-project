@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const { AccountModel } = require("../models");
 // const sendMail = require('../service/email.service');
 
-// require("dotenv").config();
 // // send email to notify
 // await sendMail(
 //     `${email}`,
@@ -18,7 +17,7 @@ const createRefreshToken = (account) => {
 };
 
 const register = async (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, password } = req.body;
 
   try {
     const found = await AccountModel.findOne({
@@ -27,13 +26,13 @@ const register = async (req, res) => {
       },
     });
 
-    if (found) return res.status(409).json({ message: "username has existed" });
-
+    if (found) {
+      return res.status(409).json({ message: "username has existed" });
+    }
     // validate password
-    if (password.length < 6)
-      return res
-        .status(400)
-        .json({ msg: "Password is at least 6 characters long." });
+    if (password.length < 6) {
+      return res.status(400).json({ message: "Password is at least 6 characters long." })
+    };
 
     //password Encryption
     const passwordHash = await bcrypt.hash(password, 10);
@@ -41,7 +40,7 @@ const register = async (req, res) => {
     const account = {
       username: username,
       hashPwd: passwordHash,
-      role,
+
     };
 
     // save data
@@ -50,9 +49,7 @@ const register = async (req, res) => {
 
 
     if (!newAccount) {
-      return res
-        .status(400)
-        .json({ message: "create new Account unsuccesfully" });
+      return res.status(400).json({ message: "create new Account unsuccesfully" });
     }
     const accesstoken = createAccessToken({ id: newAccount.id });
     const refreshtoken = createRefreshToken({ id: newAccount.id });
@@ -63,7 +60,7 @@ const register = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
     });
 
-    res.status(201).json({ newAccount, accesstoken });
+    return res.status(201).json({ newAccount, accesstoken });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -79,12 +76,12 @@ const login = async (req, res) => {
       },
     });
 
-    if (!account) return res.status(400).json({ msg: "User does not exist." });
+    if (!account) return res.status(400).json({ message: "User does not exist." });
 
     // Compare encrypted password with hash_pwd (true)
     const isMatch = await bcrypt.compare(password, account.hashPwd);
 
-    if (!isMatch) return res.status(400).json({ msg: "Incorrect password." });
+    if (!isMatch) return res.status(400).json({ message: "Incorrect password." });
 
     // If login success , create access token and refresh token
     const accesstoken = createAccessToken({ id: account.id });
@@ -97,14 +94,18 @@ const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
     });
 
-    res.json({
-      msg: "login successful",
+
+
+    return res.status(200).json({
+      message: "login successful",
       accesstoken,
       id: account.id,
+      username: account.username,
+      role: account.role,
     });
 
   } catch (err) {
-    return res.status(500).json({ msg: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 
@@ -112,10 +113,10 @@ const logout = async (req, res) => {
   try {
     res.clearCookie("refreshtoken", { path: "/account/refresh_token" });
     console.log(req.cookies);
-    return res.json({ msg: "Logged out" });
+    return res.json({ message: "Logged out" });
 
   } catch (err) {
-    return res.status(500).json({ msg: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 
@@ -123,17 +124,19 @@ const refreshToken = async (req, res) => {
   try {
     const rf_token = req.cookies.refreshtoken;
 
-    if (!rf_token) return res.status(400).json({ msg: "Please register or login" })
+    if (!rf_token) {
+      return res.status(400).json({ message: "Please register or login" })
+    }
 
     jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, account) => {
-      if (err) return res.status(400).json({ msg: "Please register or login" })
+      if (err) return res.status(400).json({ message: "Please register or login" })
 
       const accessToken = createAccessToken({ id: account.id })
       res.json({ accessToken, account })
     })
 
   } catch (err) {
-    return res.status(500).json({ msg: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 

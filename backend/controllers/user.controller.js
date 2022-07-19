@@ -5,7 +5,9 @@ const getInfor = async (req, res) => {
     try {
         const { accountId } = req.params;
 
-        if (!accountId) return res.status(404).json({ msg: " not found" });
+        if (!accountId) {
+            return res.status(404).json({ message: " not found" })
+        };
 
         const inforUser = await UserModel.findOne({
             where: {
@@ -13,11 +15,13 @@ const getInfor = async (req, res) => {
             }
         })
 
-        if (!inforUser) return res.status(404).json({ msg: "not found" });
+        if (!inforUser) {
+            return res.status(404).json({ message: "not found" })
+        };
 
         return res.status(200).json(inforUser)
     } catch (error) {
-        return res.status(500).json({ msg: error.message })
+        return res.status(500).json({ message: error.message })
 
     }
 
@@ -38,7 +42,9 @@ const createNewInfor = async (req, res) => {
             }
         });
         console.log(foundProfile);
-        if (foundProfile) return res.status(400).json({ msg: "user or email has been existed" })
+        if (foundProfile) {
+            return res.status(400).json({ message: "user or email has been existed" })
+        }
 
         const profile = {
             firstName,
@@ -53,7 +59,9 @@ const createNewInfor = async (req, res) => {
         // save data to DB
         const newInfor = await UserModel.create(profile);
 
-        if (!newInfor) return res.status(400).json({ message: "create new Profile unsuccesfully" });
+        if (!newInfor) {
+            return res.status(400).json({ message: "create new Profile unsuccesfully" })
+        };
 
         // true
         return res.status(201).json(newInfor);
@@ -79,7 +87,9 @@ const updateInfor = async (req, res) => {
             }
         })
 
-        if (!foundInfor) return res.status(404).json({ msg: "not found" })
+        if (!foundInfor) {
+            return res.status(404).json({ message: "not found" })
+        };
 
         const updateInfor = await UserModel.update(update, {
             where: {
@@ -88,14 +98,16 @@ const updateInfor = async (req, res) => {
         });
 
 
-        if (!updateInfor) return res.status(400).json({ msg: "update fail" })
+        if (!updateInfor) {
+            return res.status(400).json({ message: "update fail" })
+        }
 
 
-        return res.status(200).json({ msg: "update succesfully" })
+        return res.status(200).json({ message: "update succesfully" })
 
 
     } catch (error) {
-        return res.status(500).json({ msg: error.message })
+        return res.status(500).json({ message: error.message })
 
     }
 
@@ -111,16 +123,18 @@ const removeInfor = async (req, res) => {
             }
         })
 
-        if (!foundInfor) return res.status(404).json({ msg: "not found" })
+        if (!foundInfor) {
+            return res.status(404).json({ message: "not found" })
+        };
 
         await UserModel.destroy({
             where: {
                 accountId
             }
         })
-        return res.json({ msg: "delete successfully" })
+        return res.json({ message: "delete successfully" })
     } catch (error) {
-        return res.status(500).json({ msg: error.message })
+        return res.status(500).json({ message: error.message })
     }
 
 

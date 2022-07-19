@@ -1,98 +1,64 @@
 const express = require("express");
 const router = express.Router();
-const BookModel = require ("../models/book-model");
-const { verifyTok} = require("../middleware/auth");
-const { isMember ,isAdmin} = require("../middleware/permission");
-const faker = require("@faker-js/faker").faker;
+const {
+  getAllProduct,
+  getProductByName,
+  getProductByCategoryId,
+  getProductByManufactureId,
+  pagination,
+  initProduct,
+  updateProduct,
+  removeProduct
+} = require("../controllers/product.controller")
+const { verifyTok } = require("../middlewares/auth");
+const { isMember, isAdmin } = require("../middlewares/permission");
 
 
-// API get all users
-router.get("/", verifyTok, isMember, async (req, res) => {
-  try {
-    const books = await BookModel.findAll();
-    if(books) {
-      return res.status(200).json(books);
-    }
-      res.status(404).json({message: "Not Found data"})
-  } catch (error) {
-    res.status(500).json({message: "server error"})
-  }
-});
+// API get all product
+router.get("/products", verifyTok, getAllProduct);
+router.get("/productId/products", verifyTok, getProductByName);
+router.get("/categoryId/products", verifyTok, getProductByCategoryId);
+router.get("/manufactureId/products", verifyTok, getProductByManufactureId);
+router.get("/pagination/products", pagination);
+router.post("/products", initProduct);
+router.put("/products", updateProduct);
+router.delete("/products", removeProduct);
+
+
+router.get("/pagination/products", pagination);
+
+
 
 // API create new book
-router.post("/", async (req, res) => {
-  const data = req.body;
-  try {
-    
-    const book = await BookModel.create(data);
-    if (book) {
-      return res.status(201).json(book);
-    }
-      res.status(401).json({message: "failed"})
-  } catch (error) {
-    res.status(500).json({message: error.message})
-  }
-});
+router.post("/", initProduct);
 
-router.get("/pagination", async (req, res) => {
-  // get param from pagination url
-  try {
-
-  let { page, size } = req.query;
-
-  page = typeof page === "string" ? parseInt(page) : page;
-  size = typeof size === "string" ? parseInt(size) : size;
-
-  let { count, rows } = await BookModel.findAndCountAll({
-    limit: size,
-    offset: size * page,
-  });
-
-  // transform rows
-  // rows = rows.map((singleRow) => {
-  //   return singleRow.dataValues;
-  // });
-
-  // const books = await BookModel.findAll();
-  return res.status(200).json({
-    count,
-    limit: size,
-    offset: size * page,
-    rows,
-  });
-} catch (error) {
-  res.status(500).json({message: error.message})
-  
-}
-  
-});
 
 // function create fake book
 const createFakeBook = (size) => {
   let result = [];
-  for( let i = 0; i < size; i++ ) {
-    const book = ()=>{
+  for (let i = 0; i < size; i++) {
+    const book = () => {
       return {
         name: faker.name.findName(),
         author: faker.name.findName()
       }
     }
     result.push(book());
-    
+
   };
   return result;
 }
 
 
-router.post("/fake", async(req, res) =>{
+router.post("/fake", async (req, res) => {
   try {
     const books = await BookModel.bulkCreate(createFakeBook(100));
-    res.status(201).json({message :"generate book succesfully! "});
+    res.status(201).json({ message: "generate book succesfully! " });
   } catch (error) {
-    res.status(500).json({message: error});
-    
+    res.status(500).json({ message: error });
+
   }
-  
+
 });
 
 

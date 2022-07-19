@@ -40,7 +40,7 @@ function Register() {
         }
       );
 
-      window.location.href = "/";
+      // window.location.href = "/";
     } catch (error) {
       alert(error.response.data.message);
     }

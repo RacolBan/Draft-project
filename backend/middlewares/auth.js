@@ -17,10 +17,10 @@ const verifyTok = async (req, res, next) => {
         // get data from token to authorization
         const { id } = jwt.verify(tok, process.env.ACCESS_TOKEN_SECRET);
         req.id = id;
-        console.log(req.id);
         next();
+
     } catch (error) {
-        return res.status(500).json({ message: error.message })
+        return res.status(500).json({ msg: error.message })
     }
 };
 

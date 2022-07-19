@@ -7,7 +7,7 @@ const { isAdmin } = require('../middlewares/permission.js');
 router.get("/manufacture", getManufacturer);
 router.post("/manufacture", verifyTok, isAdmin, initManufacturer)
 router.put("/manufacture", verifyTok, isAdmin, updateManufacturer)
-router.delete("/manufacture", verifyTok, isAdmin, removeManufacturer)
+router.delete("/manufactureId/manufacture", verifyTok, isAdmin, removeManufacturer)
 
 
 module.exports = router;

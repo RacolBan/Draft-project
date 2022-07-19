@@ -5,6 +5,7 @@ const ProductModel = sequelize.define("products",
     {
         name: {
             type: DataTypes.STRING,
+            unique: true,
             allowNull: false,
             validate: {
                 len: {
