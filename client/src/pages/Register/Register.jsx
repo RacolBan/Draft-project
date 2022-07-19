@@ -3,44 +3,175 @@ import React, { useState } from "react";
 import style from "./Register.module.css";
 
 function Register() {
-  const [firstName, setFirstname] = useState("");
-  const [lastName, setLastname] = useState("");
-  const [username, setUsername] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [input, setInput] = useState({
+    firstname: "",
+    lastname: "",
+    username: "",
+    address: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState({
+    firstname: "",
+    lastname: "",
+    username: "",
+    address: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
+  const onInputChange = (e) => {
+    const { name, value } = e.target;
+    setInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    validateInput(e);
+  };
+  const regexPhone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+  const regexEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const validateInput = (e) => {
+    let { name, value } = e.target;
+    setError((prev) => {
+      const stateObj = { ...prev, [name]: "" };
+
+      switch (name) {
+        case "firstname":
+          if (!value) {
+            stateObj[name] = "Please enter Firstname.";
+          } else if (value.length < 3) {
+            stateObj[name] =
+              "Firstname required number of characters must be between 3 to 10";
+          } else if (value.length > 10) {
+            stateObj[name] =
+              "Firstname required number of characters must be between 3 to 10";
+          }
+          break;
+
+        case "lastname":
+          if (!value) {
+            stateObj[name] = "Please enter Lastname.";
+          } else if (value.length < 3) {
+            stateObj[name] =
+              "Lastname required number of characters must be between 3 to 10";
+          } else if (value.length > 10) {
+            stateObj[name] =
+              "Lastname required number of characters must be between 3 to 10";
+          }
+          break;
+
+        case "username":
+          if (!value) {
+            stateObj[name] = "Please enter Username.";
+          } else if (value.length < 3) {
+            stateObj[name] =
+              "Username required number of characters must be between 3 to 20";
+          } else if (value.length > 20) {
+            stateObj[name] =
+              "Username required number of characters must be between 3 to 20";
+          }
+          break;
+
+        case "phone":
+          if (!value) {
+            stateObj[name] = "Please enter phone.";
+          } else if (!regexPhone.test(value)) {
+            stateObj[name] = "Phone required 10 digit numbers";
+          }
+          break;
+
+        case "address":
+          if (!value) {
+            stateObj[name] = "Please enter Address.";
+          } else if (value.length < 3) {
+            stateObj[name] =
+              "Address required number of characters must be between 3 to 50";
+          } else if (value.length > 50) {
+            stateObj[name] =
+              "Address required number of characters must be between 3 to 50";
+          }
+          break;
+
+        case "email":
+          if (!value) {
+            stateObj[name] = "Please enter Email.";
+          } else if (!regexEmail.test(value)) {
+            stateObj[name] = "Invalid Email";
+          }
+          break;
+
+        case "password":
+          if (!value) {
+            stateObj[name] = "Please enter Password.";
+          } else if (value.length < 6) {
+            stateObj[name] = "Password required more than 6 letters";
+          } else if (input.confirmPassword && value !== input.confirmPassword) {
+            stateObj["confirmPassword"] =
+              "Password and Confirm Password does not match.";
+          } else {
+            stateObj["confirmPassword"] = input.confirmPassword
+              ? ""
+              : error.confirmPassword;
+          }
+          break;
+
+        case "confirmPassword":
+          if (!value) {
+            stateObj[name] = "Please enter Confirm Password.";
+          } else if (input.password && value !== input.password) {
+            stateObj[name] = "Password and Confirm Password does not match.";
+          }
+          break;
+
+        default:
+          break;
+      }
+
+      return stateObj;
+    });
+  };
   const user = {
-    username,
-    password,
+    username: input.username,
+    password: input.password,
   };
   const profile = {
-    firstName,
-    lastName,
-    address,
-    phone,
-    email,
+    firstName: input.firstname,
+    lastName: input.lastname,
+    address: input.address,
+    phone: input.phone,
+    email: input.email,
   };
   const registerSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/account/register", {
-        ...user,
-      });
-      const login = {
-        accesstoken: res.data.accesstoken,
-        accountId: res.data.id,
-      };
-      localStorage.setItem("login", JSON.stringify(login));
+      const { data } = await axios.post(
+        "http://localhost:8000/account/register",
+        {
+          ...user,
+        }
+      );
+        console.log(data);
       await axios.post(
-        `http://localhost:8000/user/${res.data.newAccount.id}/creatProfile`,
+        `http://localhost:8000/user/${data.newAccount.id}/creatProfile`,
         {
           ...profile,
         }
       );
-
-      window.location.href = "/";
+      const login = {
+        accesstoken: data.accesstoken,
+        accountId: data.newAccount.id,
+        username: data.newAccount.username,
+      };
+      localStorage.setItem("login", JSON.stringify(login));
+      alert("Register successfully");
+      // setTimeout(() => {
+      //   window.location.href = "/";
+      // }, 500);
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -49,95 +180,127 @@ function Register() {
     <div className={style.container}>
       <form id={style.signup} onSubmit={registerSubmit}>
         <div className={style.header}>
-          <h3>ĐĂNG KÝ</h3>
+          <h3>REGISTER</h3>
         </div>
-
-        <div className={style.sep}></div>
-
         <div className={style.inputs}>
-          <input
-            type="firstName"
-            placeholder="Họ"
-            name="firstname"
-            id="firstname"
-            autoFocus
-            value={firstName}
-            onChange={(e) => {
-              setFirstname(e.target.value);
-            }}
-          />
-          <input
-            type="lastName"
-            placeholder="Tên"
-            name="lastname"
-            id="lastname"
-            autoFocus
-            value={lastName}
-            onChange={(e) => {
-              setLastname(e.target.value);
-            }}
-          />
-          <input
-            type="username"
-            placeholder="Tên đăng nhập"
-            name="username"
-            id="username"
-            value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-          <input
-            type="address"
-            placeholder="Địa chỉ"
-            name="address"
-            id="address"
-            value={address}
-            onChange={(e) => {
-              setAddress(e.target.value);
-            }}
-          />
-          <input
-            type="phone"
-            placeholder="Số điện thoại"
-            name="phone"
-            id="phone"
-            value={phone}
-            onChange={(e) => {
-              setPhone(e.target.value);
-            }}
-          />
+          <div className={style["input-item"]}>
+            <input
+              type="text"
+              name="firstname"
+              placeholder="Enter Firstname"
+              value={input.firstname}
+              onChange={onInputChange}
+              onBlur={validateInput}
+              spellCheck="false"
+            ></input>
+            {error.firstname && (
+              <span className={style.error}>{error.firstname}</span>
+            )}
+          </div>
+          <div className={style["input-item"]}>
+            <input
+              type="text"
+              name="lastname"
+              placeholder="Enter Lastname"
+              value={input.lastname}
+              onChange={onInputChange}
+              onBlur={validateInput}
+              spellCheck="false"
+            ></input>
+            {error.lastname && (
+              <span className={style.error}>{error.lastname}</span>
+            )}
+          </div>
+          <div className={style["input-item"]}>
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter Username"
+              value={input.username}
+              onChange={onInputChange}
+              onBlur={validateInput}
+              spellCheck="false"
+            ></input>
+            {error.username && (
+              <span className={style.error}>{error.username}</span>
+            )}
+          </div>
+          <div className={style["input-item"]}>
+            <input
+              type="text"
+              name="address"
+              placeholder="Enter Address"
+              value={input.address}
+              onChange={onInputChange}
+              onBlur={validateInput}
+              spellCheck="false"
+            ></input>
+            {error.address && (
+              <span className={style.error}>{error.address}</span>
+            )}
+          </div>
+          <div className={style["input-item"]}>
+            <input
+              type="text"
+              name="phone"
+              placeholder="Enter Phone"
+              value={input.phone}
+              onChange={onInputChange}
+              onBlur={validateInput}
+              spellCheck="false"
+            ></input>
+            {error.phone && <span className={style.error}>{error.phone}</span>}
+          </div>
+          <div className={style["input-item"]}>
+            <input
+              type="text"
+              name="email"
+              placeholder="Enter Email"
+              value={input.email}
+              onChange={onInputChange}
+              onBlur={validateInput}
+              spellCheck="false"
+            ></input>
+            {error.email && <span className={style.error}>{error.email}</span>}
+          </div>
+          <div className={style["input-item"]}>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter Password"
+              value={input.password}
+              onChange={onInputChange}
+              onBlur={validateInput}
+              spellCheck="false"
+            ></input>
+            {error.password && (
+              <span className={style.error}>{error.password}</span>
+            )}
+          </div>
 
-          <input
-            type="email"
-            placeholder="e-mail"
-            name="email"
-            id="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-
-          <input
-            type="password"
-            placeholder="Mật khẩu"
-            name="password"
-            id="password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
+          <div className={style["input-item"]}>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Enter Confirm Password"
+              value={input.confirmPassword}
+              onChange={onInputChange}
+              onBlur={validateInput}
+              spellCheck="false"
+            ></input>
+            {error.confirmPassword && (
+              <span className={style.error}>{error.confirmPassword}</span>
+            )}
+          </div>
 
           <div className={style.checkboxy}>
             <input name="check" id="checkbox" value="1" type="checkbox" />
             <label htmlFor="checkbox" className={style.terms}>
-              Tôi chấp nhận điều khoản
+              I agree with the term of services
             </label>
           </div>
 
-          <button id={style.submit}>Đăng Ký</button>
+          <button id={style.submit}>Register</button>
         </div>
       </form>
     </div>

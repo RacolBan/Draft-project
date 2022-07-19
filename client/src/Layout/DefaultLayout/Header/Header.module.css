@@ -54,7 +54,9 @@
   flex-direction: row;
 }
 
-.header-right li ,.btn-logout{
+.header-right > li,
+.btn-logout,
+.header-right > li > span {
   padding: 0 20px;
   text-align: center;
   color: #fff;
@@ -62,22 +64,95 @@
   cursor: pointer;
 }
 
-.header-right li a {
+.header-right > li > a {
   display: block;
   color: #fff;
   text-decoration: none;
   font-size: 20px;
+  margin-top: 4px;
 }
-
-.header-right li a:hover,.btn-logout:hover {
-  color: #ed1c24;
-  transition: 0.3s ease-out;
-}
-
-.header-right li a i {
+.header-right > li > a i {
   font-size: 30px;
   color: #fff;
 }
 
+.logged {
+  position: relative;
+}
 
+.logged:hover .sub-logged {
+  display: block;
+}
 
+.logged img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logged > span {
+  display: block;
+}
+.cart-item {
+  margin-top: 4px;
+}
+
+.header-right > li i:hover,
+.header-right > li > a:hover {
+  color: #ed1c24;
+  transition: 0.3s ease-out;
+}
+
+.sub-logged {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  width: 140px;
+  z-index: 2;
+  right: 0;
+  top: 115%;
+  transform-origin: 70% top;
+  animation: Slide ease-in 0.2s;
+}
+
+@keyframes Slide {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sub-logged::before {
+  content: "";
+  position: absolute;
+  border-width: 15px 30px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+  bottom: 70px;
+  right: 28px;
+}
+
+.sub-logged-list {
+  list-style-type: none;
+}
+
+.sub-logged-item {
+  color: #333;
+  font-size: 16px;
+  padding: 10px;
+}
+.sub-logged-item:hover {
+  background: #f5f5f5;
+}
+
+.sub-logged-item > a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  padding: 10px;
+}

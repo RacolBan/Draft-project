@@ -7,49 +7,49 @@ export default function Footer() {
     <div className={`${style.footer} l-10 `}>
       <div className="row no-gutters ">
         <div className={style["footer-col"]}>
-          <h3 className={style["f-title"]}>Thông tin chung</h3>
+          <h3 className={style["f-title"]}>General information</h3>
           <ul className={style["f-list"]}>
             <li>
-              <Link to="#">Giới thiệu về BK Tenology</Link>
+              <Link to="#">Introduce about BK Tenology</Link>
             </li>
             <li>
-              <Link to="#">Tin tuyển dụng</Link>
+              <Link to="#">Recruitment</Link>
             </li>
             <li>
-              <Link to="#">Tin tức</Link>
+              <Link to="#">News</Link>
             </li>
             <li>
-              <Link to="#">Tin khuyến mãi</Link>
+              <Link to="#">Promotion information</Link>
             </li>
           </ul>
         </div>
         <div className={style["footer-col"]}>
-          <h3 className={style["f-title"]}>Hổ trợ khách hàng</h3>
+          <h3 className={style["f-title"]}>Customer support</h3>
           <ul className={style["f-list"]}>
             <li>
-              <Link to="#">Tìm hiểu về mua trả góp</Link>
+              <Link to="#">Learn about installment purchase</Link>
             </li>
             <li>
-              <Link to="#">Chính sách vận chuyển</Link>
+              <Link to="#">Shipping Policy</Link>
             </li>
             <li>
-              <Link to="#">Chính sách bảo hành</Link>
+              <Link to="#">Warranty Policy</Link>
             </li>
             <li>
-              <Link to="#">Chính sách đổi hàng</Link>
+              <Link to="#">Exchange policy</Link>
             </li>
           </ul>
         </div>
         <div className={style["footer-col"]}>
-          <h3 className={style["f-title"]}>BK Đà Nẵng</h3>
+          <h3 className={style["f-title"]}>BK Danang</h3>
           <div className="f-info">
             <div className={style["f-info-item"]}>
-              <strong>Thời gian làm việc: </strong>
+              <strong>Working time: </strong>
               <span>07h30 - 20h30</span>
             </div>
             <div className={style["f-info-item"]}>
               <strong>Showroom: </strong>
-              <span>152 Hàm Nghi, Quận Thanh Khuê, Đà Nẵng</span>
+              <span>152 Ham Nghi, Thanh Khue District, Da Nang</span>
             </div>
             <div className={style["f-info-item"]}>
               <strong>Tell: </strong>
@@ -62,14 +62,14 @@ export default function Footer() {
           </div>
         </div>
         <div className={style["footer-col"]}>
-          <h3 className={style["f-title"]}>Chăm sóc khách hàng</h3>
+          <h3 className={style["f-title"]}>Customer care</h3>
           <div className="f-info">
             <div className={style["f-info-item"]}>
-              <strong>Trung tâm Bảo Hành và Sửa chữa: </strong>
-              <span>Tầng 3 - 152 Hàm Nghi, Đà Nẵng </span>
+              <strong>Service and Repair Center: </strong>
+              <span>3rd floor - 152 Ham Nghi, Da Nang </span>
             </div>
             <div className={style["f-info-item"]}>
-              <strong>Gọi sửa chữa: </strong>
+              <strong>Call for repair: </strong>
               <span>(0236)3 655 000</span>
             </div>
             <div className={style["f-info-item"]}>
@@ -77,7 +77,7 @@ export default function Footer() {
               <span>(0236) 3 888 000</span>
             </div>
             <div className={style["f-info-item"]}>
-              <strong>Gọi kỹ thuật: </strong>
+              <strong>Technical call: </strong>
               <span>(0236)3 872 000</span>
             </div>
           </div>

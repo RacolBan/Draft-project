@@ -9,13 +9,13 @@ function CategoryProduct() {
         <div className={style.menu}>
           <div className={style["menu-left"]}>
             <i className="fas fa-bars"></i>
-            DANH MỤC SẢN PHẨM
+            Category
           </div>
           <div className={style["menu-nav"]}>
             <ul className={style["menu-list"]}>
               <li className={style["menu-item"]}>
                 <img src="./images/Icon/MTXT.png" alt="MTXT" />
-                <Link to="">Máy tính xách tay</Link>
+                <Link to="">Laptop</Link>
                 {/* <div className={style["sub-menu"]}>
                         <ul className={style["sub-menu-list"]}>
                           <li className={style["sub-menu-list-item"]}>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import style from "./Login.module.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -13,15 +13,20 @@ function Login() {
   const loginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/account/login", {
+      const { data } = await axios.post("http://localhost:8000/account/login", {
         ...user,
       });
       const login = {
-        accesstoken: res.data.accesstoken,
-        accountId: res.data.id,
+        accesstoken: data.accesstoken,
+        accountId: data.id,
+        username: data.username,
+        role: data.role,
       };
       localStorage.setItem("login", JSON.stringify(login));
-      window.location.href = "/";
+      alert("Login successfully");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -30,15 +35,13 @@ function Login() {
     <div className={style.container}>
       <form id={style.login} onSubmit={loginSubmit}>
         <div className={style.header}>
-          <h3>ĐĂNG NHẬP</h3>
+          <h3>Login</h3>
         </div>
-
-        <div className={style.sep}></div>
 
         <div className={style.inputs}>
           <input
             type="username"
-            placeholder="Tên đăng nhập"
+            placeholder="Username"
             name="username"
             id="username"
             autoFocus
@@ -47,11 +50,12 @@ function Login() {
             onChange={(e) => {
               setUsername(e.target.value);
             }}
+            spellCheck="false"
           />
 
           <input
             type="password"
-            placeholder="Mật khẩu"
+            placeholder="Password"
             name="password"
             id="password"
             required
@@ -59,16 +63,17 @@ function Login() {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            spellCheck="false"
           />
 
-          <button id={style.submit}>Đăng Nhập</button>
+          <button type="submit" id={style.submit}>Login</button>
           <Link to="/forgot" className={style["forgot-password"]}>
-            Quên Mật Khẩu
+            Forgot Password
           </Link>
 
           <div className={style.lastLogin}>
             <p>
-              Nếu chưa có tài khoản?<Link to="/register">Đăng Ký</Link>
+              Not yet member?<Link to="/register">Register</Link>
             </p>
           </div>
         </div>

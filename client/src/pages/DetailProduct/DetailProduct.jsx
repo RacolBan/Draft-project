@@ -53,12 +53,12 @@ function DetailProduct() {
           <p className={style["container-right-price"]}>
             {`${productDetail.price} đ`}
           </p>
-          <button>Mua Ngay</button>
+          <button>Add To Cart</button>
         </div>
       </div>
       <div className={style.wrapper}>
         <div className={style.head}>
-          <h3>Sản Phẩm Tương Tự</h3>
+          <h3>Related Products</h3>
         </div>
         <div className={style["listItem"]}>
           <Slider {...settings}>
@@ -76,7 +76,7 @@ function DetailProduct() {
                   </span>
                   <h4 className={style["item-name"]}>{product.title}</h4>
                   <span className={style["item-price"]}>{product.price}</span>
-                  <span className={style["btn-addCart"]}>Mua Ngay</span>
+                  <span className={style["btn-addCart"]}>Add To Cart</span>
                 </div>
               ) : null
             )}

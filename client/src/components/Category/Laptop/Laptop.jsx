@@ -22,9 +22,9 @@ function Apple() {
   return (
     <div className={style.wrapper}>
       <div className={style.head}>
-        <h3>Máy Tính Xách Tay</h3>
+        <h3>Laptop</h3>
         <Link to="#">
-          Xem tất cả
+          See all
           <i className="fa fa-angle-double-right"></i>
         </Link>
       </div>
@@ -40,7 +40,7 @@ function Apple() {
             </span>
             <h4 className={style["item-name"]}>{product.title}</h4>
             <span className={style["item-price"]}>{product.price}</span>
-            <span className={style["btn-addCart"]}>Mua Ngay</span>
+            <span className={style["btn-addCart"]}>Add To Cart</span>
           </div>
         ))}
       </Slider>
