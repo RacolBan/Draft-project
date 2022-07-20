@@ -1,7 +1,7 @@
 var jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { AccountModel, UserModel } = require("../models");
-const sendMail = require('../service/email.service');
+const sendMail = require('../services/email.service');
 
 
 const createAccessToken = (account) => {
