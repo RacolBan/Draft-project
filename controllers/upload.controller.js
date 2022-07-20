@@ -1,8 +1,5 @@
 const { UserModel } = require("../models");
 
-const getUploadFile = (req, res) => {
-    res.render("upload")
-}
 
 const postUploadFile = async (req, res) => {
     try {
@@ -32,6 +29,5 @@ const postUploadFile = async (req, res) => {
 }
 
 module.exports = {
-    getUploadFile,
     postUploadFile
 } 

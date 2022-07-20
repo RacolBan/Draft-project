@@ -1,16 +1,14 @@
 var jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { AccountModel } = require("../models");
-// const sendMail = require('../service/email.service');
+const { AccountModel, UserModel } = require("../models");
+const sendMail = require('../service/email.service');
 
-// // send email to notify
-// await sendMail(
-//     `${email}`,
-//     `Congratulation! the account of ${username} has created!`,
-//     "You has created successfully an account in HOCMAI"
-// )
+
 const createAccessToken = (account) => {
   return jwt.sign(account, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
+};
+const createTempAccessToken = (account) => {
+  return jwt.sign(account, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 };
 const createRefreshToken = (account) => {
   return jwt.sign(account, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
@@ -76,7 +74,7 @@ const login = async (req, res) => {
       },
     });
 
-    if (!account) return res.status(400).json({ message: "User does not exist." });
+    if (!account) return res.status(400).json({ message: "Account does not exist." });
 
     // Compare encrypted password with hash_pwd (true)
     const isMatch = await bcrypt.compare(password, account.hashPwd);
@@ -147,7 +145,6 @@ const changePassword = async (req, res) => {
 
     const foundAccount = await AccountModel.findByPk(id);
 
-    console.log(foundAccount);
 
     if (!foundAccount) {
       return res.status(404).json({ message: "Not Found Account" })
@@ -174,11 +171,82 @@ const changePassword = async (req, res) => {
 
 }
 
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+
+    const found = await UserModel.findOne({
+      where: {
+        email
+      }
+    })
+    // make sure email existed in database
+    if (!found) {
+      return res.status(404).json({ message: "email no longer existed " })
+    }
+
+    const payload = {
+      email: found.email,
+      id: found.accountId
+    }
+
+    const tempToken = createTempAccessToken(payload);
+
+    // create link just only exist 15min by token
+    const link = `http://localhost:8000/reset_password/${found.accountId}/${tempToken}`
+
+    // send email to notify
+    await sendMail(
+      `${email}`,
+      `Give you link to reset password`,
+      `Kick this link:${link} to reset password page `
+    )
+
+    return res.json("password reset has been sent ur email")
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+
+}
+
+const resetPassword = async (req, res) => {
+  const { accountId: id } = req.params;
+  const { newPassword, confirmPassword } = req.body;
+
+  try {
+
+
+    // validate newPassword and confirmPassword should match
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ message: "two password not match" })
+    }
+
+    // password Encryption
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+
+    // update newPassword for account
+    await AccountModel.update({ hashPwd: passwordHash }, {
+      where: {
+        id
+      }
+    });
+
+    return res.status(200).json({ message: "reset password successfully" })
+
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+
+}
+
 
 module.exports = {
   register,
   login,
   logout,
   refreshToken,
-  changePassword
+  changePassword,
+  forgotPassword,
+  resetPassword
 };

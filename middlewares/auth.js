@@ -8,7 +8,7 @@ const verifyTok = async (req, res, next) => {
     try {
 
         const tok = req.headers["access-token"];
-        console.log(tok);
+
         // authentication
         if (!tok) {
             return res.status(403).json({ message: "invalid authentication" });
