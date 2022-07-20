@@ -140,9 +140,45 @@ const refreshToken = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  try {
+    const { accountId: id } = req.params;
+    const { password, newPassword } = req.body;
+
+    const foundAccount = await AccountModel.findByPk(id);
+
+    console.log(foundAccount);
+
+    if (!foundAccount) {
+      return res.status(404).json({ message: "Not Found Account" })
+    };
+
+    const isMatch = await bcrypt.compare(password, foundAccount.dataValues.hashPwd);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Incorrect password." });
+    }
+    const newPassHash = await bcrypt.hash(newPassword, 10);
+
+    await AccountModel.update({ hashPwd: newPassHash }, {
+      where: {
+        id
+      }
+    });
+
+    res.json({ message: "updated password successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+
+  }
+
+}
+
+
 module.exports = {
   register,
   login,
   logout,
   refreshToken,
+  changePassword
 };

@@ -7,23 +7,26 @@ const userRouter = require("./routers/user.router");
 const categoryRouter = require("./routers/category.router");
 const manufactureRouter = require('./routers/manufacture.router')
 const productRouter = require('./routers/product.router')
+const uploadRouter = require('./routers/upload.router')
 
-const fileUpload = require('express-fileupload');
 const app = express();
 
+app.set("view engine", "ejs")
 require("dotenv").config();
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
-app.use(fileUpload({ useTempFiles: true }));
 
 
 app.use(express.static("public"));
+// app.use("public/image", express.static(__dirname + "public/image"));
 app.use("/account", accountRouter);
 app.use("/user", userRouter);
 app.use("/api", categoryRouter);
 app.use("/api", manufactureRouter);
 app.use("/api", productRouter);
+app.use("/", uploadRouter);
+
 
 
 
