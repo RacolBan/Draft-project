@@ -21,6 +21,7 @@ function Login() {
         accountId: data.id,
         username: data.username,
         role: data.role,
+        avatar:null
       };
       localStorage.setItem("login", JSON.stringify(login));
       alert("Login successfully");

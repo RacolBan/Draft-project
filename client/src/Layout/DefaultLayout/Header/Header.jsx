@@ -8,9 +8,10 @@ function Header() {
   const state = useContext(GlobalState);
   const [isLogged, setIsLogged] = state.UserAPI.isLogged;
   const user = state.UserAPI.user[0];
+  console.log(user);
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:8000/account/logout");
+      await axios.get("http://localhost:8000/account/logout");
       localStorage.clear();
       setIsLogged(false);
       alert("Logout successfully");
@@ -48,7 +49,13 @@ function Header() {
           {isLogged ? (
             <li className={style.logged}>
               <Link to="#">
-                <img src="./images/Avatar/avatar.jpg" />
+                <img
+                  src={
+                    user.avatar === null
+                      ? "./images/Avatar/avatar.jpg"
+                      : `http://localhost:8000/images/${user.avatar}`
+                  }
+                />
               </Link>
               {user.username}
               <div className={style["sub-logged"]}>
@@ -56,7 +63,12 @@ function Header() {
                   <li className={style["sub-logged-item"]}>
                     <Link to="/profile">My Account</Link>
                   </li>
-                  <li className={style["sub-logged-item"]} onClick={handleLogout}>Logout</li>
+                  <li
+                    className={style["sub-logged-item"]}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </li>
                 </ul>
               </div>
             </li>
@@ -65,9 +77,7 @@ function Header() {
               <Link to="/login">
                 <i className="fa-solid fa-right-to-bracket"></i>
               </Link>
-              <Link to="/login">
-                Login
-              </Link>
+              <Link to="/login">Login</Link>
             </li>
           )}
         </ul>

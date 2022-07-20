@@ -8,6 +8,8 @@ import Register from "./pages/Register/Register";
 import DetailProduct from './pages/DetailProduct/DetailProduct'
 import Cart from "./pages/Cart/Cart";
 import Profile from "./pages/Profile/Profile";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
 
 function App() {
@@ -61,6 +63,22 @@ function App() {
             element={
               <Layout>
                 <Profile />
+              </Layout>
+            }
+          />
+          <Route
+            path="/changepass"
+            element={
+              <Layout>
+                <ChangePassword />
+              </Layout>
+            }
+          />
+          <Route
+            path="/forgot"
+            element={
+              <Layout>
+                <ForgotPassword />
               </Layout>
             }
           />

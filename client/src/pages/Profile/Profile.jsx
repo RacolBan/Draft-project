@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
 import style from "./Profile.module.css";
+import FormData from "form-data";
 
 function Profile() {
   const state = useContext(GlobalState);
@@ -13,6 +15,8 @@ function Profile() {
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [file, setFile] = useState(null);
+
   useEffect(() => {
     if (user.username) {
       setFirstname(user.firstname);
@@ -22,10 +26,9 @@ function Profile() {
       setPhone(user.phone);
     }
   }, [user]);
-  console.log(user);
   const newUser = {
-    firstName:firstname,
-    lastName:lastname,
+    firstName: firstname,
+    lastName: lastname,
     address,
     email,
     phone,
@@ -36,18 +39,51 @@ function Profile() {
     try {
       await axios.put(
         `http://localhost:8000/user/${user.accountId}/updateInfor`,
-        newUser
+        newUser,
+        { headers: { "access-token": "Bearer " + user.accesstoken } }
       );
-
       alert("Update successfully");
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/profile";
       }, 500);
     } catch (error) {
       alert(error.response.data.message);
     }
   };
+  const UploadImage = () => {
+    document.getElementById("update-img").click();
+  };
 
+  const changeImage = async (e) => {
+    setFile(e.target.files[0]);
+  };
+  const updateAvatar = async () => {
+    let newAvatar = new FormData();
+
+    newAvatar.append("file", file, file.name);
+    try {
+      const {data} = await axios.post(`http://localhost:8000/upload`, newAvatar, {
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${newAvatar._boundary}`,
+          accept: "application/json",
+        },
+      });
+      alert("Update successfully");
+      const local = JSON.parse(localStorage.getItem('login'))
+      local.avatar = data
+      localStorage.setItem("login", JSON.stringify(local));
+      setTimeout(() => {
+        window.location.href = "/profile";
+      }, 500);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+  useEffect(() => {
+    if (file) {
+      updateAvatar()
+    }
+  }, [file]);
   return (
     <div className={style.container}>
       <div className={style.profile}>
@@ -58,7 +94,7 @@ function Profile() {
                 src={
                   user.avatar === null
                     ? "./images/Avatar/avatar.jpg"
-                    : user.avatar
+                    : `http://localhost:8000/images/${user.avatar}`
                 }
                 alt="avatar"
               />
@@ -73,7 +109,7 @@ function Profile() {
               <span>My account</span>
             </div>
             <div className={style["profile-left-body-changePass"]}>
-              Change Password
+              <Link to="/changepass">Change Password</Link>
             </div>
           </div>
         </div>
@@ -164,16 +200,28 @@ function Profile() {
 
             <div className={style["profile-right-body-right"]}>
               <div className={style["profile-right-body-file"]}>
-                <input type="file" name="" id="" />
+                <input
+                  type="file"
+                  id="update-img"
+                  accept=".jpg,.jpeg,.png"
+                  name="file"
+                  onChange={changeImage}
+                />
                 <img
                   src={
                     user.avatar === null
                       ? "./images/Avatar/avatar.jpg"
-                      : user.avatar
+                      : `http://localhost:8000/images/${user.avatar}`
                   }
                   alt="avatar"
                 />
-                <button className={style["select-img"]}>Select Image</button>
+                <button
+                  className={style["select-img"]}
+                  type="button"
+                  onClick={UploadImage}
+                >
+                  Select Image
+                </button>
               </div>
             </div>
           </div>

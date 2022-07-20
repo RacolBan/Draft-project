@@ -149,23 +149,25 @@ function Register() {
   const registerSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
+      const {data} = await axios.post(
         "http://localhost:8000/account/register",
         {
           ...user,
         }
       );
-        console.log(data);
-      await axios.post(
+      const res2 = await axios.post(
         `http://localhost:8000/user/${data.newAccount.id}/creatProfile`,
         {
           ...profile,
         }
       );
+      console.log('data',data);
+      console.log('data2',res2);
       const login = {
         accesstoken: data.accesstoken,
         accountId: data.newAccount.id,
         username: data.newAccount.username,
+        avatar: null
       };
       localStorage.setItem("login", JSON.stringify(login));
       alert("Register successfully");
