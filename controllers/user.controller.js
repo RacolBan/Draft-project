@@ -16,7 +16,7 @@ const getInfor = async (req, res) => {
         })
 
         if (!inforUser) {
-            return res.status(404).json({ message: "not found" })
+            return res.status(404).json({ message: "Not Found Data" })
         };
 
         return res.status(200).json(inforUser)
@@ -32,18 +32,15 @@ const createNewInfor = async (req, res) => {
         const { accountId } = req.params;
 
         const { firstName, lastName, email, address, phone } = req.body;
-        console.log(req.body);
+
         const foundProfile = await UserModel.findOne({
             where: {
-                [Op.or]: {
-                    accountId,
-                    email
-                }
+                accountId
             }
         });
-        console.log(foundProfile);
+
         if (foundProfile) {
-            return res.status(400).json({ message: "user or email has been existed" })
+            return res.status(400).json({ message: "user has been existed" })
         }
 
         const profile = {
@@ -78,21 +75,6 @@ const updateInfor = async (req, res) => {
         const update = {};
         if (firstName) update.firstName = firstName;
         if (lastName) update.lastName = lastName;
-        if (email) {
-            const foundRow = await UserModel.findOne({
-                where: {
-                    email
-                }
-            })
-            if (foundRow) {
-                return res.status(409).json({ message: "email has been existed" })
-            }
-
-            update.email = email;
-        }
-
-
-        if (phone) update.phone = phone;
         if (address) update.address = address;
         const foundInfor = await UserModel.findOne({
             where: {
@@ -101,7 +83,7 @@ const updateInfor = async (req, res) => {
         })
 
         if (!foundInfor) {
-            return res.status(404).json({ message: "not found" })
+            return res.status(404).json({ message: "Not Found Data" })
         };
 
         const updateInfor = await UserModel.update(update, {

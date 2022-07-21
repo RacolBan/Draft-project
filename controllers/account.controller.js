@@ -194,16 +194,16 @@ const forgotPassword = async (req, res) => {
     const tempToken = createTempAccessToken(payload);
 
     // create link just only exist 15min by token
-    const link = `http://localhost:8000/reset_password/${found.accountId}/${tempToken}`
+    const link = `http://localhost:3000/account/reset_password/${found.accountId}/${tempToken}`
 
     // send email to notify
     await sendMail(
       `${email}`,
       `Give you link to reset password`,
-      `Kick this link:${link} to reset password page `
+      `Kick this link:${link} into the reset password page `
     )
 
-    return res.json("password reset has been sent ur email")
+    return res.json("password reset has been sent ur email", tempToken)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }

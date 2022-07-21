@@ -13,7 +13,6 @@ const getManufacturer = async (req, res) => {
 const initManufacturer = async (req, res) => {
     try {
         const { name } = req.body;
-        console.log(name);
         const foundManufacturer = await ManufactureModel.findOne({
             where: {
                 name
@@ -35,20 +34,20 @@ const initManufacturer = async (req, res) => {
 }
 const removeManufacturer = async (req, res) => {
     try {
-        const { manufacturerId } = req.params;
+        const { manufacturerId: id } = req.params;
         const foundManufacturer = await ManufactureModel.findOne({
             where: {
-                manufacturerId
+                id
             }
         })
         if (!foundManufacturer) {
-            return res.status(404).json({ message: "Not Found" })
+            return res.status(404).json({ message: "Not Found Data" })
         }
 
         // Delete data
         await ManufactureModel.destroy({
             where: {
-                name
+                id
             }
         })
         return res.status(200).json({ message: "Delete successfully" })
@@ -61,16 +60,29 @@ const removeManufacturer = async (req, res) => {
 
 const updateManufacturer = async (req, res) => {
     try {
-        const { id, name } = req.body;
+        const { manufacturerId: id } = req.params;
+        const { name } = req.body
         const foundManufacturer = await ManufactureModel.findByPk(id)
 
         if (!foundManufacturer) {
-            return res.status(404).json({ message: "Not Found" })
+            return res.status(404).json({ message: "Not Found Data" })
         }
 
         const update = {};
 
-        if (name) update.name = name;
+        if (name) {
+            const foundName = await ManufactureModel.findOne({
+                where: {
+                    name
+                }
+            })
+            if (foundName) {
+                return res.status(409).json({ message: "name existed" })
+            }
+
+            update.name = name;
+        }
+
 
         await ManufactureModel.update(update, {
             where: {

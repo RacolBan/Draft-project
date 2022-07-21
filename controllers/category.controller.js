@@ -65,27 +65,32 @@ const updateCategory = async (req, res) => {
         const { manufactureId } = req.params;
         const { name, id } = req.body;
 
-        const foundCategory = await CategoryModel.findOne({
-            where: {
-                [Op.and]: {
-                    manufactureId,
-                    id
-                }
-            }
-        })
+        const foundCategory = await CategoryModel.findByPk(id)
+
         if (!foundCategory) {
-            return res.status(404).json({ message: "Not Found" })
+            return res.status(404).json({ message: "Not Found Category" })
         }
 
         const update = {};
-        if (name) update.name = name;
+        if (name) {
+            const foundName = await CategoryModel.findOne({
+                where: {
+                    [Op.and]: {
+                        manufactureId,
+                        name
+                    }
+                }
+            })
+            if (foundName) {
+                return res.status(409).json({ message: "name existed" })
+            }
+
+            update.name = name;
+        }
 
         await CategoryModel.update(update, {
             where: {
-                [Op.and]: {
-                    id,
-                    manufactureId
-                }
+                id
             }
         })
 
@@ -98,27 +103,18 @@ const updateCategory = async (req, res) => {
 
 const removeCategory = async (req, res) => {
     try {
-        const { manufactureId, categoryId } = req.query;
+        const { id } = req.params
 
-        const foundCategory = await CategoryModel.findOne({
-            where: {
-                [Op.and]: {
-                    manufactureId,
-                    categoryId
-                }
-            }
-        })
+        const foundCategory = await CategoryModel.findByPk(id)
+
         if (!foundCategory) {
-            return res.status(404).json({ message: "Not Found" })
+            return res.status(404).json({ message: "Not Found Data" })
         }
 
 
         await CategoryModel.destroy({
             where: {
-                [Op.and]: {
-                    categoryId,
-                    manufactureId
-                }
+                id
             }
         })
 

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { getInfor, updateInfor, createNewInfor, removeInfor } = require('../controllers/user.controller')
 const { verifyTok } = require('../middlewares/auth')
-
+const { checkEmail, checkPhone } = require('../middlewares/checkData')
 
 router.post('/:accountId/creatProfile', createNewInfor)
 router.get('/:accountId/getInfor', verifyTok, getInfor)

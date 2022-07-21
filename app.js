@@ -28,6 +28,9 @@ app.use("/api", manufactureRouter);
 app.use("/api", productRouter);
 app.use("/", uploadRouter);
 
+app.get("/", (req, res) => {
+  res.json("ok")
+})
 
 
 
