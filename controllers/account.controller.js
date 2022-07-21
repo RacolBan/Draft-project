@@ -1,6 +1,6 @@
 var jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { AccountModel, UserModel } = require("../models");
+const { AccountModel } = require("../models");
 const sendMail = require('../services/email.service');
 
 
@@ -175,16 +175,6 @@ const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
-
-    const found = await UserModel.findOne({
-      where: {
-        email
-      }
-    })
-    // make sure email existed in database
-    if (!found) {
-      return res.status(404).json({ message: "email no longer existed " })
-    }
 
     const payload = {
       email: found.email,

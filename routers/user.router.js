@@ -3,7 +3,7 @@ const { getInfor, updateInfor, createNewInfor, removeInfor } = require('../contr
 const { verifyTok } = require('../middlewares/auth')
 const { checkEmail, checkPhone } = require('../middlewares/checkData')
 
-router.post('/:accountId/creatProfile', createNewInfor)
+router.post('/:accountId/creatProfile', checkEmail, checkPhone, createNewInfor)
 router.get('/:accountId/getInfor', verifyTok, getInfor)
 router.put('/:accountId/updateInfor', verifyTok, updateInfor)
 
