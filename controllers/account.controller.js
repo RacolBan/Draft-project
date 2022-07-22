@@ -1,6 +1,6 @@
 var jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { AccountModel } = require("../models");
+const { AccountModel, UserModel } = require("../models");
 const sendMail = require('../services/email.service');
 
 
@@ -10,9 +10,7 @@ const createAccessToken = (account) => {
 const createTempAccessToken = (account) => {
   return jwt.sign(account, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 };
-const createRefreshToken = (account) => {
-  return jwt.sign(account, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
-};
+
 
 const register = async (req, res) => {
   const { username, password } = req.body;
@@ -50,15 +48,9 @@ const register = async (req, res) => {
       return res.status(400).json({ message: "create new Account unsuccesfully" });
     }
     const accesstoken = createAccessToken({ id: newAccount.id });
-    const refreshtoken = createRefreshToken({ id: newAccount.id });
 
-    res.cookie("refreshtoken", refreshtoken, {
-      httpOnly: true,
-      path: "/account/refresh_token",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-    });
 
-    return res.status(201).json({ newAccount, accesstoken });
+    res.status(201).json({ newAccount, accesstoken });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -83,18 +75,8 @@ const login = async (req, res) => {
 
     // If login success , create access token and refresh token
     const accesstoken = createAccessToken({ id: account.id });
-    const refreshtoken = createRefreshToken({ id: account.id });
 
-    // create refreshtoken cookie
-    res.cookie("refreshtoken", refreshtoken, {
-      httpOnly: true,
-      path: "/account/refresh_token",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-    });
-
-
-
-    return res.status(200).json({
+    res.status(200).json({
       message: "login successful",
       accesstoken,
       id: account.id,
@@ -107,36 +89,6 @@ const login = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {
-  try {
-    res.clearCookie("refreshtoken", { path: "/account/refresh_token" });
-    console.log(req.cookies);
-    return res.json({ message: "Logged out" });
-
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-};
-
-const refreshToken = async (req, res) => {
-  try {
-    const rf_token = req.cookies.refreshtoken;
-
-    if (!rf_token) {
-      return res.status(400).json({ message: "Please register or login" })
-    }
-
-    jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, account) => {
-      if (err) return res.status(400).json({ message: "Please register or login" })
-
-      const accessToken = createAccessToken({ id: account.id })
-      res.json({ accessToken, account })
-    })
-
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-};
 
 const changePassword = async (req, res) => {
   try {
@@ -175,6 +127,14 @@ const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
+    const found = await UserModel.findOne({
+      where: {
+        email
+      }
+    })
+    if (!found) {
+      return res.status(409).json({ message: "Email not exist" })
+    }
 
     const payload = {
       email: found.email,
@@ -184,8 +144,7 @@ const forgotPassword = async (req, res) => {
     const tempToken = createTempAccessToken(payload);
 
     // create link just only exist 15min by token
-    const link = `http://localhost:3000/account/reset_password/${found.accountId}/${tempToken}`
-
+    const link = `http://localhost:3000/reset_password/${found.accountId}/${tempToken}`
     // send email to notify
     await sendMail(
       `${email}`,
@@ -193,7 +152,12 @@ const forgotPassword = async (req, res) => {
       `Kick this link:${link} into the reset password page `
     )
 
-    return res.json("password reset has been sent ur email", tempToken)
+    res.json({
+      message: "password reset has been sent ur email",
+      tempToken,
+      accountId: found.accountId
+    })
+
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
@@ -202,15 +166,10 @@ const forgotPassword = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   const { accountId: id } = req.params;
-  const { newPassword, confirmPassword } = req.body;
+  const { newPassword } = req.body;
 
+  // if FE not verify token so BE must get temptoken to verify at here
   try {
-
-
-    // validate newPassword and confirmPassword should match
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({ message: "two password not match" })
-    }
 
     // password Encryption
     const passwordHash = await bcrypt.hash(newPassword, 10);
@@ -222,7 +181,7 @@ const resetPassword = async (req, res) => {
       }
     });
 
-    return res.status(200).json({ message: "reset password successfully" })
+    res.status(200).json({ message: "reset password successfully" })
 
   } catch (error) {
     return res.status(500).json({ message: error.message })
@@ -234,8 +193,6 @@ const resetPassword = async (req, res) => {
 module.exports = {
   register,
   login,
-  logout,
-  refreshToken,
   changePassword,
   forgotPassword,
   resetPassword

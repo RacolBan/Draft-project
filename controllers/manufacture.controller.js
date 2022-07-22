@@ -3,8 +3,28 @@ const { ManufactureModel } = require("../models")
 const getManufacturer = async (req, res) => {
     try {
 
-        const manufacturer = await ManufactureModel.findAll()
-        return res.status(200).json(manufacturer)
+        const manufacturers = await ManufactureModel.findAll()
+
+        if (manufacturers.length == 0) {
+            return res.status(404).json({ message: "Not Found Manufacturers" })
+        }
+        return res.status(200).json(manufacturers)
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+
+const getManufacturerById = async (req, res) => {
+    try {
+        const { manufactureId: id } = req.params;
+        const manufacturer = await ManufactureModel.findByPk(id)
+
+        if (!manufacturer) {
+            return res.status(404).json({ message: "Not Found Manufacturer" })
+        }
+
+        res.status(200).json(manufacturer)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -24,17 +44,17 @@ const initManufacturer = async (req, res) => {
         // save data
         const newManufacture = await ManufactureModel.create({ name })
         if (!newManufacture) {
-            return res.status(400).json({ message: "Create fail" })
+            return res.status(400).json({ message: "Create Manufacturer Unsuccessfully" })
         }
 
-        return res.status(200).json(newManufacture)
+        res.status(200).json(newManufacture)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
 }
 const removeManufacturer = async (req, res) => {
     try {
-        const { manufacturerId: id } = req.params;
+        const { manufactureId: id } = req.params;
         const foundManufacturer = await ManufactureModel.findOne({
             where: {
                 id
@@ -50,7 +70,7 @@ const removeManufacturer = async (req, res) => {
                 id
             }
         })
-        return res.status(200).json({ message: "Delete successfully" })
+        res.status(200).json({ message: "Delete successfully" })
 
 
     } catch (error) {
@@ -60,7 +80,7 @@ const removeManufacturer = async (req, res) => {
 
 const updateManufacturer = async (req, res) => {
     try {
-        const { manufacturerId: id } = req.params;
+        const { manufactureId: id } = req.params;
         const { name } = req.body
         const foundManufacturer = await ManufactureModel.findByPk(id)
 
@@ -89,8 +109,7 @@ const updateManufacturer = async (req, res) => {
                 id
             }
         })
-        const updatedManufacturer = await ManufactureModel.findByPk(id)
-        return res.status(200).json({ message: "update successfully", updatedManufacturer })
+        res.status(200).json({ message: "update successfully" })
 
 
     } catch (error) {
@@ -102,6 +121,7 @@ module.exports = {
     getManufacturer,
     initManufacturer,
     removeManufacturer,
-    updateManufacturer
+    updateManufacturer,
+    getManufacturerById
 
 }

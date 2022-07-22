@@ -5,27 +5,42 @@ const getCategory = async (req, res) => {
     try {
 
         const categories = await CategoryModel.findAll()
-        if (!categories) {
-            return res.status(404).json({ message: "Not found" })
+        if (categories.length == 0) {
+            return res.status(404).json({ message: "Not found categories" })
         }
-        return res.status(200).json(categories);
+        res.status(200).json(categories);
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
+
 }
 const getCategoryByManufactureId = async (req, res) => {
     try {
         const { manufactureId } = req.params;
 
-        const category = await CategoryModel.findAll({
+        const categories = await CategoryModel.findAll({
             where: {
                 manufactureId
             }
         })
-        if (!category) {
-            return res.status(404).json({ message: "Not found" })
+        if (categories.length == 0) {
+            return res.status(404).json({ message: "Not found Categories" })
         }
-        return res.status(200).json(category)
+        res.status(200).json(categories)
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+const getCategoryByCategoryId = async (req, res) => {
+    try {
+        const { categoryId: id } = req.params;
+
+        const category = await CategoryModel.findByPk(id)
+        if (!category) {
+            return res.status(404).json({ message: "Not found Categories" })
+        }
+        res.status(200).json(category)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -43,18 +58,18 @@ const initCategory = async (req, res) => {
                     name
                 }
             }
-        })
+        });
         if (foundCategory) {
-            return res.status(400).json({ message: "category has been existed" })
-        }
+            return res.status(409).json({ message: "category has been existed" })
+        };
 
         // save data
         const newCategory = await CategoryModel.create({ name, manufactureId })
         if (!newCategory) {
-            return res.status(400).json({ message: "Create fail" })
-        }
+            return res.status(400).json({ message: "Create Category Unsuccessfully" })
+        };
 
-        return res.status(200).json(newCategory)
+        res.status(201).json(newCategory);
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -95,7 +110,7 @@ const updateCategory = async (req, res) => {
         })
 
 
-        return res.status(200).json({ message: "update successfully" })
+        res.status(200).json({ message: "update successfully" })
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -103,7 +118,7 @@ const updateCategory = async (req, res) => {
 
 const removeCategory = async (req, res) => {
     try {
-        const { id } = req.params
+        const { categoryId: id } = req.params
 
         const foundCategory = await CategoryModel.findByPk(id)
 
@@ -118,7 +133,7 @@ const removeCategory = async (req, res) => {
             }
         })
 
-        return res.status(200).json({ message: "delete successfully" })
+        res.status(200).json({ message: "delete successfully" })
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -129,6 +144,7 @@ module.exports = {
     initCategory,
     removeCategory,
     updateCategory,
-    getCategoryByManufactureId
+    getCategoryByManufactureId,
+    getCategoryByCategoryId
 
 }

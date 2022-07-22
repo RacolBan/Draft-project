@@ -1,13 +1,17 @@
 const router = require('express').Router();
-const { getCategory, initCategory, updateCategory, removeCategory } = require('../controllers/category.controller.js');
+const { getCategory, initCategory, updateCategory, removeCategory, getCategoryByManufactureId, getCategoryByCategoryId } = require('../controllers/category.controller.js');
 const { verifyTok } = require('../middlewares/auth.js');
 const { isAdmin } = require('../middlewares/permission.js');
 
 
-router.get("/categories/:manufactureId", getCategory);
-router.post("/categories/:manufactureId", verifyTok, isAdmin, initCategory)
-router.put("/categories/:manufactureId", verifyTok, isAdmin, updateCategory)
-router.delete("/categories/:id", verifyTok, isAdmin, removeCategory)
+router.get("/categories/", getCategory);
+router.get("/manufacture/:manufactureId/categories", getCategoryByManufactureId);
+router.get("/categories/:categoryId", getCategoryByCategoryId);
+
+
+router.post("/manufacture/:manufactureId/categories", verifyTok, isAdmin, initCategory)
+router.put("/manufacture/:manufactureId/categories", verifyTok, isAdmin, updateCategory)
+router.delete("/categories/:categoryId", verifyTok, isAdmin, removeCategory)
 
 
 module.exports = router;

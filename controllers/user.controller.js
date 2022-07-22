@@ -1,13 +1,8 @@
-const { Op } = require("sequelize");
 const { UserModel } = require("../models");
 
 const getInfor = async (req, res) => {
     try {
         const { accountId } = req.params;
-
-        if (!accountId) {
-            return res.status(404).json({ message: " not found" })
-        };
 
         const inforUser = await UserModel.findOne({
             where: {
@@ -16,10 +11,10 @@ const getInfor = async (req, res) => {
         })
 
         if (!inforUser) {
-            return res.status(404).json({ message: "Not Found Data" })
+            return res.status(404).json({ message: "Not Found Information" })
         };
 
-        return res.status(200).json(inforUser)
+        res.status(200).json(inforUser)
     } catch (error) {
         return res.status(500).json({ message: error.message })
 
@@ -61,7 +56,7 @@ const createNewInfor = async (req, res) => {
         };
 
         // true
-        return res.status(201).json(newInfor);
+        res.status(201).json(newInfor);
 
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -70,12 +65,13 @@ const createNewInfor = async (req, res) => {
 const updateInfor = async (req, res) => {
     try {
         const { accountId } = req.params;
-        const { firstName, lastName, email, address, phone } = req.body;
+        const { firstName, lastName, address } = req.body;
 
         const update = {};
         if (firstName) update.firstName = firstName;
         if (lastName) update.lastName = lastName;
         if (address) update.address = address;
+
         const foundInfor = await UserModel.findOne({
             where: {
                 accountId,
@@ -83,7 +79,7 @@ const updateInfor = async (req, res) => {
         })
 
         if (!foundInfor) {
-            return res.status(404).json({ message: "Not Found Data" })
+            return res.status(404).json({ message: "Not Found Information" })
         };
 
         const updateInfor = await UserModel.update(update, {
@@ -98,7 +94,7 @@ const updateInfor = async (req, res) => {
         }
 
 
-        return res.status(200).json({ message: "update succesfully" })
+        res.status(200).json({ message: "update succesfully" })
 
 
     } catch (error) {
@@ -119,7 +115,7 @@ const removeInfor = async (req, res) => {
         })
 
         if (!foundInfor) {
-            return res.status(404).json({ message: "not found" })
+            return res.status(404).json({ message: "not found information" })
         };
 
         await UserModel.destroy({
@@ -127,19 +123,12 @@ const removeInfor = async (req, res) => {
                 accountId
             }
         })
-        return res.json({ message: "delete successfully" })
+        res.json({ message: "delete successfully" })
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
 
-
-
 }
-
-
-
-
-
 
 module.exports = {
     getInfor,

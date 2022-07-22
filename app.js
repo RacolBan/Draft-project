@@ -4,12 +4,19 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
 
-const accountRouter = require("./routers/account.router");
-const userRouter = require("./routers/user.router");
-const categoryRouter = require("./routers/category.router");
-const manufactureRouter = require('./routers/manufacture.router')
-const productRouter = require('./routers/product.router')
-const uploadRouter = require('./routers/upload.router')
+const accountRouter = require("./routers/account.router");;
+const userRouter = require("./routers/user.router");;
+const categoryRouter = require("./routers/category.router");;
+const manufactureRouter = require('./routers/manufacture.router');
+const productRouter = require('./routers/product.router');
+const uploadRouter = require('./routers/upload.router');
+const orderRouter = require('./routers/order.router');
+const orderDetailRouter = require('./routers/orderDetail.router');
+const CartRouter = require('./routers/cart.router');
+const PaymentRouter = require('./routers/payment.router');
+
+
+
 
 const app = express();
 
@@ -27,6 +34,13 @@ app.use("/api", categoryRouter);
 app.use("/api", manufactureRouter);
 app.use("/api", productRouter);
 app.use("/", uploadRouter);
+app.use("/api", orderRouter);
+app.use("/api", orderDetailRouter);
+app.use("/api", CartRouter);
+app.use("/api", PaymentRouter);
+
+
+
 
 app.get("/", (req, res) => {
   res.json("ok")

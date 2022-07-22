@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const upload = require('../middlewares/upload')
+
 const {
   getAllProduct,
   getProductByName,
@@ -8,7 +10,7 @@ const {
   pagination,
   initProduct,
   updateProduct,
-  removeProduct
+  removeProduct,
 } = require("../controllers/product.controller")
 const { verifyTok } = require("../middlewares/auth");
 const { isMember, isAdmin } = require("../middlewares/permission");
@@ -20,7 +22,7 @@ router.get("/productId/products", verifyTok, getProductByName);
 router.get("/categoryId/products", verifyTok, getProductByCategoryId);
 router.get("/manufactureId/products", verifyTok, getProductByManufactureId);
 router.get("/pagination/products", pagination);
-router.post("/products", initProduct);
+router.post("/products", upload.single('file'), initProduct);
 router.put("/products", updateProduct);
 router.delete("/products", removeProduct);
 

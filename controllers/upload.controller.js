@@ -20,7 +20,7 @@ const postUploadFile = async (req, res) => {
 
         await UserModel.update({ avatar: file.filename }, { where: { id } });
 
-        return res.json({ message: "image uploaded", filename: file.filename });
+        res.json({ message: "image uploaded", filename: file.filename });
 
     } catch (error) {
         return res.status(500).json({ message: error.message });
