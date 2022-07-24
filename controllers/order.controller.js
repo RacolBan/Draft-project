@@ -51,9 +51,9 @@ const getOrdersByUserId = async (req, res) => {
 }
 
 
-const initOrder = async () => {
+const initOrder = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const { userId } = req.body;
 
         const newOrder = await OrderModel.create({ userId })
         if (!newOrder) {

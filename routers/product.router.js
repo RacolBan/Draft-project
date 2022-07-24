@@ -13,7 +13,7 @@ const {
   removeProduct,
 } = require("../controllers/product.controller")
 const { verifyTok } = require("../middlewares/auth");
-const { isMember, isAdmin } = require("../middlewares/permission");
+const { isAdmin } = require("../middlewares/permission");
 
 
 // API get all product
@@ -22,9 +22,9 @@ router.get("/productId/products", verifyTok, getProductByName);
 router.get("/categoryId/products", verifyTok, getProductByCategoryId);
 router.get("/manufactureId/products", verifyTok, getProductByManufactureId);
 router.get("/pagination/products", pagination);
-router.post("/products", upload.single('file'), initProduct);
+router.post("/products", verifyTok, isAdmin, upload.single('file'), initProduct);
 router.put("/products", updateProduct);
-router.delete("/products", removeProduct);
+router.delete("/products", verifyTok, isAdmin, removeProduct);
 
 
 router.get("/pagination/products", pagination);

@@ -4,7 +4,7 @@ const { getOrders, getOrdersByUserId, getOrderById, initOrder } = require('../co
 router.get("/orders", getOrders);
 router.get("/:userId/orders", getOrdersByUserId);
 router.get("/:id/orders", getOrderById);
-router.post("/:userId/orders", initOrder);
+router.post("/orders", initOrder);
 
 
 

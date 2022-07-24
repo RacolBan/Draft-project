@@ -108,35 +108,34 @@ const pagination = async (req, res) => {
 const initProduct = async (req, res) => {
     try {
         const { name, price, description, nameManufacture, nameCategory } = req.body;
-        const { file } = req.file
+        const file = req.file
+
         if (!file) {
             return res.status(404).json({ message: "Pls provide an image" })
-        }
-
-
-
+        };
+        // find manufacturer
+        const foundManufacturer = await ManufactureModel.findOne({
+            where: {
+                name: nameManufacture,
+            }
+        });
+        if (!foundManufacturer) {
+            return res.status(404).json({ message: "Not Found Manufacturer" })
+        };
 
         // find category
         const foundCategory = await CategoryModel.findOne({
             where: {
-                nameCategory
+                name: nameCategory,
+                manufactureId: foundManufacturer.id
             }
         });
-
+        console.log(foundCategory);
         if (!foundCategory) {
             return res.status(404).json({ message: "Not Found Category" })
         };
 
-        // find manufacturer
-        const foundManufacturer = await ManufactureModel.findOne({
-            where: {
-                nameManufacture,
-            }
-        });
 
-        if (!foundManufacturer) {
-            return res.status(404).json({ message: "Not Found Manufacturer" })
-        };
 
         // find product by manufacture 
         const foundProduct = await ProductModel.findOne({

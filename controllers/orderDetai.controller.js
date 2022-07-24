@@ -57,7 +57,7 @@ const getOrdersDetailByProductId = async (req, res) => {
 }
 
 
-const initOrderDetail = async () => {
+const initOrderDetail = async (req, res) => {
     try {
         const { orderId } = req.params;
         const { quantityProduct, VAT, productId } = req.body;
