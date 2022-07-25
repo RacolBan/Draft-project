@@ -1,10 +1,10 @@
-.forgot {
-  max-width: 550px;
+.reset {
+  max-width: 500px;
   margin: 70px auto;
 }
 
-.forgot-container {
-  padding: 20px;
+.reset-container {
+  padding: 0px 25px 10px;
   box-shadow: 0px 0px 0px 5px rgb(255 255 255 / 40%),
     0px 4px 20px rgb(0 0 0 / 33%);
   border-radius: 5px;
@@ -13,46 +13,43 @@
   align-items: center;
 }
 
-.forgot-head {
+.reset-head {
 }
 
-.forgot-head-title {
+.reset-head-title {
   margin: 20px 0;
   display: flex;
   justify-content: center;
 }
 
-.forgot-head-title h3 {
+.reset-head-title h3 {
   color: #1b75bc;
   font-size: 24px;
   font-weight: bold;
 }
 
-.forgot-head-description {
-  display: flex;
-  justify-content: center;
-  font-size: 17px;
+.reset-head-description {
 }
 
-.forgot-body {
+.reset-body {
   display: flex;
   height: 50px;
   align-items: center;
-  margin: 20px 0;
+  margin-top: 20px;
   width: 100%;
   justify-content: center;
 }
 
-.forgot-body-label {
+.reset-body-label {
   margin-right: 20px;
   font-size: 20px;
 }
 
-.forgot-body-input {
+.reset-body-input {
   width: 80%;
 }
 
-.forgot-body-input input {
+.reset-body-input input {
   background: #f5f5f5;
   font-size: 16px;
   border-radius: 3px;
@@ -63,75 +60,47 @@
   width: 100%;
 }
 
-.forgot-body-input input[type="text"]:focus {
+.reset-body-input input[type="text"]:focus {
   background: #fff;
   box-shadow: 0px 0px 0px 3px #4d698d, inset 0px 2px 3px rgba(0, 0, 0, 0.2),
     0px 5px 5px rgba(0, 0, 0, 0.15);
   outline: none;
 }
 
-.forgot-btn {
-  opacity: 0.5;
+.reset-btn {
+  opacity: 0.7;
 }
 
-.forgot-btn:hover {
+.reset-btn:hover {
   opacity: 1;
 }
 
-.forgot-btn button {
+.reset-btn button {
   padding: 12px 18px;
   background-color: #dda25c;
   border: none;
   cursor: pointer;
+  margin-top: 20px;
 }
-.forgot-back-login {
+.reset-back-login {
   display: flex;
   margin: 20px;
-  align-items: center;
 }
 
-.forgot-back-login a {
+.reset-back-login a {
   cursor: pointer;
   font-size: 20px;
   color: #333;
   text-decoration: none;
 }
 
-.forgot-back-login:hover a,
-.forgot-back-login:hover i {
+.reset-back-login:hover a,.reset-back-login:hover i {
   color: #1b75bc;
 }
 
-.forgot-back-icon {
+.reset-back-icon {
   font-size: 25px;
   color: #333;
-  padding: 0 10px;
-  cursor: pointer;
-}
-
-.token {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-}
-
-.token > i {
-  color: red;
-  font-size: 30px;
-  font-weight: 700;
-  padding-right: 10px;
-}
-
-.token > p {
-  color: red;
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.forgot-head-send {
   padding: 0 20px;
-  font-size: 20px;
-  background-color: #b3f9e1;
-  color: #1aa776;
+  cursor: pointer;
 }
