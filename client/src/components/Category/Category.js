@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
 import style from "./Category.module.css";
 
-function CategoryProduct({categoryList}) {
+function CategoryProduct({ categoryList }) {
   return (
     <div className={`l-10 ${style["header-menu"]}`}>
       <div className="row no-gutters">
@@ -14,13 +14,11 @@ function CategoryProduct({categoryList}) {
           </div>
           <div className={style["menu-nav"]}>
             <ul className={style["menu-list"]}>
-              {categoryList.map((item, index) => {
-                return (
-                  <li className={style["menu-item"]} key={index}>
-                    <img src={`./images/Icon/${index}.png`} alt="MTXT" />
-                    <Link to="">{item}</Link>
-                  </li>
-                );
+              {categoryList.map((item) => {
+                <li className={style["menu-item"]} key={item.id}>
+                  <img src={`./images/Icon/${item.id}.png`} alt="MTXT" />
+                  <Link to="">{item}</Link>
+                </li>;
               })}
             </ul>
           </div>
