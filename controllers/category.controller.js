@@ -45,7 +45,7 @@ const getCategoryByCategoryId = async (req, res) => {
 const initCategory = async (req, res) => {
     try {
         const { name, manufactureId } = req.body;
-
+        
         const foundCategory = await CategoryModel.findOne({
             where: {
                 [Op.and]: {

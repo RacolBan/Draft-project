@@ -101,6 +101,7 @@ const pagination = async (req, res) => {
 const initProduct = async (req, res) => {
     try {
         const { name, price, description, nameManufacture, nameCategory } = req.body;
+        console.log(req.body);
         const file = req.file
 
         if (!file) {

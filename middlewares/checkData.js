@@ -14,7 +14,6 @@ const checkPhone = async (req, res, next) => {
 }
 
 const checkEmail = async (req, res, next) => {
-
     const { email } = req.body;
     const foundEmail = await UserModel.findOne({
         where: {
