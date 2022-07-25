@@ -26,12 +26,31 @@ const getInfor = async (req, res) => {
 };
 const getAllInfor = async (req, res) => {
     try {
+        const accounts = await AccountModel.findAll()
+        let arr = []
 
-        const inforUsers = await UserModel.findAll();
+        accounts.forEach(async (item, index) => {
+            const found = await UserModel.findOne({
+                where: {
+                    accountId: e.id
+                }
+            })
+            const obj = {
+                id: found.id,
+                username: item.username,
+                firstName: found.firstName,
+                lastName: found.lastName,
+                email: found.email,
+                address: found.address,
+                phone: found.phone,
+                avatar: found.avatar,
 
+            }
+            arr.push(obj)
 
-
-        res.status(200).json(inforUsers)
+        })
+        console.log(arr);
+        res.status(200).json(arr)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }

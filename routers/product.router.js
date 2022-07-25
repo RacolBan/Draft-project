@@ -23,7 +23,7 @@ router.get("/categoryId/products", verifyTok, getProductByCategoryId);
 router.get("/manufactureId/products", verifyTok, getProductByManufactureId);
 router.get("/pagination/products", pagination);
 router.post("/products", verifyTok, isAdmin, upload.single('file'), initProduct);
-router.put("/products", updateProduct);
+router.put("/products", verifyTok, isAdmin, updateProduct);
 router.delete("/products", verifyTok, isAdmin, removeProduct);
 
 

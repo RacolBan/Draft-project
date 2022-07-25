@@ -6,7 +6,7 @@ const { isAdmin } = require('../middlewares/permission');
 const upload = require('../middlewares/upload')
 
 router.get('/:accountId/getInfor', verifyTok, getInfor);
-router.get('/getAll', verifyTok, isAdmin, getAllInfor);
+router.get('/getAll', getAllInfor);
 router.post('/accounts/creatProfile', checkEmail, checkPhone, createNewInfor);
 router.put("/upload/:id/users", upload.single('file'), uploadAvatar);
 router.put('/:accountId/updateInfor', verifyTok, updateInfor);
