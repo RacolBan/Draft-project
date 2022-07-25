@@ -5,9 +5,7 @@ const getManufacturer = async (req, res) => {
 
         const manufacturers = await ManufactureModel.findAll()
 
-        if (manufacturers.length == 0) {
-            return res.status(404).json({ message: "Not Found Manufacturers" })
-        }
+
         return res.status(200).json(manufacturers)
     } catch (error) {
         return res.status(500).json({ message: error.message })

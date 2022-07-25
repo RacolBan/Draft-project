@@ -32,10 +32,6 @@ const getCartByUserId = async () => {
             }
         });
 
-        if (carts.length === 0) {
-            return res.status(404).json({ message: "Not Found Any Carts" })
-        };
-
         res.status(200).json(carts);
     } catch (error) {
         return res.status(500).json({ message: error.message })
@@ -51,10 +47,6 @@ const getCartByProductId = async () => {
                 productId
             }
         });
-
-        if (carts.length === 0) {
-            return res.status(404).json({ message: "Not Found Any Cart" })
-        };
 
         res.status(200).json(carts);
     } catch (error) {

@@ -9,10 +9,6 @@ const getOrdersDetailByOrderId = async (req, res) => {
             }
         })
 
-        if (foundOrderDetails.length === 0) {
-            return res.status(404).json({ message: "Not Found Any Detail Order" })
-        }
-
         res.status(200).json(foundOrderDetails)
     } catch (error) {
         return res.status(500).json({ message: error.message })
@@ -45,9 +41,6 @@ const getOrdersDetailByProductId = async (req, res) => {
             productId
         })
 
-        if (foundOrdersDetail.length === 0) {
-            return res.status(404).json({ message: "Not Found Any Order Detail" })
-        }
         res.status(200).json(foundOrdersDetail)
     } catch (error) {
         return res.status(500).json({ message: error.message })

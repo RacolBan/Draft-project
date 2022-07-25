@@ -5,9 +5,7 @@ const getCategory = async (req, res) => {
     try {
 
         const categories = await CategoryModel.findAll()
-        if (categories.length == 0) {
-            return res.status(404).json({ message: "Not found categories" })
-        }
+
         res.status(200).json(categories);
     } catch (error) {
         return res.status(500).json({ message: error.message })
@@ -23,9 +21,7 @@ const getCategoryByManufactureId = async (req, res) => {
                 manufactureId
             }
         })
-        if (categories.length == 0) {
-            return res.status(404).json({ message: "Not found Categories" })
-        }
+
         res.status(200).json(categories)
     } catch (error) {
         return res.status(500).json({ message: error.message })

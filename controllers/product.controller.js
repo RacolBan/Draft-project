@@ -5,9 +5,6 @@ const getAllProduct = async (req, res) => {
     try {
 
         const productList = await ProductModel.findAll();
-        if (!productList) {
-            return res.status(404).json({ message: "Not Found data" })
-        }
 
         res.status(200).json(productList);
     } catch (error) {
@@ -45,9 +42,7 @@ const getProductByManufactureId = async (req, res) => {
                 manufactureId
             }
         })
-        if (!products) {
-            return res.status(404).json({ message: "Not found" })
-        }
+
         res.status(200).json(products)
     } catch (error) {
         return res.status(500).json({ message: error.message })
@@ -64,9 +59,7 @@ const getProductByCategoryId = async (req, res) => {
                 categoryId
             }
         })
-        if (!products) {
-            return res.status(404).json({ message: "Not found" })
-        }
+
         res.status(200).json(products)
     } catch (error) {
         return res.status(500).json({ message: error.message })

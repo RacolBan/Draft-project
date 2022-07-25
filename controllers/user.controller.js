@@ -24,7 +24,19 @@ const getInfor = async (req, res) => {
     }
 
 };
+const getAllInfor = async (req, res) => {
+    try {
 
+        const inforUsers = await UserModel.findAll();
+
+
+
+        res.status(200).json(inforUsers)
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+
+};
 const createNewInfor = async (req, res) => {
     const t = await sequelize.transaction();
 
@@ -206,5 +218,6 @@ module.exports = {
     createNewInfor,
     updateInfor,
     removeInfor,
-    uploadAvatar
+    uploadAvatar,
+    getAllInfor
 }

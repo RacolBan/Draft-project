@@ -4,9 +4,6 @@ const getOrders = async (req, res) => {
     try {
         const foundOrders = await OrderModel.findAll()
 
-        if (foundOrders.length === 0) {
-            return res.status(404).json({ message: "Not Found Any Order" })
-        }
         res.status(200).json(foundOrders)
     } catch (error) {
         return res.status(500).json({ message: error.message })
@@ -39,9 +36,6 @@ const getOrdersByUserId = async (req, res) => {
             userId
         })
 
-        if (foundOrders.length === 0) {
-            return res.status(404).json({ message: "Not Found Any Order" })
-        }
         res.status(200).json(foundOrders)
     } catch (error) {
         return res.status(500).json({ message: error.message })
