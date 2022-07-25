@@ -3,7 +3,7 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import style from "./New.module.css";
 import axios from "axios";
 
-function NewUsers({ inputs, title, isFile }) {
+function NewUser({ inputs, title, isFile }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
 
@@ -20,29 +20,48 @@ function NewUsers({ inputs, title, isFile }) {
   const handleCreateUser = async (e) => {
     e.preventDefault();
     let newUser = new FormData();
-
-    newUser.append("file", file, file.name);
-    newUser.append("firstName", info.firstName);
-    newUser.append("lastName", info.lastName);
-    newUser.append("email", info.email);
-    newUser.append("address", info.address);
-    newUser.append("phone", info.phone);
-    newUser.append("username", info.username);
-    newUser.append("password", info.password);
-    newUser.append("confirm password", info.confirmPassword);
+    if (info) {
+      newUser.append("file", file);
+      newUser.append("firstName", info.firstName);
+      newUser.append("lastName", info.lastName);
+      newUser.append("email", info.email);
+      newUser.append("address", info.address);
+      newUser.append("phone", info.phone);
+      newUser.append("username", info.username);
+      newUser.append("password", info.password);
+    }
 
     try {
-        await axios.post(`http://localhost:8000/accounts/creatProfile`, newUser, {
-          headers: {
-            "Content-Type": `multipart/form-data; boundary=${newUser._boundary}`,
-            accept: "application/json",
-            "access-token":
-              "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
-          },
-        });
-      } catch (error) {
-        alert(error.response.message);
-      }
+      await axios({
+        method: "post",
+        url: "http://localhost:8000/user/accounts/createProfile/admin",
+        data: newUser,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "access-token":
+            "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
+        },
+      });
+    } catch (error) {
+      alert(error.response.message);
+    }
+
+    // try {
+    //   await axios.post(
+    //     `http://localhost:8000/user/accounts/creatProfile`,
+    //     newUser,
+    //     {
+    //       headers: {
+    //         "Content-Type": `multipart/form-data; boundary=${newUser._boundary}`,
+    //         accept: "application/json",
+    //         "access-token":
+    //           "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
+    //       },
+    //     }
+    //   );
+    // } catch (error) {
+    //   alert(error.response.message);
+    // }
   };
   return (
     <div className={style.new}>
@@ -80,7 +99,7 @@ function NewUsers({ inputs, title, isFile }) {
                 </div>
               )}
 
-              {inputs.map((input,index) => (
+              {inputs.map((input, index) => (
                 <div className={style.formInput} key={index}>
                   <label>{input.label}</label>
                   <input
@@ -102,4 +121,4 @@ function NewUsers({ inputs, title, isFile }) {
   );
 }
 
-export default NewUsers;
+export default NewUser;

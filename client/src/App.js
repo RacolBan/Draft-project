@@ -11,7 +11,6 @@ import Profile from "./pages/Profile/Profile";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Reset from "./pages/Reset/Reset";
-import New from "./pages/Admin/Conponents/New/New";
 import {
   userInputs,
   productInputs,
@@ -30,6 +29,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import NewCategory from "./pages/Admin/Conponents/New/NewCategory";
 import Category from "./pages/Category/Category";
+import NewManufacture from "./pages/Admin/Conponents/New/NewManufacture";
+import NewProduct from "./pages/Admin/Conponents/New/NewProduct";
+import NewUser from "./pages/Admin/Conponents/New/NewUser";
 
 function App() {
   const [rowsUsers, setRowsUsers] = useState([]);
@@ -37,30 +39,44 @@ function App() {
   const [rowsManufacture, setRowsManufacture] = useState([]);
   const [categoryAPI, setCategoryAPI] = useState([]);
 
+  const login = JSON.parse(localStorage.getItem("login"));
+
   useEffect(() => {
     const getCategory = async () => {
-      const {data} = await axios.get("http://localhost:8000/api/categories");
-      setCategoryAPI(data)
+      const { data } = await axios.get(`http://localhost:8000/api/categories`, {
+        headers: { "access-token": "Bearer " + login.accesstoken },
+      });
+      setCategoryAPI(data);
     };
     getCategory();
   }, []);
 
   useEffect(() => {
     const getAllUsers = async () => {
-      const {data} = await axios.get("http://localhost:8000/user/getAll");
+      const { data } = await axios.get(`http://localhost:8000/user/getAll`, {
+        headers: { "access-token": "Bearer " + login.accesstoken },
+      });
       setRowsUsers(data);
     };
-    getAllUsers()
+    getAllUsers();
     const getAllProducts = async () => {
-      const {data} = await axios.get("http://localhost:8000/api/products");
-      setRowsProducts( data);
+      const { data } = await axios.get("http://localhost:8000/api/products", {
+        headers: { "access-token": "Bearer " + login.accesstoken },
+      });
+
+      setRowsProducts(data);
     };
-    getAllProducts()
+    getAllProducts();
     const getAllManufacture = async () => {
-      const {data} = await axios.get("http://localhost:8000/api/manufacture");
+      const { data } = await axios.get(
+        "http://localhost:8000/api/manufacture",
+        {
+          headers: { "access-token": "Bearer " + login.accesstoken },
+        }
+      );
       setRowsManufacture(data);
     };
-    getAllManufacture()
+    getAllManufacture();
   }, []);
   const Layout = defaultLayout;
   const LayoutAdmin = AdminLayout;
@@ -96,7 +112,7 @@ function App() {
             path="/detail/:id"
             element={
               <Layout>
-                <DetailProduct products = {rowsProducts}/>
+                <DetailProduct products={rowsProducts} />
               </Layout>
             }
           />
@@ -169,7 +185,7 @@ function App() {
               path="new"
               element={
                 <LayoutAdmin>
-                  <New inputs={userInputs} title="Add New User" isFile={true} />
+                  <NewUser inputs={userInputs} title="Add New User" isFile={true} />
                 </LayoutAdmin>
               }
             />
@@ -191,7 +207,7 @@ function App() {
               path="new"
               element={
                 <LayoutAdmin>
-                  <New
+                  <NewProduct
                     inputs={productInputs}
                     title="Add New Product"
                     isFile={true}
@@ -243,7 +259,7 @@ function App() {
               path="new"
               element={
                 <LayoutAdmin>
-                  <New
+                  <NewManufacture
                     inputs={manufactureInputs}
                     title="Add New Manufacture"
                     isFile={false}

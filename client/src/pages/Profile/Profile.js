@@ -38,7 +38,7 @@ function Profile() {
 
     try {
       await axios.put(
-        `http://localhost:8000/user/${user.accountId}/updateInfor`,
+        `http://localhost:8000/user/${user.accountId}/updateInfor/`,
         newUser,
         { headers: { "access-token": "Bearer " + user.accesstoken } }
       );
@@ -66,7 +66,7 @@ function Profile() {
         newAvatar.append("file", file);
         try {
           const { data } = await axios.put(
-            `http://localhost:8000/user/upload/${user.userId}`,
+            `http://localhost:8000/user/upload/${user.userId}/users`,
             newAvatar,
             {
               headers: {

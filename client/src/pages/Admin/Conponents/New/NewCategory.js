@@ -20,11 +20,12 @@ function NewCategory({ inputs, title, isFile }) {
   const handleCreateCategory = async (e) => {
     e.preventDefault();
     const newCategory = {
-      name:info.name
+      name:info.name,
+      manufactureId:info.manufactureId
     }
     try {
       await axios.post(
-        `http://localhost:8000/api/category`,
+        `http://localhost:8000/api/manufacture/categories`,
         newCategory,
         {
           headers: {

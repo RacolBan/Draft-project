@@ -21,7 +21,7 @@ function NewProduct({ inputs, title, isFile }) {
     e.preventDefault();
     let newProduct = new FormData();
 
-    newProduct.append("file", file, file.name);
+    newProduct.append("file", file);
     newProduct.append("name", info.name);
     newProduct.append("price", info.Price);
     newProduct.append("description", info.Description);

@@ -30,7 +30,7 @@ export const columnsUsers = [
             src={
               params.row.avatar === null
                 ? "../../../../images/Avatar/avatar.jpg"
-                : params.row.avatar
+                : `http://localhost:8000/${params.row.avatar}`
             }
             alt="avatar"
           />
@@ -66,7 +66,7 @@ export const columnsProducts = [
             src={
               params.row.image === null
                 ? "../../../../images/Avatar/avatar.jpg"
-                : params.row.image
+                : `http://localhost:8000/${params.row.image}`
             }
             alt="image"
           />
@@ -79,11 +79,9 @@ export const columnsProducts = [
 export const columnsCategory = [
   { field: "id", headerName: "ID", width: 100 },
   { field: "name", headerName: "Name", width: 150 },
-  
 ];
 
 export const columnsManufacture = [
-    { field: "id", headerName: "ID", width: 100 },
-    { field: "name", headerName: "Name", width: 150 },
-    
-  ];
+  { field: "id", headerName: "ID", width: 100 },
+  { field: "name", headerName: "Name", width: 150 },
+];

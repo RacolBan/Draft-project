@@ -98,6 +98,14 @@ export const categoryInputs = [
     label: "name",
     type: "text",
     placeholder: "Apple Center",
+    name:"name"
+  },
+  {
+    id: 2,
+    label: "manufactureId",
+    type: "text",
+    placeholder: "Apple Center",
+    name: "manufactureId"
   },
 ];
 
