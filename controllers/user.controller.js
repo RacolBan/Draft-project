@@ -1,4 +1,7 @@
-const { UserModel } = require("../models");
+
+const bcrypt = require('bcrypt')
+const { UserModel, AccountModel } = require("../models");
+const sequelize = require('../models/config.model');
 
 const getInfor = async (req, res) => {
     try {
@@ -23,18 +26,56 @@ const getInfor = async (req, res) => {
 };
 
 const createNewInfor = async (req, res) => {
-    try {
-        const { accountId } = req.params;
+    const t = await sequelize.transaction();
 
-        const { firstName, lastName, email, address, phone } = req.body;
+
+    try {
+        const { firstName, lastName, email, address, phone, username, password } = req.body;
+
+        // First, we start a transaction and save it into a variable
+
+
+        const found = await AccountModel.findOne({
+            where: {
+                username,
+            },
+        }, { transaction: t });
+        if (found) {
+            return res.status(409).json({ message: "username has existed" });
+        }
+        // validate password
+        if (password.length < 6) {
+            return res.status(400).json({ message: "Password is at least 6 characters long." })
+        };
+
+        //password Encryption
+        const passwordHash = await bcrypt.hash(password, 10);
+
+        const account = {
+            username: username,
+            hashPwd: passwordHash,
+
+        };
+
+        // SAVE ACCOUNT
+        const newAccount = await AccountModel.create(account, { transaction: t });
+        // prevent hashPash from showing on UI
+        delete newAccount.dataValues.hashPwd;
+
+        if (!newAccount) {
+            // ROLLBACK TRANSACTION
+            return res.status(400).json({ message: "create new Account unsuccesfully" });
+        }
+
 
         const foundProfile = await UserModel.findOne({
             where: {
-                accountId
+                accountId: newAccount.id
             }
-        });
+        }, { transaction: t });
 
         if (foundProfile) {
+            // ROLLBACK TRANSACTION
             return res.status(400).json({ message: "user has been existed" })
         }
 
@@ -44,21 +85,24 @@ const createNewInfor = async (req, res) => {
             email,
             address,
             phone,
-            accountId
+            accountId: newAccount.id
         }
 
 
         // save data to DB
-        const newInfor = await UserModel.create(profile);
+        const newInfor = await UserModel.create(profile, { transaction: t });
 
         if (!newInfor) {
+            await t.rollback();
             return res.status(400).json({ message: "create new Profile unsuccesfully" })
         };
 
-        // true
-        res.status(201).json(newInfor);
+        res.status(201).json({ newInfor, newAccount });
 
+        // COMMIT TRANSACTION
+        await t.commit();
     } catch (error) {
+        await t.rollback();
         return res.status(500).json({ message: error.message });
     }
 }

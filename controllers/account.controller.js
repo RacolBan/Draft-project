@@ -47,8 +47,8 @@ const register = async (req, res) => {
     if (!newAccount) {
       return res.status(400).json({ message: "create new Account unsuccesfully" });
     }
-    const accesstoken = createAccessToken({ id: newAccount.id });
 
+    const accesstoken = createAccessToken({ id: newAccount.id });
 
     res.status(201).json({ newAccount, accesstoken });
   } catch (error) {
