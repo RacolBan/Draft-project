@@ -7,8 +7,7 @@ import axios from "axios";
 
 function ListUsers({ columns, title }) {
   const usersList = UsersAll().usersAll[0];
-  const nav = useNavigate()
-  
+  const nav = useNavigate();
 
   const actionColumn = [
     {
@@ -18,7 +17,10 @@ function ListUsers({ columns, title }) {
       renderCell: (params) => {
         return (
           <div className={style.cellAction}>
-            <Link to="/users/view" style={{ textDecoration: "none" }}>
+            <Link
+              to={`view/${params.row.id}`}
+              style={{ textDecoration: "none" }}
+            >
               <div className={style.viewButton}>View</div>
             </Link>
             <div
@@ -45,7 +47,7 @@ function ListUsers({ columns, title }) {
       );
 
       alert(data.message);
-      nav("/admin/users");
+      window.location.href = "/admin/users";
     } catch (error) {
       alert(error.response.data.message);
     }

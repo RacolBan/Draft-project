@@ -35,6 +35,7 @@ import ListUsers from "./pages/Admin/Conponents/List/ListUsers";
 import ListProducts from "./pages/Admin/Conponents/List/ListProducts";
 import ListCategory from "./pages/Admin/Conponents/List/ListCategory";
 import ListManufacture from "./pages/Admin/Conponents/List/ListManufacture";
+import ViewUser from "./pages/Admin/Conponents/View/ViewUser";
 
 function App() {
   const [categoryAPI, setCategoryAPI] = useState([]);
@@ -157,6 +158,17 @@ function App() {
                   <NewUser
                     inputs={userInputs}
                     title="Add New User"
+                    isFile={true}
+                  />
+                </LayoutAdmin>
+              }
+            />
+            <Route
+              path="view/:id"
+              element={
+                <LayoutAdmin>
+                  <ViewUser
+                    title="Update User"
                     isFile={true}
                   />
                 </LayoutAdmin>

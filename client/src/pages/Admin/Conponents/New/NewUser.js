@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import style from "./New.module.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 function NewUser({ inputs, title, isFile }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
-  const nav = useNavigate()
 
   const handleOnChange = (e) => {
     const name = e.target.name;
@@ -19,8 +17,28 @@ function NewUser({ inputs, title, isFile }) {
       };
     });
   };
+
+  const regexPhone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+  const regexEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const isPhone = regexPhone.test(info.phone);
+  const isMail = regexEmail.test(info.email);
+
   const handleCreateUser = async (e) => {
     e.preventDefault();
+    if (!isMail) {
+      alert("Email invalid");
+      return;
+    }
+    if (!isPhone) {
+      alert("Phone invalid");
+      return;
+    }
+    if (info.password !== info.confirmPassword) {
+      alert("Password and Confirm Password does not match.");
+      return;
+    }
+
     let newUser = new FormData();
     if (info) {
       newUser.append("file", file);
@@ -34,7 +52,7 @@ function NewUser({ inputs, title, isFile }) {
     }
 
     try {
-      const {data} = await axios({
+      const { data } = await axios({
         method: "post",
         url: "http://localhost:8000/user/accounts/createProfile/admin",
         data: newUser,
@@ -44,8 +62,8 @@ function NewUser({ inputs, title, isFile }) {
             "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
         },
       });
-      alert(data.message)
-      nav('/admin/users')
+      alert(data.message);
+      window.location.href = "/admin/users";
     } catch (error) {
       alert(error.response.data.message);
     }

@@ -16,7 +16,37 @@ const getInfor = async (req, res) => {
       return res.status(404).json({ message: "Not Found Information" });
     }
 
-    res.status(200).json(inforUser);
+    res
+      .status(200)
+      .json({ message: "Get information User successfully", inforUser });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+const getInforByAdmin = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const foundUser = await UserModel.findOne({ where: { id: userId } });
+    if (!foundUser) {
+      return res.status(404).json({ message: "not found information User" });
+    }
+    const foundAccount = await AccountModel.findOne({
+      where: { id: foundUser.accountId },
+    });
+    if (!foundAccount) {
+      return res.status(404).json({ message: "not found information Account" });
+    }
+    const User = {
+      username: foundAccount.username,
+      role: foundAccount.role,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      avatar: foundUser.avatar,
+      email: foundUser.email,
+      phone: foundUser.phone,
+      address: foundUser.address,
+    };
+    res.status(200).json({ message: "get information successfully", User });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -34,6 +64,7 @@ const getAllInfor = async (req, res) => {
       const obj = {
         id: found.id,
         username: element.username,
+        role: element.role,
         firstName: found.firstName,
         lastName: found.lastName,
         email: found.email,
@@ -134,15 +165,13 @@ const createNewInfor = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    res
-      .status(201)
-      .json({
-        message: "Create Successfully",
-        newInfor,
-        newAccount,
-        accesstoken,
-      });
-      await t.commit();
+    res.status(201).json({
+      message: "Create Successfully",
+      newInfor,
+      newAccount,
+      accesstoken,
+    });
+    await t.commit();
   } catch (error) {
     await t.rollback();
     return res.status(500).json({ message: error.message });
@@ -260,7 +289,7 @@ const updateInfor = async (req, res) => {
     });
 
     if (!foundInfor) {
-      return res.status(404).json({ message: "Not Found Information" });
+      return res.status(404).json({ message: "Not Found Information User" });
     }
 
     const updateInfor = await UserModel.update(update, {
@@ -270,11 +299,47 @@ const updateInfor = async (req, res) => {
     });
 
     if (!updateInfor) {
-      return res.status(400).json({ message: "update fail" });
+      return res.status(400).json({ message: "update fail User" });
     }
 
-    res.status(200).json({ message: "update succesfully" });
+    res.status(200).json({ message: "update succesfully User" });
   } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const updateInforByAdmin = async (req, res) => {
+  const t = await sequelize.transaction();
+  try {
+    const { userId } = req.params;
+    const { firstName, lastName, address, role } = req.body;
+    const foundInfor = await UserModel.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    if (!foundInfor) {
+      return res.status(404).json({ message: "Not Found Information User" });
+    }
+    await UserModel.update(
+      { firstName: firstName, lastName: lastName, address: address },
+      { where: { id: userId } }
+    ),
+      { transaction: t };
+      const foundAccount = await AccountModel.findOne({
+        where:{id:foundInfor.accountId}
+      })
+      if(!foundAccount){
+        await t.rollback()
+        return res.status(404).json({message:"Not Found Information Account "})
+      }
+      await AccountModel.update(
+        { role: role },
+        { where: { id: foundInfor.accountId } }
+      ),
+      res.status(201).json({message:"updated User successfully"})
+  } catch (error) {
+    await t.rollback();
     return res.status(500).json({ message: error.message });
   }
 };
@@ -358,10 +423,12 @@ const uploadAvatar = async (req, res) => {
 
 module.exports = {
   getInfor,
+  getInforByAdmin,
   createNewInfor,
   updateInfor,
   removeInfor,
   uploadAvatar,
   getAllInfor,
   createNewInforByAdmin,
+  updateInforByAdmin,
 };

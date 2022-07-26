@@ -1,8 +1,8 @@
 import style from "../List/List.module.css";
 export const columnsUsers = [
   { field: "id", headerName: "ID", width: 90 },
-  { field: "firstName", headerName: "First name", width: 140 },
-  { field: "lastName", headerName: "Last name", width: 140 },
+  { field: "firstName", headerName: "First name", width: 120 },
+  { field: "lastName", headerName: "Last name", width: 120 },
   {
     field: "address",
     headerName: "Address",
@@ -14,14 +14,19 @@ export const columnsUsers = [
     width: 180,
   },
   {
+    field: "role",
+    headerName: "Role",
+    width: 90,
+  },
+  {
     field: "username",
     headerName: "Username",
-    width: 140,
+    width: 120,
   },
   {
     field: "avatar",
     headerName: "Avatar",
-    width: 140,
+    width: 120,
     renderCell: (params) => {
       return (
         <div className={style.cellWithImg}>
@@ -41,7 +46,7 @@ export const columnsUsers = [
   {
     field: "phone",
     headerName: "Phone",
-    width: 140,
+    width: 120,
   },
 ];
 

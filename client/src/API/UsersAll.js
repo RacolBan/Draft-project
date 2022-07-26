@@ -8,10 +8,14 @@ function UsersAll() {
   const login = JSON.parse(localStorage.getItem("login")) || null;
   const [usersAll, setUsersAll] = useState([]);
   const getUsers = async () => {
-    const { data } = await axios.get(`http://localhost:8000/user/getAll`, {
+    try {
+      const { data } = await axios.get(`http://localhost:8000/user/getAll`, {
       headers: { "access-token": "Bearer " + login.accesstoken },
     });
     setUsersAll(data);
+    } catch (error) {
+      alert(error.response.data.message)
+    }
   };
   useEffect(() => {
     if (isAdmin) {
