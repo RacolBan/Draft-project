@@ -24,36 +24,37 @@ function UserAPI() {
             `http://localhost:8000/user/${login.accountId}/getInfor`,
             { headers: { "access-token": "Bearer " + login.accesstoken } }
           );
-          if (data.avatar == null) {
+          if (data.inforUser.avatar === null) {
             setUser({
-              address: data.address,
+              address: data.inforUser.address,
               avatar: login.avatar,
-              email: data.email,
-              firstname: data.firstName,
-              lastname: data.lastName,
-              phone: data.phone,
+              email: data.inforUser.email,
+              firstname: data.inforUser.firstName,
+              lastname: data.inforUser.lastName,
+              phone: data.inforUser.phone,
               username: login.username,
               accountId: login.accountId,
               accesstoken: login.accesstoken,
-              userId: data.id,
-              role:login.role
+              userId: data.inforUser.id,
+              role: login.role,
+            });
+          } else {
+            setUser({
+              address: data.inforUser.address,
+              avatar: data.inforUser.avatar,
+              email: data.inforUser.email,
+              firstname: data.inforUser.firstName,
+              lastname: data.inforUser.lastName,
+              phone: data.inforUser.phone,
+              username: login.username,
+              accountId: login.accountId,
+              accesstoken: login.accesstoken,
+              userId: data.inforUser.id,
+              role: login.role,
             });
           }
-          setUser({
-            address: data.address,
-            avatar: data.avatar,
-            email: data.email,
-            firstname: data.firstName,
-            lastname: data.lastName,
-            phone: data.phone,
-            username: login.username,
-            accountId: login.accountId,
-            accesstoken: login.accesstoken,
-            userId: data.id,
-            role:login.role
-          });
-          if(login.role === 0) {
-            setIsAdmin(true)
+          if (login.role === 0) {
+            setIsAdmin(true);
           }
           setIsLogged(true);
         } catch (error) {

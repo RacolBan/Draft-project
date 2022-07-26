@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { GlobalState } from "../../GlobalState";
 import style from "./Category.module.css";
 
 function CategoryProduct({ categoryList }) {
@@ -14,12 +13,12 @@ function CategoryProduct({ categoryList }) {
           </div>
           <div className={style["menu-nav"]}>
             <ul className={style["menu-list"]}>
-              {categoryList.map((item) => {
-                <li className={style["menu-item"]} key={item.id}>
-                  <img src={`./images/Icon/${item.id}.png`} alt="MTXT" />
-                  <Link to="">{item}</Link>
-                </li>;
-              })}
+              {categoryList?.map((item) => (
+                <li className={style["menu-item"]} key={item.id} >
+                  <img src={`./images/Icon/${item.id}.png`} alt="icon" />
+                  <Link to={`/category/${item.id}`}>{item.name}</Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

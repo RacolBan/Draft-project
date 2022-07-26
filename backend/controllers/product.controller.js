@@ -101,7 +101,6 @@ const pagination = async (req, res) => {
 const initProduct = async (req, res) => {
     try {
         const { name, price, description, nameManufacture, nameCategory } = req.body;
-        console.log(req.body);
         const file = req.file
 
         if (!file) {
@@ -124,7 +123,6 @@ const initProduct = async (req, res) => {
                 manufactureId: foundManufacturer.id
             }
         });
-        console.log(foundCategory);
         if (!foundCategory) {
             return res.status(404).json({ message: "Not Found Category" })
         };
@@ -161,7 +159,7 @@ const initProduct = async (req, res) => {
         if (!newProduct) {
             return res.status(400).json({ message: "Create product unsuccessfully" })
         }
-        res.status(201).json(newProduct);
+        res.status(201).json({message:"Created New Product",newProduct});
 
     } catch (error) {
         return res.status(500).json({ message: error.message })

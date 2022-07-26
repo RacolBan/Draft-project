@@ -13,7 +13,7 @@ const getInfor = async (req, res) => {
     });
 
     if (!inforUser) {
-      return res.status(404).json({ message: "Not Found Information" });
+      return res.status(404).json({ message: "Not Found Information User" });
     }
 
     res

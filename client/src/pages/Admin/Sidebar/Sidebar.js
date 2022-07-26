@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
@@ -8,8 +8,20 @@ import CategoryIcon from "@mui/icons-material/Category";
 import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
 import { Link } from "react-router-dom";
 import style from "./Sidebar.module.css";
+import { GlobalState } from "../../../GlobalState";
 
 function Sidebar() {
+  const state = useContext(GlobalState);
+  const [isLogged, setIsLogged] = state.UserAPI.isLogged;
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setIsLogged(false);
+    alert("Logout successfully");
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 200);
+  };
   return (
     <div className={style.main}>
       <div className={style.sidebar}>
@@ -53,7 +65,7 @@ function Sidebar() {
           <p className={style.title}>USER</p>
           <li>
             <ExitToAppIcon className={style.icon} />
-            <span>Logout</span>
+            <span onClick={handleLogout}>Logout</span>
           </li>
         </ul>
       </div>

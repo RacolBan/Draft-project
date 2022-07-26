@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import style from "./Login.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { GlobalState } from "../../GlobalState";
 
@@ -8,7 +8,6 @@ function Login() {
   const state = useContext(GlobalState);
   const [isLogged, setIsLogged] = state.UserAPI.isLogged;
   const [isAdmin,setIsAdmin] = state.UserAPI.isAdmin;
-  const nav = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const user = {
@@ -35,10 +34,10 @@ function Login() {
       if (data.role === 0) {
         setIsLogged(true);
         setIsAdmin(true)
-        return nav("/admin");
+        window.location.href = ("/admin");
       } else {
         setIsLogged(true);
-        return nav("/");
+        window.location.href = ("/");
       }
     } catch (error) {
       alert(error.response.data.message);
