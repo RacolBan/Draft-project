@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import style from "./New.module.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function NewUser({ inputs, title, isFile }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
+  const nav = useNavigate()
 
   const handleOnChange = (e) => {
     const name = e.target.name;
@@ -32,7 +34,7 @@ function NewUser({ inputs, title, isFile }) {
     }
 
     try {
-      await axios({
+      const {data} = await axios({
         method: "post",
         url: "http://localhost:8000/user/accounts/createProfile/admin",
         data: newUser,
@@ -42,26 +44,11 @@ function NewUser({ inputs, title, isFile }) {
             "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
         },
       });
+      alert(data.message)
+      nav('/admin/users')
     } catch (error) {
-      alert(error.response.message);
+      alert(error.response.data.message);
     }
-
-    // try {
-    //   await axios.post(
-    //     `http://localhost:8000/user/accounts/creatProfile`,
-    //     newUser,
-    //     {
-    //       headers: {
-    //         "Content-Type": `multipart/form-data; boundary=${newUser._boundary}`,
-    //         accept: "application/json",
-    //         "access-token":
-    //           "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
-    //       },
-    //     }
-    //   );
-    // } catch (error) {
-    //   alert(error.response.message);
-    // }
   };
   return (
     <div className={style.new}>

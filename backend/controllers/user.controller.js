@@ -1,11 +1,11 @@
 const bcrypt = require("bcrypt");
 const { UserModel, AccountModel } = require("../models");
 const sequelize = require("../models/config.model");
+const jwt = require("jsonwebtoken");
 
 const getInfor = async (req, res) => {
   try {
     const { accountId } = req.params;
-
     const inforUser = await UserModel.findOne({
       where: {
         accountId,
@@ -128,24 +128,35 @@ const createNewInfor = async (req, res) => {
         .json({ message: "create new Profile unsuccesfully" });
     }
 
-    res.status(201).json({ newInfor, newAccount });
+    const accesstoken = jwt.sign(
+      { data: newInfor },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1d" }
+    );
 
-    // COMMIT TRANSACTION
-    await t.commit();
+    res
+      .status(201)
+      .json({
+        message: "Create Successfully",
+        newInfor,
+        newAccount,
+        accesstoken,
+      });
+      await t.commit();
   } catch (error) {
     await t.rollback();
     return res.status(500).json({ message: error.message });
   }
 };
-const createNewInforByAdmin = async(req,res) =>{
+const createNewInforByAdmin = async (req, res) => {
   const t = await sequelize.transaction();
 
-  try { 
+  try {
     const { firstName, lastName, email, address, phone, username, password } =
       req.body;
-    const file = req.file
-    if(!file) {
-      return res.status(404).json({message:"Pls provide an image"})
+    const file = req.file;
+    if (!file) {
+      return res.status(404).json({ message: "Pls provide an image" });
     }
     // First, we start a transaction and save it into a variable
 
@@ -221,7 +232,9 @@ const createNewInforByAdmin = async(req,res) =>{
         .json({ message: "create new Profile unsuccesfully" });
     }
 
-    res.status(201).json({ newInfor, newAccount });
+    res
+      .status(201)
+      .json({ message: "Created new User successfully", newInfor, newAccount });
 
     // COMMIT TRANSACTION
     await t.commit();
@@ -267,26 +280,53 @@ const updateInfor = async (req, res) => {
 };
 
 const removeInfor = async (req, res) => {
+  const t = await sequelize.transaction();
   try {
-    const { accountId } = req.params;
-
-    const foundInfor = await UserModel.findOne({
-      where: {
-        accountId,
+    const { userId } = req.params;
+    const foundInfor = await UserModel.findOne(
+      {
+        where: {
+          id: userId,
+        },
       },
-    });
+      { transaction: t }
+    );
 
     if (!foundInfor) {
-      return res.status(404).json({ message: "not found information" });
+      return res.status(404).json({ message: "not found information User" });
     }
-
-    await UserModel.destroy({
-      where: {
-        accountId,
+    await UserModel.destroy(
+      {
+        where: {
+          id: userId,
+        },
       },
-    });
+      { transaction: t }
+    );
+    const foundAccount = await AccountModel.findOne(
+      {
+        where: {
+          id: foundInfor.accountId,
+        },
+      },
+      { transaction: t }
+    );
+    if (!foundAccount) {
+      await t.rollback();
+      return res.status(404).json({ message: "not found information Account" });
+    }
+    await AccountModel.destroy(
+      {
+        where: {
+          id: foundInfor.accountId,
+        },
+      },
+      { transaction: t }
+    );
     res.json({ message: "delete successfully" });
+    await t.commit();
   } catch (error) {
+    await t.rollback();
     return res.status(500).json({ message: error.message });
   }
 };
@@ -323,5 +363,5 @@ module.exports = {
   removeInfor,
   uploadAvatar,
   getAllInfor,
-  createNewInforByAdmin
+  createNewInforByAdmin,
 };

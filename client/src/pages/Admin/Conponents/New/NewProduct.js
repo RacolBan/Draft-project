@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import style from "./New.module.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function NewProduct({ inputs, title, isFile }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
+  const nav = useNavigate()
 
   const handleOnChange = (e) => {
     const name = e.target.name;
@@ -28,16 +30,22 @@ function NewProduct({ inputs, title, isFile }) {
     newProduct.append("nameManufacture", info.Manufacture);
     newProduct.append("nameCategory", info.Category);
     try {
-      await axios.post(`http://localhost:8000/api/products`, newProduct, {
-        headers: {
-          "Content-Type": `multipart/form-data; boundary=${newProduct._boundary}`,
-          accept: "application/json",
-          "access-token":
-            "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
-        },
-      });
+      const {data} = await axios.post(
+        `http://localhost:8000/api/products`,
+        newProduct,
+        {
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${newProduct._boundary}`,
+            accept: "application/json",
+            "access-token":
+              "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
+          },
+        }
+      );
+      alert(data.message);
+      nav('/admin/products')
     } catch (error) {
-      alert(error.response.message);
+      alert(error.response.data.message);
     }
   };
   return (
@@ -76,7 +84,7 @@ function NewProduct({ inputs, title, isFile }) {
                 </div>
               )}
 
-              {inputs.map((input,index) => (
+              {inputs.map((input, index) => (
                 <div className={style.formInput} key={index}>
                   <label>{input.label}</label>
                   <input

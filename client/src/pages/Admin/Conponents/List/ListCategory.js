@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import style from './List.module.css'
 
 function ListCategory({columns,title,rows}) {
+ 
   const actionColumn = [
     {
       field: "action",

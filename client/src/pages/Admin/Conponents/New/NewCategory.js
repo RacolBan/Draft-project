@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import style from "./New.module.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function NewCategory({ inputs, title, isFile }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
+  const nav = useNavigate()
 
   const handleOnChange = (e) => {
     const name = e.target.name;
@@ -24,7 +26,7 @@ function NewCategory({ inputs, title, isFile }) {
       manufactureId:info.manufactureId
     }
     try {
-      await axios.post(
+      const {data} = await axios.post(
         `http://localhost:8000/api/manufacture/categories`,
         newCategory,
         {
@@ -35,8 +37,10 @@ function NewCategory({ inputs, title, isFile }) {
           },
         }
       );
+      alert(data.message)
+      nav('/admin/category')
     } catch (error) {
-      alert(error.response.message);
+      alert(error.response.data.message);
     }
   };
   return (

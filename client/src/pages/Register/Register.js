@@ -138,8 +138,6 @@ function Register() {
   const user = {
     username: input.username,
     password: input.password,
-  };
-  const profile = {
     firstName: input.firstname,
     lastName: input.lastname,
     address: input.address,
@@ -150,18 +148,11 @@ function Register() {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/account/register",
+        "http://localhost:8000/user/accounts/creatProfile",
         {
           ...user,
         }
       );
-      await axios.post(
-        `http://localhost:8000/user/${data.newAccount.id}/creatProfile`,
-        {
-          ...profile,
-        }
-      );
-
       const login = {
         accesstoken: data.accesstoken,
         accountId: data.newAccount.id,

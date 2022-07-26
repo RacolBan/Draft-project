@@ -5,7 +5,7 @@ import style from './List.module.css'
 import ProductsAll from "../../../../API/ProductsAll";
 
 function ListProducts({columns,title}) {
-    const productsList = ProductsAll().productsAll[0]
+  const productsList = ProductsAll().productsAll[0]
   const actionColumn = [
     {
       field: "action",

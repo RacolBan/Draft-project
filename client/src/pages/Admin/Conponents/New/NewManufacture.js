@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import style from "./New.module.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function NewManufacture({ inputs, title, isFile }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
+  const nav = useNavigate()
+
 
   const handleOnChange = (e) => {
     const name = e.target.name;
@@ -23,7 +26,7 @@ function NewManufacture({ inputs, title, isFile }) {
       name:info.name
     }
     try {
-      await axios.post(
+      const {data} = await axios.post(
         `http://localhost:8000/api/manufacture`,
         newManufacture,
         {
@@ -34,8 +37,10 @@ function NewManufacture({ inputs, title, isFile }) {
           },
         }
       );
+      alert(data.message);
+      nav('/admin/manufacture')
     } catch (error) {
-      alert(error.response.message);
+      alert(error.response.data.message);
     }
   };
   return (

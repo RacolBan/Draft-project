@@ -11,7 +11,7 @@ router.post('/accounts/creatProfile',checkEmail,checkPhone, createNewInfor);
 router.post('/accounts/createProfile/admin',verifyTok,isAdmin,upload.single('file'),checkEmail,checkPhone,createNewInforByAdmin)
 router.put("/upload/:id/users", upload.single('file'), uploadAvatar);
 router.put('/:accountId/updateInfor', verifyTok, updateInfor);
-router.delete('/:accountId/deleteInfor', verifyTok, removeInfor);
+router.delete('/:userId/deleteInfor', verifyTok,isAdmin, removeInfor);
 
 
 

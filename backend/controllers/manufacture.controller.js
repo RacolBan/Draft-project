@@ -37,15 +37,15 @@ const initManufacturer = async (req, res) => {
             }
         })
         if (foundManufacturer) {
-            return res.status(400).json({ message: "manufacturer has been existed" })
+            return res.status(400).json({ message: "manufacture has been existed" })
         }
         // save data
         const newManufacture = await ManufactureModel.create({ name })
         if (!newManufacture) {
-            return res.status(400).json({ message: "Create Manufacturer Unsuccessfully" })
+            return res.status(400).json({ message: "Create Manufacture Unsuccessfully" })
         }
 
-        res.status(200).json(newManufacture)
+        res.status(200).json({message:"Created Manufacture successfully"})
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
