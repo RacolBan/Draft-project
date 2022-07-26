@@ -5,27 +5,38 @@ const getCategory = async (req, res) => {
     try {
 
         const categories = await CategoryModel.findAll()
-        if (!categories) {
-            return res.status(404).json({ message: "Not found" })
-        }
-        return res.status(200).json(categories);
+
+        res.status(200).json(categories);
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
+
 }
 const getCategoryByManufactureId = async (req, res) => {
     try {
         const { manufactureId } = req.params;
 
-        const category = await CategoryModel.findAll({
+        const categories = await CategoryModel.findAll({
             where: {
                 manufactureId
             }
         })
+
+        res.status(200).json(categories)
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+const getCategoryByCategoryId = async (req, res) => {
+    try {
+        const { categoryId: id } = req.params;
+
+        const category = await CategoryModel.findByPk(id)
         if (!category) {
-            return res.status(404).json({ message: "Not found" })
+            return res.status(404).json({ message: "Not found Categories" })
         }
-        return res.status(200).json(category)
+        res.status(200).json(category)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -33,9 +44,8 @@ const getCategoryByManufactureId = async (req, res) => {
 
 const initCategory = async (req, res) => {
     try {
-        const { manufactureId } = req.params;
-        const { name } = req.body;
-
+        const { name, manufactureId } = req.body;
+        
         const foundCategory = await CategoryModel.findOne({
             where: {
                 [Op.and]: {
@@ -43,18 +53,18 @@ const initCategory = async (req, res) => {
                     name
                 }
             }
-        })
+        });
         if (foundCategory) {
-            return res.status(400).json({ message: "category has been existed" })
-        }
+            return res.status(409).json({ message: "category has been existed" })
+        };
 
         // save data
         const newCategory = await CategoryModel.create({ name, manufactureId })
         if (!newCategory) {
-            return res.status(400).json({ message: "Create fail" })
-        }
+            return res.status(400).json({ message: "Create Category Unsuccessfully" })
+        };
 
-        return res.status(200).json(newCategory)
+        res.status(201).json(newCategory);
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -65,32 +75,37 @@ const updateCategory = async (req, res) => {
         const { manufactureId } = req.params;
         const { name, id } = req.body;
 
-        const foundCategory = await CategoryModel.findOne({
-            where: {
-                [Op.and]: {
-                    manufactureId,
-                    id
-                }
-            }
-        })
+        const foundCategory = await CategoryModel.findByPk(id)
+
         if (!foundCategory) {
-            return res.status(404).json({ message: "Not Found" })
+            return res.status(404).json({ message: "Not Found Category" })
         }
 
         const update = {};
-        if (name) update.name = name;
+        if (name) {
+            const foundName = await CategoryModel.findOne({
+                where: {
+                    [Op.and]: {
+                        manufactureId,
+                        name
+                    }
+                }
+            })
+            if (foundName) {
+                return res.status(409).json({ message: "name existed" })
+            }
+
+            update.name = name;
+        }
 
         await CategoryModel.update(update, {
             where: {
-                [Op.and]: {
-                    id,
-                    manufactureId
-                }
+                id
             }
         })
 
 
-        return res.status(200).json({ message: "update successfully" })
+        res.status(200).json({ message: "update successfully" })
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -98,31 +113,22 @@ const updateCategory = async (req, res) => {
 
 const removeCategory = async (req, res) => {
     try {
-        const { manufactureId, categoryId } = req.query;
+        const { categoryId: id } = req.params
 
-        const foundCategory = await CategoryModel.findOne({
-            where: {
-                [Op.and]: {
-                    manufactureId,
-                    categoryId
-                }
-            }
-        })
+        const foundCategory = await CategoryModel.findByPk(id)
+
         if (!foundCategory) {
-            return res.status(404).json({ message: "Not Found" })
+            return res.status(404).json({ message: "Not Found Data" })
         }
 
 
         await CategoryModel.destroy({
             where: {
-                [Op.and]: {
-                    categoryId,
-                    manufactureId
-                }
+                id
             }
         })
 
-        return res.status(200).json({ message: "delete successfully" })
+        res.status(200).json({ message: "delete successfully" })
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -133,6 +139,7 @@ module.exports = {
     initCategory,
     removeCategory,
     updateCategory,
-    getCategoryByManufactureId
+    getCategoryByManufactureId,
+    getCategoryByCategoryId
 
 }

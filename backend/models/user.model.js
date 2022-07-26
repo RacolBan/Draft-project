@@ -29,7 +29,8 @@ const UserModel = sequelize.define("user",
             }
         },
         avatar: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: true
         },
         email: {
             type: DataTypes.STRING,

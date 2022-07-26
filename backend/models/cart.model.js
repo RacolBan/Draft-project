@@ -7,12 +7,8 @@ const CartModel = sequelize.define("carts",
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
-        },
-        quantityProduct: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 0
         }
+
     },
     {
         timestamps: true

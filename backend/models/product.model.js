@@ -25,7 +25,7 @@ const ProductModel = sequelize.define("products",
             allowNull: true,
         },
         image: {
-            type: DataTypes.BLOB("medium"),
+            type: DataTypes.STRING,
             allowNull: true
         }
 

@@ -1,15 +1,12 @@
 const { Op } = require("sequelize");
-const { ProductModel } = require("../models");
+const { ProductModel, CategoryModel, ManufactureModel } = require("../models");
 
 const getAllProduct = async (req, res) => {
     try {
 
         const productList = await ProductModel.findAll();
-        if (!productList) {
-            return res.status(404).json({ message: "Not Found data" })
-        }
 
-        return res.status(200).json(productList);
+        res.status(200).json(productList);
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -29,7 +26,7 @@ const getProductByName = async (req, res) => {
             return res.status(404).json({ message: "Not Found data" })
         };
 
-        return res.status(200).json(product);
+        res.status(200).json(product);
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -45,10 +42,8 @@ const getProductByManufactureId = async (req, res) => {
                 manufactureId
             }
         })
-        if (!products) {
-            return res.status(404).json({ message: "Not found" })
-        }
-        return res.status(200).json(products)
+
+        res.status(200).json(products)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -64,10 +59,8 @@ const getProductByCategoryId = async (req, res) => {
                 categoryId
             }
         })
-        if (!products) {
-            return res.status(404).json({ message: "Not found" })
-        }
-        return res.status(200).json(products)
+
+        res.status(200).json(products)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -92,7 +85,7 @@ const pagination = async (req, res) => {
             return singleRow.dataValues;
         });
 
-        return res.status(200).json({
+        res.status(200).json({
             count,
             limit,
             offset,
@@ -107,36 +100,68 @@ const pagination = async (req, res) => {
 
 const initProduct = async (req, res) => {
     try {
-        const { name, price, description, image, categoryId, manufactureId } = req.body;
+        const { name, price, description, nameManufacture, nameCategory } = req.body;
+        console.log(req.body);
+        const file = req.file
 
+        if (!file) {
+            return res.status(404).json({ message: "Pls provide an image" })
+        };
+        // find manufacturer
+        const foundManufacturer = await ManufactureModel.findOne({
+            where: {
+                name: nameManufacture,
+            }
+        });
+        if (!foundManufacturer) {
+            return res.status(404).json({ message: "Not Found Manufacturer" })
+        };
+
+        // find category
+        const foundCategory = await CategoryModel.findOne({
+            where: {
+                name: nameCategory,
+                manufactureId: foundManufacturer.id
+            }
+        });
+        console.log(foundCategory);
+        if (!foundCategory) {
+            return res.status(404).json({ message: "Not Found Category" })
+        };
+
+
+
+        // find product by manufacture 
         const foundProduct = await ProductModel.findOne({
             where: {
                 [Op.and]: {
-                    manufactureId,
+                    manufactureId: foundManufacturer.id,
                     name
                 }
             }
         })
-
         if (foundProduct) {
             return res.status(409).json({ message: "product has been existed" })
-        }
+        };
+
+
 
         const product = {
             name,
             price,
             description,
-            image,
-            categoryId
+            image: file.filename,
+            categoryId: foundCategory.id,
+            manufactureId: foundManufacturer.id
         }
 
         // save data to DB
         const newProduct = await ProductModel.create(product)
 
         if (!newProduct) {
-            return res.status(400).json({ message: "Create data fail" })
+            return res.status(400).json({ message: "Create product unsuccessfully" })
         }
-        return res.status(201).json(newProduct);
+        res.status(201).json(newProduct);
 
     } catch (error) {
         return res.status(500).json({ message: error.message })
@@ -177,7 +202,7 @@ const updateProduct = async (req, res) => {
         const foundProductUpdate = await ProductModel.findByPk(productId)
 
 
-        return res.status(201).json({
+        res.status(201).json({
             msg: "update successfully",
             foundProductUpdate
         });
@@ -206,7 +231,7 @@ const removeProduct = async (req, res) => {
             }
         })
 
-        return res.status(201).json({
+        res.status(201).json({
             msg: "Delete successfully",
         });
 
