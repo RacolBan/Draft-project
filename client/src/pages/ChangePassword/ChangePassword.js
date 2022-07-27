@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { GlobalState } from "../../GlobalState";
 import style from "./ChangePassword.module.css";
 
@@ -10,7 +11,7 @@ function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
-
+  const nav = useNavigate()
   const updatePassword = {
     password: currentPassword,
     newPassword,
@@ -27,12 +28,14 @@ function ChangePassword() {
         updatePassword,
         { headers: { "access-token": "Bearer " + user.accesstoken } }
       );
-      alert("Update Password successfully");
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 500);
+      toast.success("Update Password successfully", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      return nav('/')
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
   return (

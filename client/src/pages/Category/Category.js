@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import style from "./Category.module.css";
 
 function Category() {
@@ -10,11 +11,17 @@ function Category() {
   useEffect(() => {
     if (params.id) {
       const getProducts = async () => {
-        const { data } = await axios.get(
-          `https://fakestoreapi.com/products/category/jewelery`
-        );
+        try {
+          const { data } = await axios.get(
+            `https://fakestoreapi.com/products/category/jewelery`
+          );
 
-        setCategory(data);
+          setCategory(data);
+        } catch (error) {
+          toast.error(error.response.data.message, {
+            position: toast.POSITION.TOP_CENTER
+          });
+        }
       };
       getProducts();
     }

@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import style from "./Register.module.css";
 
 function Register() {
+  const nav = useNavigate()
   const [input, setInput] = useState({
     firstname: "",
     lastname: "",
@@ -161,12 +164,15 @@ function Register() {
       };
       localStorage.clear()
       localStorage.setItem("login", JSON.stringify(login));
-      alert("Register successfully");
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 200);
+     
+      toast.success("Register successfully", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return nav('/')
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
   return (

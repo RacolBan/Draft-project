@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 function UserAPI() {
   const [isLogged, setIsLogged] = useState(false);
@@ -58,7 +59,9 @@ function UserAPI() {
           }
           setIsLogged(true);
         } catch (error) {
-          alert(error.response.message);
+          toast.error(error.response.data.message, {
+            position: toast.POSITION.TOP_CENTER,
+          });
         }
       };
 

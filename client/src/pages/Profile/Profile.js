@@ -1,17 +1,16 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
 import style from "./Profile.module.css";
 import FormData from "form-data";
-
-
-
+import { toast } from "react-toastify";
 
 function Profile() {
   const state = useContext(GlobalState);
   const user = state.UserAPI.user[0];
+  const nav = useNavigate();
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -45,12 +44,15 @@ function Profile() {
         newUser,
         { headers: { "access-token": "Bearer " + user.accesstoken } }
       );
-      alert("Update successfully");
-      setTimeout(() => {
-        window.location.href = "/profile";
-      }, 200);
+
+      toast.success("Update successfully", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return nav("/profile");
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
   const uploadImage = () => {
@@ -60,12 +62,12 @@ function Profile() {
   const changeImage = async (e) => {
     setFile(e.target.files[0]);
   };
-  
+
   useEffect(() => {
     if (file) {
       const updateAvatar = async () => {
         let newAvatar = new FormData();
-    
+
         newAvatar.append("file", file);
         try {
           const { data } = await axios.put(
@@ -78,20 +80,23 @@ function Profile() {
               },
             }
           );
-          alert("Update successfully");
+
+          toast.success("Update successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
           const local = JSON.parse(localStorage.getItem("login"));
           local.avatar = data;
           localStorage.setItem("login", JSON.stringify(local));
-          setTimeout(() => {
-            window.location.href = "/profile";
-          }, 200);
+          return nav("/profile");
         } catch (error) {
-          alert(error.response.data.message);
+          toast.error(error.response.data.message, {
+            position: toast.POSITION.TOP_CENTER,
+          });
         }
       };
       updateAvatar();
     }
-  }, [file,user.userId]);
+  }, [file, user.userId]);
   return (
     <div className={style.container}>
       <div className={style.profile}>

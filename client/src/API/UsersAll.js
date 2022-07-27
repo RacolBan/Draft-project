@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { GlobalState } from "../GlobalState";
 
 function UsersAll() {
@@ -10,11 +11,13 @@ function UsersAll() {
   const getUsers = async () => {
     try {
       const { data } = await axios.get(`http://localhost:8000/user/getAll`, {
-      headers: { "access-token": "Bearer " + login.accesstoken },
-    });
-    setUsersAll(data);
+        headers: { "access-token": "Bearer " + login.accesstoken },
+      });
+      setUsersAll(data);
     } catch (error) {
-      alert(error.response.data.message)
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
   useEffect(() => {

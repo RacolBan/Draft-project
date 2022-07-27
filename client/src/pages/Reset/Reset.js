@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import style from "./Reset.module.css";
 
@@ -10,9 +11,7 @@ function Reset() {
   const [isTempToken, setIsTempToken] = useState(true);
   const param = useParams().tempToken;
   const tokenAccount = JSON.parse(localStorage.getItem("tempToken"));
-  const nav = useNavigate()
-
-
+  const nav = useNavigate();
 
   useEffect(() => {
     if (param !== tokenAccount.tempToken) {
@@ -22,21 +21,25 @@ function Reset() {
 
   const handlerSubmit = async () => {
     const newPwd = {
-      newPassword : password
+      newPassword: password,
     };
 
     try {
-      const {data} = await axios.put(
+      const { data } = await axios.put(
         `http://localhost:8000/account/reset_password/${tokenAccount.accountId}`,
         {
           ...newPwd,
         }
       );
-      
-      alert(data.message)
-      nav('/login')
+
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return nav("/login");
     } catch (error) {
-      alert(error.response.message)
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 

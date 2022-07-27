@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { GlobalState } from "../GlobalState";
 
 function ProductsAll() {
@@ -8,18 +9,25 @@ function ProductsAll() {
   const login = JSON.parse(localStorage.getItem("login")) || null;
   const [productsAll, setProductsAll] = useState([]);
   const getProducts = async () => {
-    const { data } = await axios.get("http://localhost:8000/product/getAll", {
-      headers: { "access-token": "Bearer " + login.accesstoken },
-    });
-    setProductsAll(data);
+    try {
+      const { data } = await axios.get("http://localhost:8000/product/getAll", {
+        headers: { "access-token": "Bearer " + login.accesstoken },
+      });
+      setProductsAll(data);
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
+
   useEffect(() => {
     if (isAdmin) {
       getProducts();
     }
   }, [isAdmin]);
   return {
-    productsAll: [productsAll, setProductsAll]
+    productsAll: [productsAll, setProductsAll],
   };
 }
 

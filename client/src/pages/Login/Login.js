@@ -18,7 +18,6 @@ function Login() {
     username: username,
     password: password,
   };
-  const types = ["success", "info", "warning", "error"];
 
   const loginSubmit = async (e) => {
     e.preventDefault();

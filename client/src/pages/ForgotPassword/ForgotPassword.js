@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import style from "./ForgotPassword.module.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function ForgotPassword({ isTempToken }) {
   const [email, setEmail] = useState("");
@@ -22,7 +23,9 @@ function ForgotPassword({ isTempToken }) {
       localStorage.setItem("tempToken", JSON.stringify(tempToken));
       setIsSubmit(true);
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
   return (

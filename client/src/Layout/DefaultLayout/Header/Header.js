@@ -1,20 +1,22 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { GlobalState } from "../../../GlobalState";
 import style from "./Header.module.css";
 
 function Header() {
   const state = useContext(GlobalState);
   const [isLogged, setIsLogged] = state.UserAPI.isLogged;
+  const nav= useNavigate()
 
   const user = state.UserAPI.user[0];
   const handleLogout = () => {
     localStorage.clear();
     setIsLogged(false);
-    alert("Logout successfully");
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 500);
+    toast.success("Logout successfully", {
+      position: toast.POSITION.TOP_CENTER
+    });
+    return nav('/')
   };
   return (
     <div className={style.header}>

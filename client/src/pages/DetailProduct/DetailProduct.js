@@ -1,23 +1,30 @@
 import axios from "axios";
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import style from "./DetailProduct.module.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { toast } from "react-toastify";
 
-function DetailProduct({products}) {
+function DetailProduct({ products }) {
   const params = useParams();
   const [productDetail, setProductDetail] = useState([]);
 
   useEffect(() => {
     if (params.id) {
       const getOneProduct = async () => {
-        const {data} = await axios.get(
-          `https://fakestoreapi.com/products/${params.id}`
-        );
+        try {
+          const { data } = await axios.get(
+            `https://fakestoreapi.com/products/${params.id}`
+          );
 
-        setProductDetail(data);
+          setProductDetail(data);
+        } catch (error) {
+          toast.error(error.response.data.message, {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
       };
       getOneProduct();
     }
