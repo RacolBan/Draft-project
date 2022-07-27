@@ -20,6 +20,12 @@ function Reset() {
   }, []);
 
   const handlerSubmit = async () => {
+    if (password !== confirmPassword) {
+      toast.error("Password and Confirm Password does not match.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     const newPwd = {
       newPassword: password,
     };
