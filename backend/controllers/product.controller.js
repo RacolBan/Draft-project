@@ -115,7 +115,6 @@ const initProduct = async (req, res) => {
         const foundCategory = await CategoryModel.findOne({
             where: {
                 name: nameCategory,
-                manufactureId: foundManufacturer.id
             }
         });
         if (!foundCategory) {
@@ -215,18 +214,18 @@ const removeProduct = async (req, res) => {
         const foundProduct = await ProductModel.findByPk(productId)
 
         if (!foundProduct) {
-            return res.status(404).json({ message: "Not Found" })
+            return res.status(404).json({ message: "Not Found Product" })
         }
 
         // delete data from DB
         await ProductModel.destroy({
             where: {
-                productId
+              id:  productId
             }
         })
 
         res.status(201).json({
-            msg: "Delete successfully",
+            message: "Delete successfully",
         });
 
     } catch (error) {

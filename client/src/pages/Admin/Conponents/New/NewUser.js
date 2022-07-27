@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import style from "./New.module.css";
 import axios from "axios";
+import { toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function NewUser({ inputs, title, isFile }) {
+  const nav = useNavigate()
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
 
@@ -62,10 +65,14 @@ function NewUser({ inputs, title, isFile }) {
             "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
         },
       });
-      alert(data.message);
-      window.location.href = "/admin/users";
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+      return nav('/admin/users')
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
   return (

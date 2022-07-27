@@ -3,6 +3,7 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import style from "./New.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function NewProduct({ inputs, title, isFile }) {
   const [info, setInfo] = useState({});
@@ -42,10 +43,15 @@ function NewProduct({ inputs, title, isFile }) {
           },
         }
       );
-      alert(data.message);
-      nav('/admin/products')
+      
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+      return nav('/admin/products')
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
   return (

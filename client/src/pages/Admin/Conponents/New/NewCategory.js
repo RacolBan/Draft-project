@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import style from "./New.module.css";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function NewCategory({ inputs, title, isFile }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
+  const nav = useNavigate();
 
   const handleOnChange = (e) => {
     const name = e.target.name;
@@ -20,11 +23,11 @@ function NewCategory({ inputs, title, isFile }) {
   const handleCreateCategory = async (e) => {
     e.preventDefault();
     const newCategory = {
-      name:info.name,
-      manufactureId:info.manufactureId
-    }
+      name: info.name,
+      manufactureId: info.manufactureId,
+    };
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `http://localhost:8000/api/manufacture/categories`,
         newCategory,
         {
@@ -35,10 +38,15 @@ function NewCategory({ inputs, title, isFile }) {
           },
         }
       );
-      alert(data.message)
-      window.location.href="/admin/category"
+
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      nav("/admin/category");
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
   return (
@@ -77,7 +85,7 @@ function NewCategory({ inputs, title, isFile }) {
                 </div>
               )}
 
-              {inputs.map((input,index) => (
+              {inputs.map((input, index) => (
                 <div className={style.formInput} key={index}>
                   <label>{input.label}</label>
                   <input

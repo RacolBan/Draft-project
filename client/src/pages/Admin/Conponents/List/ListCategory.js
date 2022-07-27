@@ -1,9 +1,13 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import style from './List.module.css'
+import { toast } from "react-toastify";
+import axios from "axios";
 
 function ListCategory({columns,title,rows}) {
+
+  const nav = useNavigate()
  
   const actionColumn = [
     {
@@ -27,7 +31,28 @@ function ListCategory({columns,title,rows}) {
       },
     },
   ];
-  const handleDelete = () => {};
+  const handleDelete =async (id) => {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:8000/api/categories/${id}`,
+        {
+          headers: {
+            "access-token":
+              "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
+          },
+        }
+      );
+
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return nav("/admin/category");
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
+  };
   return (
     <div className={style["list"]}>
       <div className={style["list-head"]}>

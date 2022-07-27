@@ -52,7 +52,7 @@ const initManufacturer = async (req, res) => {
 }
 const removeManufacturer = async (req, res) => {
     try {
-        const { manufactureId: id } = req.params;
+        const { manufactureId : id } = req.params;
         const foundManufacturer = await ManufactureModel.findOne({
             where: {
                 id

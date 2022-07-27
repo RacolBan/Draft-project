@@ -1,12 +1,14 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import style from "./List.module.css";
 import UsersAll from "../../../../API/UsersAll";
 import axios from "axios";
+import { toast} from "react-toastify";
 
 function ListUsers({ columns, title }) {
   const usersList = UsersAll().usersAll[0];
+  const nav = useNavigate()
 
   const actionColumn = [
     {
@@ -45,10 +47,14 @@ function ListUsers({ columns, title }) {
         }
       );
 
-      alert(data.message);
-      window.location.href = "/admin/users";
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return nav("/admin/users");
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
   return (
