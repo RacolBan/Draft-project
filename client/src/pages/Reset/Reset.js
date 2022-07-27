@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import style from "./Reset.module.css";
 
@@ -10,6 +10,9 @@ function Reset() {
   const [isTempToken, setIsTempToken] = useState(true);
   const param = useParams().tempToken;
   const tokenAccount = JSON.parse(localStorage.getItem("tempToken"));
+  const nav = useNavigate()
+
+
 
   useEffect(() => {
     if (param !== tokenAccount.tempToken) {
@@ -29,7 +32,9 @@ function Reset() {
           ...newPwd,
         }
       );
+      
       alert(data.message)
+      nav('/login')
     } catch (error) {
       alert(error.response.message)
     }

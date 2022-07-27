@@ -36,6 +36,9 @@ import ListProducts from "./pages/Admin/Conponents/List/ListProducts";
 import ListCategory from "./pages/Admin/Conponents/List/ListCategory";
 import ListManufacture from "./pages/Admin/Conponents/List/ListManufacture";
 import ViewUser from "./pages/Admin/Conponents/View/ViewUser";
+import ViewProduct from "./pages/Admin/Conponents/View/ViewProduct";
+import { ToastContainer} from "react-toastify";
+import ViewCategory from "./pages/Admin/Conponents/View/ViewCategory";
 
 function App() {
   const [categoryAPI, setCategoryAPI] = useState([]);
@@ -199,6 +202,17 @@ function App() {
                 </LayoutAdmin>
               }
             />
+            <Route
+              path="view/:id"
+              element={
+                <LayoutAdmin>
+                  <ViewProduct
+                    title="Update Product"
+                    isFile={true}
+                  />
+                </LayoutAdmin>
+              }
+            />
           </Route>
           <Route path="admin/category">
             <Route
@@ -220,6 +234,17 @@ function App() {
                   <NewCategory
                     inputs={categoryInputs}
                     title="Add New Category"
+                    isFile={false}
+                  />
+                </LayoutAdmin>
+              }
+            />
+             <Route
+              path="view/:id"
+              element={
+                <LayoutAdmin>
+                  <ViewCategory
+                    title="Update User"
                     isFile={false}
                   />
                 </LayoutAdmin>
@@ -253,6 +278,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+      <ToastContainer position="top-center" newestOnTop />
     </DataProvider>
   );
 }

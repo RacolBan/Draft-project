@@ -27,11 +27,11 @@ function NewProduct({ inputs, title, isFile }) {
     newProduct.append("name", info.name);
     newProduct.append("price", info.Price);
     newProduct.append("description", info.Description);
-    newProduct.append("nameManufacture", info.Manufacture);
-    newProduct.append("nameCategory", info.Category);
+    newProduct.append("nameManufacture", info.manufacture);
+    newProduct.append("nameCategory", info.category);
     try {
       const {data} = await axios.post(
-        `http://localhost:8000/api/products`,
+        `http://localhost:8000/product`,
         newProduct,
         {
           headers: {

@@ -12,21 +12,16 @@ const getAllProduct = async (req, res) => {
     }
 }
 
-const getProductByName = async (req, res) => {
+const getProductById = async (req, res) => {
     try {
-        const { name } = req.query;
-
-        const product = await ProductModel.findOne({
-            where: {
-                name
-            }
-        });
-
-        if (!product) {
-            return res.status(404).json({ message: "Not Found data" })
-        };
-
-        res.status(200).json(product);
+        const { productId } = req.params;
+        const found = await ProductModel.findOne({where:{
+            id: productId
+        }})
+        if(!found) {
+            return res.status(404).json({message:"Not found Product"})
+        }
+        res.status(200).json({message:"Get product successfully",found});
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -170,14 +165,15 @@ const initProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     try {
-        const { name, price, description, image, categoryId, manufactureId, productId } = req.body;
+        const { name, price, description, image, categoryId, manufactureId } = req.body;
+        const {productId} = req.params
 
         const foundProduct = await ProductModel.findByPk(productId)
 
 
 
         if (!foundProduct) {
-            return res.status(404).json({ message: "Not Found" })
+            return res.status(404).json({ message: "Not Found Product" })
         }
 
         const update = {}
@@ -193,7 +189,7 @@ const updateProduct = async (req, res) => {
 
         await ProductModel.update(update, {
             where: {
-                productId
+               id:  productId
             }
         })
 
@@ -201,7 +197,7 @@ const updateProduct = async (req, res) => {
 
 
         res.status(201).json({
-            msg: "update successfully",
+            message: "update product successfully",
             foundProductUpdate
         });
 
@@ -243,7 +239,7 @@ const removeProduct = async (req, res) => {
 
 module.exports = {
     getAllProduct,
-    getProductByName,
+    getProductById,
     getProductByCategoryId,
     getProductByManufactureId,
     pagination,

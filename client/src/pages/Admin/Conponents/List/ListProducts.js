@@ -14,7 +14,7 @@ function ListProducts({columns,title}) {
       renderCell: (params) => {
         return (
           <div className={style.cellAction}>
-            <Link to="/users/view" style={{ textDecoration: "none" }}>
+            <Link to={`view/${params.row.id}`} style={{ textDecoration: "none" }}>
               <div className={style.viewButton}>View</div>
             </Link>
             <div

@@ -82,14 +82,14 @@ export const productInputs = [
     label: "Category",
     type: "text",
     placeholder: "Laptop",
-    name: "Category",
+    name: "category",
   },
   {
     id: 5,
     label: "Manufacture",
     type: "text",
     placeholder: "Dell",
-    name: "Manufacture",
+    name: "manufacture",
   },
 ];
 export const categoryInputs = [

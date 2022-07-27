@@ -6,6 +6,9 @@ import { GlobalState } from "../../GlobalState";
 import style from "./Profile.module.css";
 import FormData from "form-data";
 
+
+
+
 function Profile() {
   const state = useContext(GlobalState);
   const user = state.UserAPI.user[0];

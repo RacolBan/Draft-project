@@ -151,14 +151,7 @@ const createNewInfor = async (req, res) => {
 
     // save data to DB
     const newInfor = await UserModel.create(profile, { transaction: t });
-
-    if (!newInfor) {
-      await t.rollback();
-      return res
-        .status(400)
-        .json({ message: "create new Profile unsuccesfully" });
-    }
-
+    
     const accesstoken = jwt.sign(
       { data: newInfor },
       process.env.ACCESS_TOKEN_SECRET,

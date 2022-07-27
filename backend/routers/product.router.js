@@ -4,7 +4,7 @@ const upload = require('../middlewares/upload')
 
 const {
   getAllProduct,
-  getProductByName,
+  getProductById,
   getProductByCategoryId,
   getProductByManufactureId,
   pagination,
@@ -17,14 +17,16 @@ const { isAdmin } = require("../middlewares/permission");
 
 
 // API get all product
-router.get("/products", verifyTok, getAllProduct);
-router.get("/productId/products", verifyTok, getProductByName);
-router.get("/categoryId/products", verifyTok, getProductByCategoryId);
-router.get("/manufactureId/products", verifyTok, getProductByManufactureId);
-router.get("/pagination/products", pagination);
-router.post("/products", verifyTok, isAdmin, upload.single('file'), initProduct);
-router.put("/products", verifyTok, isAdmin, updateProduct);
-router.delete("/products", verifyTok, isAdmin, removeProduct);
+router.get("/getAll", verifyTok, getAllProduct);
+router.get("/category/:categoryId", verifyTok, getProductByCategoryId);
+router.get("/manufacture/:manufactureId", verifyTok, getProductByManufactureId);
+router.get("/pagination", pagination);
+
+
+router.get("/:productId", verifyTok , getProductById);
+router.post("/", verifyTok, isAdmin, upload.single('file'), initProduct);
+router.put("/:productId", verifyTok, isAdmin, updateProduct);
+router.delete("/:productId", verifyTok, isAdmin, removeProduct);
 
 
 router.get("/pagination/products", pagination);

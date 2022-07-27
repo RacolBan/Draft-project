@@ -79,6 +79,16 @@ export const columnsProducts = [
       );
     },
   },
+  {
+    field: "categoryId",
+    headerName: "categoryId",
+    width: 150,
+  },
+  {
+    field: "manufactureId",
+    headerName: "manufactureId",
+    width: 150,
+  },
 ];
 
 export const columnsCategory = [

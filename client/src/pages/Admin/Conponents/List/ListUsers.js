@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import style from "./List.module.css";
 import UsersAll from "../../../../API/UsersAll";
 import axios from "axios";
 
 function ListUsers({ columns, title }) {
   const usersList = UsersAll().usersAll[0];
-  const nav = useNavigate();
 
   const actionColumn = [
     {

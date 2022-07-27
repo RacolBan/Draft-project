@@ -8,7 +8,7 @@ function ProductsAll() {
   const login = JSON.parse(localStorage.getItem("login")) || null;
   const [productsAll, setProductsAll] = useState([]);
   const getProducts = async () => {
-    const { data } = await axios.get("http://localhost:8000/api/products", {
+    const { data } = await axios.get("http://localhost:8000/product/getAll", {
       headers: { "access-token": "Bearer " + login.accesstoken },
     });
     setProductsAll(data);

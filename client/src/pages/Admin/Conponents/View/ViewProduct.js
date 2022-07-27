@@ -5,24 +5,23 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast} from "react-toastify";
 
-function ViewUser({ title, isFile }) {
-  const [file, setFile] = useState(null);
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
-  const param = useParams();
-  const nav = useNavigate()
 
+function ViewProduct({ title, isFile }) {
+  const param = useParams();
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [manufactureId, setManufactureId] = useState("");
+  const [file, setFile] = useState(null);
+
+  const nav = useNavigate()
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:8000/user/${param.id}/getInfor/admin`,
+        const {data} =  await axios.get(
+          `http://localhost:8000/product/${param.id}`,
           {
             headers: {
               "access-token":
@@ -31,16 +30,15 @@ function ViewUser({ title, isFile }) {
             },
           }
         );
-        if (data.User) {
-          setUsername(data.User.username);
-          setFirstName(data.User.firstName);
-          setLastName(data.User.lastName);
-          setAddress(data.User.address);
-          setEmail(data.User.email);
-          setPhone(data.User.phone);
-          setFile(data.User.avatar);
-          setRole(data.User.role);
+        if(data.found) {
+          setName(data.found.name)
+          setPrice(data.found.price)
+          setDescription(data.found.description)
+          setCategoryId(data.found.categoryId)
+          setManufactureId(data.found.manufactureId)
+          setFile(data.found.image)
         }
+
       } catch (error) {
         toast.error(error.response.data.message, {
           position: toast.POSITION.TOP_CENTER
@@ -49,18 +47,19 @@ function ViewUser({ title, isFile }) {
     };
     getData();
   }, []);
-  const userUpdate = {
-    firstName,
-    lastName,
-    address,
-    role,
-  };
+  const productUpdate = {
+    name,
+    price,
+    description,
+    categoryId,
+    manufactureId
+  }
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:8000/user/${param.id}/updateInfor/admin`,
-        userUpdate,
+        `http://localhost:8000/product/${param.id}`,
+        productUpdate,
         {
           headers: {
             "access-token":
@@ -68,11 +67,11 @@ function ViewUser({ title, isFile }) {
           },
         }
       );
-      
+
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER
       });
-      return nav('/admin/users')
+      return nav('/admin/products')
     } catch (error) {
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
@@ -117,90 +116,65 @@ function ViewUser({ title, isFile }) {
               )} */}
 
               <div className={style.formInput}>
-                <label>Username</label>
+                <label>Name</label>
                 <input
                   type="text"
-                  placeholder="Enter Username"
-                  name="username"
+                  placeholder="Enter Name"
+                  name="name"
                   onChange={(e) => {
-                    setUsername(e.target.value);
+                    setName(e.target.value);
                   }}
-                  value={username}
-                  disabled
+                  value={name}
+                
                 />
               </div>
               <div className={style.formInput}>
-                <label>Firstname</label>
+                <label>Price</label>
                 <input
                   type="text"
-                  placeholder="Enter Firstname"
-                  name="firstName"
+                  placeholder="Enter Price"
+                  name="price"
                   onChange={(e) => {
-                    setFirstName(e.target.value);
+                    setPrice(e.target.value);
                   }}
-                  value={firstName}
+                  value={price}
                 />
               </div>
               <div className={style.formInput}>
-                <label>Lastname</label>
+                <label>Description</label>
                 <input
                   type="text"
-                  placeholder="Enter Lastname"
-                  name="lastName"
+                  placeholder="Enter Description"
+                  name="description"
                   onChange={(e) => {
-                    setLastName(e.target.value);
+                    setDescription(e.target.value);
                   }}
-                  value={lastName}
+                  value={description}
                 />
               </div>
               <div className={style.formInput}>
-                <label>Address</label>
+                <label>CategoryID</label>
                 <input
                   type="text"
-                  placeholder="Enter Address"
-                  name="address"
+                  placeholder="Enter CategoryID"
+                  name="categoryId"
                   onChange={(e) => {
-                    setAddress(e.target.value);
+                    setCategoryId(e.target.value);
                   }}
-                  value={address}
+                  value={categoryId}
                 />
               </div>
               <div className={style.formInput}>
-                <label>Email</label>
+                <label>ManufactureId</label>
                 <input
-                  type="text"
-                  placeholder="Enter Email"
-                  name="email"
+                  type="ManufactureId"
+                  placeholder="Enter ManufactureId"
+                  name="manufactureId"
                   onChange={(e) => {
-                    setEmail(e.target.value);
+                    setManufactureId(e.target.value);
                   }}
-                  value={email}
-                  disabled
-                />
-              </div>
-              <div className={style.formInput}>
-                <label>Phone</label>
-                <input
-                  type="text"
-                  placeholder="Enter Phone"
-                  name="phone"
-                  onChange={(e) => {
-                    setPhone(e.target.value);
-                  }}
-                  value={phone}
-                  disabled
-                />
-              </div>
-              <div className={style.formInput}>
-                <label>Role</label>
-                <input
-                  type="text"
-                  placeholder="Enter Role"
-                  name="role"
-                  onChange={(e) => {
-                    setRole(e.target.value);
-                  }}
-                  value={role}
+                  value={manufactureId}
+                 
                 />
               </div>
               <button type="submit" onClick={handleUpdate}>
@@ -214,4 +188,4 @@ function ViewUser({ title, isFile }) {
   );
 }
 
-export default ViewUser;
+export default ViewProduct;

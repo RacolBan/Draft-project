@@ -1,19 +1,25 @@
 import React, { useContext, useState } from "react";
 import style from "./Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GlobalState } from "../../GlobalState";
+import { toast} from "react-toastify";
 
 function Login() {
   const state = useContext(GlobalState);
+  const nav = useNavigate()
   const [isLogged, setIsLogged] = state.UserAPI.isLogged;
   const [isAdmin,setIsAdmin] = state.UserAPI.isAdmin;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+
   const user = {
     username: username,
     password: password,
   };
+  const types = ["success", "info", "warning", "error"];
+
   const loginSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,23 +34,33 @@ function Login() {
         role:data.role
       };
 
-      alert("Login successfully");
       localStorage.clear();
       localStorage.setItem("login", JSON.stringify(login));
       if (data.role === 0) {
         setIsLogged(true);
         setIsAdmin(true)
-        window.location.href = ("/admin");
+        toast.success("Login successfully !", {
+          position: toast.POSITION.TOP_CENTER
+        });
+        return nav("/admin");
+        
       } else {
         setIsLogged(true);
-        window.location.href = ("/");
+        toast.success("Login successfully !", {
+          position: toast.POSITION.TOP_CENTER
+        });
+        return nav("/");
+        
       }
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
   return (
     <div className={style.container}>
+      
       <form id={style.login} onSubmit={loginSubmit}>
         <div className={style.header}>
           <h3>Login</h3>
