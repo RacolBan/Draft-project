@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import style from "./New.module.css";
 import axios from "axios";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 function NewUser({ inputs, title, isFile }) {
-  const nav = useNavigate()
+  const nav = useNavigate();
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
 
@@ -30,15 +30,21 @@ function NewUser({ inputs, title, isFile }) {
   const handleCreateUser = async (e) => {
     e.preventDefault();
     if (!isMail) {
-      alert("Email invalid");
+      toast.error("Email invalid", {
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
     if (!isPhone) {
-      alert("Phone invalid");
+      toast.error("Phone invalid", {
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
     if (info.password !== info.confirmPassword) {
-      alert("Password and Confirm Password does not match.");
+      toast.error("Password and Confirm Password does not match.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
 
@@ -66,12 +72,12 @@ function NewUser({ inputs, title, isFile }) {
         },
       });
       toast.success(data.message, {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
-      return nav('/admin/users')
+      return nav("/admin/users");
     } catch (error) {
       toast.error(error.response.data.message, {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };
