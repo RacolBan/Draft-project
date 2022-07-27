@@ -22,7 +22,7 @@ const getManufacturerById = async (req, res) => {
             return res.status(404).json({ message: "Not Found Manufacturer" })
         }
 
-        res.status(200).json(manufacturer)
+        res.status(200).json({message:"Get Manufacture successfully",manufacturer})
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }

@@ -37,8 +37,9 @@ import ListCategory from "./pages/Admin/Conponents/List/ListCategory";
 import ListManufacture from "./pages/Admin/Conponents/List/ListManufacture";
 import ViewUser from "./pages/Admin/Conponents/View/ViewUser";
 import ViewProduct from "./pages/Admin/Conponents/View/ViewProduct";
-import { ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import ViewCategory from "./pages/Admin/Conponents/View/ViewCategory";
+import ViewManufacture from "./pages/Admin/Conponents/View/ViewManufacture";
 
 function App() {
   const [categoryAPI, setCategoryAPI] = useState([]);
@@ -170,10 +171,7 @@ function App() {
               path="view/:id"
               element={
                 <LayoutAdmin>
-                  <ViewUser
-                    title="Update User"
-                    isFile={true}
-                  />
+                  <ViewUser title="Update User" isFile={true} />
                 </LayoutAdmin>
               }
             />
@@ -183,10 +181,7 @@ function App() {
               index
               element={
                 <LayoutAdmin>
-                  <ListProducts
-                    columns={columnsProducts}
-                    title="Products"
-                  />
+                  <ListProducts columns={columnsProducts} title="Products" />
                 </LayoutAdmin>
               }
             />
@@ -206,10 +201,7 @@ function App() {
               path="view/:id"
               element={
                 <LayoutAdmin>
-                  <ViewProduct
-                    title="Update Product"
-                    isFile={true}
-                  />
+                  <ViewProduct title="Update Product" isFile={true} />
                 </LayoutAdmin>
               }
             />
@@ -222,7 +214,7 @@ function App() {
                   <ListCategory
                     columns={columnsCategory}
                     title="Category"
-                    rows = {categoryAPI}
+                    rows={categoryAPI}
                   />
                 </LayoutAdmin>
               }
@@ -239,14 +231,11 @@ function App() {
                 </LayoutAdmin>
               }
             />
-             <Route
+            <Route
               path="view/:id"
               element={
                 <LayoutAdmin>
-                  <ViewCategory
-                    title="Update User"
-                    isFile={false}
-                  />
+                  <ViewCategory title="Update Category" isFile={false} />
                 </LayoutAdmin>
               }
             />
@@ -272,6 +261,14 @@ function App() {
                     title="Add New Manufacture"
                     isFile={false}
                   />
+                </LayoutAdmin>
+              }
+            />
+            <Route
+              path="view/:id"
+              element={
+                <LayoutAdmin>
+                  <ViewManufacture title="Update Manufacture" isFile={false} />
                 </LayoutAdmin>
               }
             />

@@ -10,7 +10,7 @@ router.get("/categories/:categoryId", getCategoryByCategoryId);
 
 
 router.post("/manufacture/categories", verifyTok, isAdmin, initCategory)
-router.put("/manufacture/:manufactureId/categories", verifyTok, isAdmin, updateCategory)
+router.put("/category/:categoryId", verifyTok, isAdmin, updateCategory)
 router.delete("/categories/:categoryId", verifyTok, isAdmin, removeCategory)
 
 

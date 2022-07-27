@@ -5,7 +5,6 @@ const getAllProduct = async (req, res) => {
     try {
 
         const productList = await ProductModel.findAll();
-
         res.status(200).json(productList);
     } catch (error) {
         res.status(500).json({ message: error.message })

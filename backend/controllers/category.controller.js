@@ -1,10 +1,9 @@
 const { Op } = require("sequelize");
-const { CategoryModel } = require("../models");
+const { CategoryModel, ManufactureModel } = require("../models");
 
 const getCategory = async (req, res) => {
   try {
     const categories = await CategoryModel.findAll();
-
     res.status(200).json(categories);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -34,7 +33,19 @@ const getCategoryByCategoryId = async (req, res) => {
     if (!category) {
       return res.status(404).json({ message: "Not found Categories" });
     }
-    res.status(200).json(category);
+
+    const foundManufacture = await ManufactureModel.findOne({
+      where: {
+        id: category.manufactureId,
+      },
+    });
+    res
+      .status(200)
+      .json({
+        message: "Get Category successfully",
+        category,
+        foundManufacture,
+      });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -74,35 +85,19 @@ const initCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   try {
-    const { manufactureId } = req.params;
-    const { name, id } = req.body;
+    const { categoryId } = req.params;
 
-    const foundCategory = await CategoryModel.findByPk(id);
+    const { name } = req.body;
+
+    const foundCategory = await CategoryModel.findOne({where:{id:categoryId}});
 
     if (!foundCategory) {
       return res.status(404).json({ message: "Not Found Category" });
     }
 
-    const update = {};
-    if (name) {
-      const foundName = await CategoryModel.findOne({
-        where: {
-          [Op.and]: {
-            manufactureId,
-            name,
-          },
-        },
-      });
-      if (foundName) {
-        return res.status(409).json({ message: "name existed" });
-      }
-
-      update.name = name;
-    }
-
-    await CategoryModel.update(update, {
+    await CategoryModel.update({name:name}, {
       where: {
-        id,
+        id:categoryId
       },
     });
 

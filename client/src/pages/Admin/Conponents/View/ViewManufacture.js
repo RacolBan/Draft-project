@@ -6,10 +6,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast} from "react-toastify";
 
 
-function ViewCategory({ title, isFile }) {
+function ViewManufacture({ title, isFile }) {
   const param = useParams();
   const [name, setName] = useState("");
-  const [nameManufacture,setNameManufacture]= useState('')
   const [file, setFile] = useState("");
  
   const nav = useNavigate()
@@ -18,7 +17,7 @@ function ViewCategory({ title, isFile }) {
     const getData = async () => {
       try {
         const {data} =  await axios.get(
-          `http://localhost:8000/api/categories/${param.id}`,
+          `http://localhost:8000/api/${param.id}/manufacture`,
           {
             headers: {
               "access-token":
@@ -27,12 +26,9 @@ function ViewCategory({ title, isFile }) {
             },
           }
         );
-
-        if(data) {
-          setName(data.category.name)
-          setNameManufacture(data.foundManufacture.name)
-        }
-
+          if(data) {
+            setName(data.manufacturer.name)
+          }
       } catch (error) {
         toast.error(error.response.data.message, {
           position: toast.POSITION.TOP_CENTER
@@ -41,17 +37,16 @@ function ViewCategory({ title, isFile }) {
     };
     getData();
   }, []);
-  const categoryUpdate = {
+  const manufactureUpdate = {
     name,
-    nameManufacture
     
   }
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:8000/api/category/${param.id}`,
-        categoryUpdate,
+        `http://localhost:8000/api/${param.id}/manufacture`,
+        manufactureUpdate,
         {
           headers: {
             "access-token":
@@ -63,7 +58,7 @@ function ViewCategory({ title, isFile }) {
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER
       });
-      return nav('/admin/category')
+      return nav('/admin/manufacture')
     } catch (error) {
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
@@ -120,19 +115,7 @@ function ViewCategory({ title, isFile }) {
                 
                 />
               </div>
-              <div className={style.formInput}>
-                <label>Name</label>
-                <input
-                  type="text"
-                  placeholder="Enter Name"
-                  name="nameManufacture"
-                  onChange={(e) => {
-                    setNameManufacture(e.target.value);
-                  }}
-                  value={nameManufacture}
-                  disabled
-                />
-              </div>
+              
               
               <button type="submit" onClick={handleUpdate}>
                 Save
@@ -145,4 +128,4 @@ function ViewCategory({ title, isFile }) {
   );
 }
 
-export default ViewCategory;
+export default ViewManufacture;
