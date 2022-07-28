@@ -1,10 +1,8 @@
-const { ManufactureModel } = require("../models")
+const { ManufactureModel, CategoryModel } = require("../models")
 
 const getManufacturer = async (req, res) => {
     try {
-
         const manufacturers = await ManufactureModel.findAll()
-
 
         return res.status(200).json(manufacturers)
     } catch (error) {
@@ -28,9 +26,25 @@ const getManufacturerById = async (req, res) => {
     }
 }
 
+const getManufacturerByCategoryId = async(req,res)=>{
+    const {categoryId} = req.params
+    try {
+        const foundManufacture = await ManufactureModel.findAll({where:{
+            categoryId:categoryId
+        }})
+        if(!foundManufacture) {
+            return res.status(404).json("Not found manufacture")
+        }
+        res.status(200).json(foundManufacture)
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+    
+}
+
 const initManufacturer = async (req, res) => {
     try {
-        const { name } = req.body;
+        const { name , categoryId} = req.body;
         const foundManufacturer = await ManufactureModel.findOne({
             where: {
                 name
@@ -39,13 +53,19 @@ const initManufacturer = async (req, res) => {
         if (foundManufacturer) {
             return res.status(400).json({ message: "manufacture has been existed" })
         }
-        // save data
-        const newManufacture = await ManufactureModel.create({ name })
-        if (!newManufacture) {
-            return res.status(400).json({ message: "Create Manufacture Unsuccessfully" })
-        }
 
-        res.status(200).json({message:"Created Manufacture successfully"})
+        const foundCategory = await CategoryModel.findOne({
+            where: {
+             id: categoryId,
+            }
+        })
+        if (!foundCategory) {
+            return res.status(400).json({ message: "category has not existed" })
+        }
+        // save data
+        const newManufacture = await ManufactureModel.create({ name ,categoryId})
+
+        res.status(200).json({message:"Created Manufacture successfully",newManufacture})
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -120,6 +140,7 @@ module.exports = {
     initManufacturer,
     removeManufacturer,
     updateManufacturer,
-    getManufacturerById
+    getManufacturerById,
+    getManufacturerByCategoryId
 
 }

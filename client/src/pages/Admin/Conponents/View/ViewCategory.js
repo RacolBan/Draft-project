@@ -18,7 +18,7 @@ function ViewCategory({ title, isFile }) {
     const getData = async () => {
       try {
         const {data} =  await axios.get(
-          `http://localhost:8000/api/categories/${param.id}`,
+          `http://localhost:8000/category/${param.id}`,
           {
             headers: {
               "access-token":

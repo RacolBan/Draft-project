@@ -94,7 +94,6 @@ export const columnsProducts = [
 export const columnsCategory = [
   { field: "id", headerName: "ID", width: 100 },
   { field: "name", headerName: "Name", width: 150 },
-  { field: "manufactureId", headerName: "manufactureId", width: 150 },
 ];
 
 export const columnsManufacture = [

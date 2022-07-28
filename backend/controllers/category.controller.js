@@ -9,21 +9,7 @@ const getCategory = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-const getCategoryByManufactureId = async (req, res) => {
-  try {
-    const { manufactureId } = req.params;
 
-    const categories = await CategoryModel.findAll({
-      where: {
-        manufactureId,
-      },
-    });
-
-    res.status(200).json(categories);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
 
 const getCategoryByCategoryId = async (req, res) => {
   try {
@@ -53,14 +39,10 @@ const getCategoryByCategoryId = async (req, res) => {
 
 const initCategory = async (req, res) => {
   try {
-    const { name, manufactureId } = req.body;
-
+    const { name } = req.body;
     const foundCategory = await CategoryModel.findOne({
       where: {
-        [Op.and]: {
-          manufactureId,
-          name,
-        },
+        name
       },
     });
     if (foundCategory) {
@@ -68,7 +50,7 @@ const initCategory = async (req, res) => {
     }
 
     // save data
-    const newCategory = await CategoryModel.create({ name, manufactureId });
+    const newCategory = await CategoryModel.create({ name});
     if (!newCategory) {
       return res
         .status(400)
@@ -134,6 +116,5 @@ module.exports = {
   initCategory,
   removeCategory,
   updateCategory,
-  getCategoryByManufactureId,
   getCategoryByCategoryId,
 };

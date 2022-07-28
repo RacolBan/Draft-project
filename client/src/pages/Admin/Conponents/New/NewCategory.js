@@ -24,11 +24,11 @@ function NewCategory({ inputs, title, isFile }) {
     e.preventDefault();
     const newCategory = {
       name: info.name,
-      manufactureId: info.manufactureId,
     };
+    console.log(newCategory);
     try {
       const { data } = await axios.post(
-        `http://localhost:8000/api/manufacture/categories`,
+        `http://localhost:8000/category`,
         newCategory,
         {
           headers: {
@@ -38,7 +38,7 @@ function NewCategory({ inputs, title, isFile }) {
           },
         }
       );
-
+      
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

@@ -11,7 +11,7 @@ function ManufactureAll() {
   const getManufacture = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8000/api/manufacture",
+        "http://localhost:8000/manufacture",
         {
           headers: { "access-token": "Bearer " + login.accesstoken },
         }

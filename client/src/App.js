@@ -46,7 +46,7 @@ function App() {
 
   useEffect(() => {
     const getCategory = async () => {
-      const { data } = await axios.get(`http://localhost:8000/api/categories`);
+      const { data } = await axios.get(`http://localhost:8000/category`);
       setCategoryAPI(data);
     };
     getCategory();

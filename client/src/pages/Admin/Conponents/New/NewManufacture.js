@@ -24,11 +24,12 @@ function NewManufacture({ inputs, title, isFile }) {
   const handleCreateManufacture = async (e) => {
     e.preventDefault();
     const newManufacture = {
-      name:info.name
+      name:info.name,
+      categoryId:info.categoryId
     }
     try {
       const {data} = await axios.post(
-        `http://localhost:8000/api/manufacture`,
+        `http://localhost:8000/manufacture`,
         newManufacture,
         {
           headers: {

@@ -13,9 +13,9 @@ function CategoryProduct({ categoryList }) {
           </div>
           <div className={style["menu-nav"]}>
             <ul className={style["menu-list"]}>
-              {categoryList?.map((item) => (
+              {categoryList?.map((item,index) => (
                 <li className={style["menu-item"]} key={item.id} >
-                  <img src={`./images/Icon/${item.id}.png`} alt="icon" />
+                  <img src={`./images/Icon/${index+1}.png`} alt="icon" />
                   <Link to={`/category/${item.id}`}>{item.name}</Link>
                 </li>
               ))}

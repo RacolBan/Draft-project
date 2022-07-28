@@ -99,14 +99,7 @@ export const categoryInputs = [
     type: "text",
     placeholder: "Apple Center",
     name:"name"
-  },
-  {
-    id: 2,
-    label: "manufactureId",
-    type: "text",
-    placeholder: "Apple Center",
-    name: "manufactureId"
-  },
+  }
 ];
 
 export const manufactureInputs = [
@@ -116,5 +109,12 @@ export const manufactureInputs = [
     type: "text",
     placeholder: "Dell",
     name:"name"
+  },
+  {
+    id: 2,
+    label: "categoryId",
+    type: "text",
+    placeholder: "Dell",
+    name:"categoryId"
   },
 ];

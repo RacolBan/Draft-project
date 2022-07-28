@@ -18,8 +18,8 @@ const { isAdmin } = require("../middlewares/permission");
 
 // API get all product
 router.get("/getAll", verifyTok, getAllProduct);
-router.get("/category/:categoryId", verifyTok, getProductByCategoryId);
-router.get("/manufacture/:manufactureId", verifyTok, getProductByManufactureId);
+router.get("/category/:categoryId",getProductByCategoryId);
+router.get("/manufacture/:manufactureId", getProductByManufactureId);
 router.get("/pagination", pagination);
 
 

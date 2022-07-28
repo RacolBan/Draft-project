@@ -22,6 +22,9 @@ function ForgotPassword({ isTempToken }) {
       }
       localStorage.setItem("tempToken", JSON.stringify(tempToken));
       setIsSubmit(true);
+      toast.warning("A link has been sent to your email", {
+        position: toast.POSITION.TOP_CENTER
+      });
     } catch (error) {
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
@@ -41,11 +44,11 @@ function ForgotPassword({ isTempToken }) {
               <p>Your password reset link has expired or not exist</p>
             </div>
           )}
-          {isSubmit && (
+          {/* {isSubmit && (
             <div className={style["forgot-head-send"]}>
-              <p>An email with a link to reset your password has just been send to the email address registered with us</p>
+              <p>A link has been sent to your email</p>
             </div>
-          )}
+          )} */}
           {!isSubmit && (
             <div className={style["forgot-head-description"]}>
               <p>No worries. We'll send you a link to reset you password</p>
