@@ -50,7 +50,7 @@ function ViewCategory({ title, isFile }) {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:8000/api/category/${param.id}`,
+        `http://localhost:8000/category/${param.id}`,
         categoryUpdate,
         {
           headers: {

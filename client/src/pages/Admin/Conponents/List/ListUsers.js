@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./List.module.css";
-import UsersAll from "../../../../API/UsersAll";
 import axios from "axios";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 function ListUsers({ columns, title }) {
-  const usersList = UsersAll().usersAll[0];
-  const nav = useNavigate()
+  const login = JSON.parse(localStorage.getItem("login")) || null;
+  const [usersAll, setUsersAll] = useState([]);
+  const [isDlt,setIsDlt] = useState(false)
+  const getUsers = async () => {
+    try {
+      if (login) {
+        const { data } = await axios.get(`http://localhost:8000/user/getAll`, {
+          headers: { "access-token": "Bearer " + login.accesstoken },
+        });
+        setUsersAll(data);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  };
+  useEffect(() => {
+    getUsers();
+  }, [isDlt]);
+
+  const nav = useNavigate();
 
   const actionColumn = [
     {
@@ -46,14 +65,14 @@ function ListUsers({ columns, title }) {
           },
         }
       );
-
+      setIsDlt(!isDlt)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
       return nav("/admin/users");
     } catch (error) {
       toast.error(error.response.data.message, {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };
@@ -67,7 +86,7 @@ function ListUsers({ columns, title }) {
       </div>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={usersList}
+          rows={usersAll}
           columns={columns.concat(actionColumn)}
           pageSize={5}
           rowsPerPageOptions={[5]}

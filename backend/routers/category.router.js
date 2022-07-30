@@ -5,12 +5,12 @@ const { isAdmin } = require('../middlewares/permission.js');
 
 
 router.get("/", getCategory);
-// router.get("/categories/:categoryId", getCategoryByCategoryId);
+router.get("/:categoryId", getCategoryByCategoryId);
 
 
 router.post("/",verifyTok,isAdmin, initCategory)
-// router.put("/category/:categoryId", verifyTok, isAdmin, updateCategory)
-// router.delete("/categories/:categoryId", verifyTok, isAdmin, removeCategory)
+router.put("/:categoryId", verifyTok, isAdmin, updateCategory)
+router.delete("/:categoryId", verifyTok, isAdmin, removeCategory)
 
 
 module.exports = router;

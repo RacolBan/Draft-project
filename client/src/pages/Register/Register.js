@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { GlobalState } from "../../GlobalState";
 import style from "./Register.module.css";
 
 function Register() {
   const nav = useNavigate()
+  const state = useContext(GlobalState)
+  const [isLogged, setIsLogged] = state.UserAPI.isLogged;
   const [input, setInput] = useState({
     firstname: "",
     lastname: "",
@@ -160,11 +163,12 @@ function Register() {
         accesstoken: data.accesstoken,
         accountId: data.newAccount.id,
         username: data.newAccount.username,
-        avatar: null
+        avatar: null,
+        userId:data.newInfor.id
       };
       localStorage.clear()
       localStorage.setItem("login", JSON.stringify(login));
-     
+      setIsLogged(true)
       toast.success("Register successfully", {
         position: toast.POSITION.TOP_CENTER,
       });

@@ -7,19 +7,17 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { toast } from "react-toastify";
 
-function DetailProduct({ products }) {
+function DetailProduct({products}) {
   const params = useParams();
   const [productDetail, setProductDetail] = useState([]);
-
   useEffect(() => {
     if (params.id) {
       const getOneProduct = async () => {
         try {
           const { data } = await axios.get(
-            `https://fakestoreapi.com/products/${params.id}`
+            `http://localhost:8000/product/${params.id}`
           );
-
-          setProductDetail(data);
+          setProductDetail(data.found);
         } catch (error) {
           toast.error(error.response.data.message, {
             position: toast.POSITION.TOP_CENTER,
@@ -44,17 +42,17 @@ function DetailProduct({ products }) {
     <div className={style.detail}>
       <div className={style.container}>
         <div className={style["container-left"]}>
-          <img src={productDetail.image} alt="image" />
+          {productDetail.image && <img src={`http://localhost:8000/${productDetail.image}`} alt="image" /> }
         </div>
         <div className={style["container-right"]}>
           <h3 className={style["container-right-title"]}>
-            {productDetail.title}
+            {productDetail.name}
           </h3>
           <p className={style["container-right-description"]}>
             {productDetail.description}
           </p>
           <p className={style["container-right-price"]}>
-            {`${productDetail.price} đ`}
+            {`$${productDetail.price}`}
           </p>
           <button>Add To Cart</button>
         </div>
@@ -66,18 +64,19 @@ function DetailProduct({ products }) {
         <div className={style["listItem"]}>
           <Slider {...settings}>
             {products?.map((product, index) =>
-              product.category === productDetail.category ? (
+              product.manufactureId === productDetail.manufactureId ? (
                 <div className={style.item} key={index}>
                   <Link
                     to={`/detail/${product.id}`}
                     className={style["item-image"]}
                   >
-                    <img src={product.image} alt="Apple" />
+                    <img src={`http://localhost:8000/${product.image}`} alt="image" />
                   </Link>
                   <span className={style["item-manufactory"]}>
-                    <img src="./images/Manufactory/apple.png" alt="" />
+                    {productDetail.manufactureId === 6 && <img src="../../../../images/Manufactory/asus.PNG" alt="" /> }
+                    {productDetail.manufactureId === 5 && <img src="../../../../images/Manufactory/dell.PNG" alt="" /> }
                   </span>
-                  <h4 className={style["item-name"]}>{product.title}</h4>
+                  <h4 className={style["item-name"]}>{product.name}</h4>
                   <span className={style["item-price"]}>{product.price}</span>
                   <span className={style["btn-addCart"]}>Add To Cart</span>
                 </div>

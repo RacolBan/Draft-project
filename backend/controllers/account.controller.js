@@ -11,51 +11,6 @@ const createTempAccessToken = (account) => {
   return jwt.sign(account, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 };
 
-
-const register = async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    const found = await AccountModel.findOne({
-      where: {
-        username,
-      },
-    });
-
-    if (found) {
-      return res.status(409).json({ message: "username has existed" });
-    }
-    // validate password
-    if (password.length < 6) {
-      return res.status(400).json({ message: "Password is at least 6 characters long." })
-    };
-
-    //password Encryption
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const account = {
-      username: username,
-      hashPwd: passwordHash,
-
-    };
-
-    // save data
-    const newAccount = await AccountModel.create(account);
-
-    delete newAccount.dataValues.hashPwd;
-
-    if (!newAccount) {
-      return res.status(400).json({ message: "create new Account unsuccesfully" });
-    }
-
-    const accesstoken = createAccessToken({ id: newAccount.id });
-
-    res.status(201).json({ newAccount, accesstoken });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -68,6 +23,12 @@ const login = async (req, res) => {
 
     if (!account) return res.status(400).json({ message: "Account does not exist." });
 
+    const foundUser = await UserModel.findOne({where:{
+      accountId:account.id
+    }})
+    if(!foundUser) {
+      return res.status(404).json({message:"User does not exist."})
+    }
     // Compare encrypted password with hash_pwd (true)
     const isMatch = await bcrypt.compare(password, account.hashPwd);
 
@@ -82,6 +43,7 @@ const login = async (req, res) => {
       id: account.id,
       username: account.username,
       role: account.role,
+      userId:foundUser.id
     });
 
   } catch (err) {
@@ -191,7 +153,6 @@ const resetPassword = async (req, res) => {
 
 
 module.exports = {
-  register,
   login,
   changePassword,
   forgotPassword,

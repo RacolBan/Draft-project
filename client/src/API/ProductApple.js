@@ -7,7 +7,7 @@ function ProductsApple() {
   const getProducts = async () => {
     try {
       const res = await axios.get(
-        "https://fakestoreapi.com/products/category/electronics"
+        "http://localhost:8000/product/category/2"
       );
       setProductsApple(res.data);
     } catch (error) {

@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../../GlobalState";
 
-function Apple() {
+function Apple({handleAddProducts}) {
   const settings = {
     dots: false,
     infinite: true,
@@ -33,14 +33,22 @@ function Apple() {
           //
           <div className={style.item} key={index}>
             <Link to={`/detail/${product.id}`} className={style["item-image"]}>
-              <img src={product.image} alt="Apple" />
+              <img
+                src={`http://localhost:8000/${product.image}`}
+                alt="Laptop"
+              />
             </Link>
             <span className={style["item-manufactory"]}>
-              <img src='./images/Manufactory/laptop.png' alt="" />
+              {product.manufactureId === 6 && (
+                <img src="../../../images/Manufactory/asus.PNG" alt="" />
+              )}
+              {product.manufactureId === 5 && (
+                <img src="../../../images/Manufactory/dell.PNG" alt="" />
+              )}
             </span>
-            <h4 className={style["item-name"]}>{product.title}</h4>
-            <span className={style["item-price"]}>{product.price}</span>
-            <span className={style["btn-addCart"]}>Add To Cart</span>
+            <h4 className={style["item-name"]}>{product.name}</h4>
+            <span className={style["item-price"]}>${product.price}</span>
+            <span className={style["btn-addCart"]} onClick={()=>{handleAddProducts(product)}}>Add To Cart</span>
           </div>
         ))}
       </Slider>

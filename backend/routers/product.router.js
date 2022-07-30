@@ -11,60 +11,24 @@ const {
   initProduct,
   updateProduct,
   removeProduct,
+  paginationByCategory,
+  paginationByManufacture
 } = require("../controllers/product.controller")
 const { verifyTok } = require("../middlewares/auth");
 const { isAdmin } = require("../middlewares/permission");
 
-
 // API get all product
-router.get("/getAll", verifyTok, getAllProduct);
+router.get("/getAll", getAllProduct);
 router.get("/category/:categoryId",getProductByCategoryId);
 router.get("/manufacture/:manufactureId", getProductByManufactureId);
 router.get("/pagination", pagination);
 
-
-router.get("/:productId", verifyTok , getProductById);
+router.get("/:productId" , getProductById);
 router.post("/", verifyTok, isAdmin, upload.single('file'), initProduct);
 router.put("/:productId", verifyTok, isAdmin, updateProduct);
 router.delete("/:productId", verifyTok, isAdmin, removeProduct);
 
-
 router.get("/pagination/products", pagination);
-
-
-
-// API create new book
-router.post("/", initProduct);
-
-
-// function create fake book
-const createFakeBook = (size) => {
-  let result = [];
-  for (let i = 0; i < size; i++) {
-    const book = () => {
-      return {
-        name: faker.name.findName(),
-        author: faker.name.findName()
-      }
-    }
-    result.push(book());
-
-  };
-  return result;
-}
-
-
-router.post("/fake", async (req, res) => {
-  try {
-    const books = await BookModel.bulkCreate(createFakeBook(100));
-    res.status(201).json({ message: "generate book succesfully! " });
-  } catch (error) {
-    res.status(500).json({ message: error });
-
-  }
-
-});
-
-
+router.get("/pagination/category/:categoryId", paginationByCategory); 
 
 module.exports = router;

@@ -3,7 +3,9 @@
     margin: auto;
     background-color: #f0f0f0;
 }
-
+.category .category-head {
+  display: flex;
+}
 
 .category-head-select {
   width: 20%;

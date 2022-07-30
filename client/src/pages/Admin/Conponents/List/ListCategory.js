@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
 import style from './List.module.css'
 import { toast } from "react-toastify";
 import axios from "axios";
 
-function ListCategory({columns,title,rows}) {
-
+function ListCategory({columns,title,categoryAll,setCategoryAll}) {
   const nav = useNavigate()
- 
+  const [isDlt,setIsDlt] = useState(false)
+  useEffect(()=>{
+    
+  },[isDlt])
   const actionColumn = [
     {
       field: "action",
@@ -34,7 +36,7 @@ function ListCategory({columns,title,rows}) {
   const handleDelete =async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:8000/api/categories/${id}`,
+        `http://localhost:8000/category/${id}`,
         {
           headers: {
             "access-token":
@@ -42,7 +44,7 @@ function ListCategory({columns,title,rows}) {
           },
         }
       );
-
+      setIsDlt(!isDlt)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -63,7 +65,7 @@ function ListCategory({columns,title,rows}) {
       </div>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={rows}
+          rows={categoryAll}
           columns={columns.concat(actionColumn)}
           pageSize={5}
           rowsPerPageOptions={[5]}

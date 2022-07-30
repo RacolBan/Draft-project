@@ -63,11 +63,178 @@ const getProductByCategoryId = async (req, res) => {
 const pagination = async (req, res) => {
   try {
     let { page, limit } = req.query;
-    const offset = (parseInt(page)-1)*parseInt(limit)
-    
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+
     let { count, rows } = await ProductModel.findAndCountAll({
       limit: parseInt(limit),
       offset: parseInt(offset),
+    });
+    res.status(200).json({
+      count,
+      rows,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const paginationByCategory = async (req, res) => {
+  const { categoryId } = req.params;
+  try {
+    let { page, limit, manufacture, price } = req.query;
+    if (manufacture == 0) {
+      if (price == "asc") {
+        const offset = (parseInt(page) - 1) * parseInt(limit);
+
+        let { count, rows } = await ProductModel.findAndCountAll({
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          where: {
+            categoryId,
+          },
+          order: [["price", "ASC"]],
+          attributes: [
+            "id",
+            "name",
+            "price",
+            "description",
+            "image",
+            "createdAt",
+            "updatedAt",
+            "categoryId",
+            "manufactureId",
+          ],
+        });
+        res.status(200).json({
+          count,
+          rows,
+        });
+      } else if (price == "desc") {
+        const offset = (parseInt(page) - 1) * parseInt(limit);
+
+        let { count, rows } = await ProductModel.findAndCountAll({
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          where: {
+            categoryId,
+          },
+          order: [["price", "DESC"]],
+          attributes: [
+            "id",
+            "name",
+            "price",
+            "description",
+            "image",
+            "createdAt",
+            "updatedAt",
+            "categoryId",
+            "manufactureId",
+          ],
+        });
+        res.status(200).json({
+          count,
+          rows,
+        });
+      } else {
+        const offset = (parseInt(page) - 1) * parseInt(limit);
+
+        let { count, rows } = await ProductModel.findAndCountAll({
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          where: {
+            categoryId,
+          },
+        });
+        res.status(200).json({
+          count,
+          rows,
+        });
+      }
+    }else {
+      if (price == "asc") {
+        const offset = (parseInt(page) - 1) * parseInt(limit);
+
+        let { count, rows } = await ProductModel.findAndCountAll({
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          where: {
+            manufactureId:manufacture,
+          },
+          order: [["price", "ASC"]],
+          attributes: [
+            "id",
+            "name",
+            "price",
+            "description",
+            "image",
+            "createdAt",
+            "updatedAt",
+            "categoryId",
+            "manufactureId",
+          ],
+        });
+        res.status(200).json({
+          count,
+          rows,
+        });
+      } else if (price == "desc") {
+        const offset = (parseInt(page) - 1) * parseInt(limit);
+
+        let { count, rows } = await ProductModel.findAndCountAll({
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          where: {
+            manufactureId:manufacture,
+          },
+          order: [["price", "DESC"]],
+          attributes: [
+            "id",
+            "name",
+            "price",
+            "description",
+            "image",
+            "createdAt",
+            "updatedAt",
+            "categoryId",
+            "manufactureId",
+          ],
+        });
+        res.status(200).json({
+          count,
+          rows,
+        });
+      } else {
+        const offset = (parseInt(page) - 1) * parseInt(limit);
+
+        let { count, rows } = await ProductModel.findAndCountAll({
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          where: {
+            manufactureId:manufacture,
+          },
+        });
+        res.status(200).json({
+          count,
+          rows,
+        });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const paginationByManufacture = async (req, res) => {
+  const { manufactureId } = req.params;
+  try {
+    let { page, limit } = req.query;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+
+    let { count, rows } = await ProductModel.findAndCountAll({
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+      where: {
+        manufactureId,
+      },
     });
     res.status(200).json({
       count,
@@ -212,4 +379,6 @@ module.exports = {
   initProduct,
   updateProduct,
   removeProduct,
+  paginationByCategory,
+  paginationByManufacture,
 };

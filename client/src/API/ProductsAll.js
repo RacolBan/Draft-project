@@ -1,18 +1,13 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { GlobalState } from "../GlobalState";
 
 function ProductsAll() {
-  const state = useContext(GlobalState);
-  const [isAdmin, setIsAdmin] = state.UserAPI.isAdmin;
   const login = JSON.parse(localStorage.getItem("login")) || null;
   const [productsAll, setProductsAll] = useState([]);
   const getProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8000/product/getAll", {
-        headers: { "access-token": "Bearer " + login.accesstoken },
-      });
+      const { data } = await axios.get("http://localhost:8000/product/getAll");
       setProductsAll(data);
     } catch (error) {
       toast.error(error.response.data.message, {
@@ -22,12 +17,10 @@ function ProductsAll() {
   };
 
   useEffect(() => {
-    if (isAdmin) {
-      getProducts();
-    }
-  }, [isAdmin]);
+    getProducts();
+  }, []);
   return {
-    productsAll: [productsAll, setProductsAll],
+    productsAll:productsAll
   };
 }
 

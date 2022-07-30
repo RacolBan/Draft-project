@@ -30,7 +30,8 @@ function Login() {
         accountId: data.id,
         username: data.username,
         avatar: null,
-        role:data.role
+        role:data.role,
+        userId:data.userId
       };
 
       localStorage.clear();

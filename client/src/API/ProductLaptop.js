@@ -7,7 +7,7 @@ function ProductsLaptop() {
   const getProducts = async () => {
     try {
       const res = await axios.get(
-        "https://fakestoreapi.com/products/category/jewelery"
+        "http://localhost:8000/product/category/1"
       );
       setProductsLaptop(res.data);
     } catch (error) {

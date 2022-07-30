@@ -5,12 +5,12 @@ import style from "./Home.module.css";
 import Apple from "../../components/Category/Apple/Apple";
 import CategoryProduct from "../../components/Category/Category";
 
-function Home({categoryList}) {
+function Home({categoryList,handleAddProducts}) {
   return (
     <div className={style.container}>
       <CategoryProduct categoryList= {categoryList}/>
       <Slider />
-      <Laptop />
+      <Laptop handleAddProducts={handleAddProducts}/>
       <Apple />
     </div>
   );

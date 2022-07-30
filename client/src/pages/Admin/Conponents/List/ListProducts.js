@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./List.module.css";
-import ProductsAll from "../../../../API/ProductsAll";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 function ListProducts({ columns, title }) {
-  const productsList = ProductsAll().productsAll[0];
+  const login = JSON.parse(localStorage.getItem("login")) || null;
+
+  const [productsAll, setProductsAll] = useState([]);
+  const [isDlt,setIsDlt]= useState(false)
+  const getProducts = async () => {
+    if (login) {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:8000/product/getAll"
+        );
+        setProductsAll(data);
+      } catch (error) {
+        toast.error(error.response.data.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, [isDlt]);
+
   const nav = useNavigate();
   const actionColumn = [
     {
@@ -45,7 +66,7 @@ function ListProducts({ columns, title }) {
           },
         }
       );
-
+      setIsDlt(!isDlt)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -66,7 +87,7 @@ function ListProducts({ columns, title }) {
       </div>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={productsList}
+          rows={productsAll}
           columns={columns.concat(actionColumn)}
           pageSize={5}
           rowsPerPageOptions={[5]}

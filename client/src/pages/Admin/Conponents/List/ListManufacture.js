@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
-import style from './List.module.css'
-import ManufactureAll from "../../../../API/ManufactureAll";
+import style from "./List.module.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-function ListManufacture({columns,title}) {
-    const manufactureList = ManufactureAll().manufactureAll[0]
-    const nav = useNavigate()
+function ListManufacture({ columns, title }) {
+  
+  const [manufactureAll, setManufactureAll] = useState([]);
+  const login = JSON.parse(localStorage.getItem("login")) || null;
+  const [isDlt,setDlt] = useState(false)
+
+  const getManufacture = async () => {
+    if (login) {
+      try {
+        const { data } = await axios.get("http://localhost:8000/manufacture", {
+          headers: { "access-token": "Bearer " + login.accesstoken },
+        });
+        setManufactureAll(data);
+      } catch (error) {
+        toast.error(error.response.data.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    getManufacture();
+  }, [isDlt]);
+
+  const nav = useNavigate();
   const actionColumn = [
     {
       field: "action",
@@ -17,7 +39,10 @@ function ListManufacture({columns,title}) {
       renderCell: (params) => {
         return (
           <div className={style.cellAction}>
-            <Link  to={`view/${params.row.id}`} style={{ textDecoration: "none" }}>
+            <Link
+              to={`view/${params.row.id}`}
+              style={{ textDecoration: "none" }}
+            >
               <div className={style.viewButton}>View</div>
             </Link>
             <div
@@ -31,10 +56,10 @@ function ListManufacture({columns,title}) {
       },
     },
   ];
-  const handleDelete = async(id) => {
+  const handleDelete = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:8000/api/${id}/manufacture`,
+        `http://localhost:8000/manufacture/${id}`,
         {
           headers: {
             "access-token":
@@ -42,13 +67,12 @@ function ListManufacture({columns,title}) {
           },
         }
       );
-
+      setDlt(!isDlt)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
-      
-      return nav("/admin/manufacture");
 
+      nav("/admin/manufacture");
     } catch (error) {
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -65,7 +89,7 @@ function ListManufacture({columns,title}) {
       </div>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={manufactureList}
+          rows={manufactureAll}
           columns={columns.concat(actionColumn)}
           pageSize={5}
           rowsPerPageOptions={[5]}
