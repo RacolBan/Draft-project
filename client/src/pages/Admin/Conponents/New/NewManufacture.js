@@ -25,7 +25,7 @@ function NewManufacture({ inputs, title, isFile }) {
     e.preventDefault();
     const newManufacture = {
       name:info.name,
-      categoryId:info.categoryId
+      nameCategory:info.nameCategory
     }
     try {
       const {data} = await axios.post(

@@ -9,9 +9,8 @@ import { toast } from "react-toastify";
 
 function Profile() {
   const state = useContext(GlobalState);
-  const user = state.UserAPI.user[0];
+  const user= state.UserAPI.user[0];
   const nav = useNavigate();
-
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [address, setAddress] = useState("");
@@ -20,13 +19,11 @@ function Profile() {
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    if (user.username) {
-      setFirstname(user.firstname);
-      setLastname(user.lastname);
-      setAddress(user.address);
-      setEmail(user.email);
-      setPhone(user.phone);
-    }
+    setFirstname(user.firstname);
+    setLastname(user.lastname);
+    setAddress(user.address);
+    setEmail(user.email);
+    setPhone(user.phone);
   }, [user]);
   const newUser = {
     firstName: firstname,
@@ -80,13 +77,14 @@ function Profile() {
               },
             }
           );
-
-          toast.success("Update successfully", {
-            position: toast.POSITION.TOP_CENTER,
-          });
           const local = JSON.parse(localStorage.getItem("login"));
           local.avatar = data;
           localStorage.setItem("login", JSON.stringify(local));
+          
+          toast.success("Update successfully", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+
           return nav("/profile");
         } catch (error) {
           toast.error(error.response.data.message, {
@@ -96,7 +94,7 @@ function Profile() {
       };
       updateAvatar();
     }
-  }, [file, user.userId]);
+  }, [file]);
   return (
     <div className={style.container}>
       <div className={style.profile}>

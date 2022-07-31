@@ -21,14 +21,36 @@
 }
 .container-right {
   flex: 1;
+  padding-right: 30px;
 }
 .container-right-title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
+  margin-bottom: 10px;
 }
 .container-right-description {
+  font-size: 16px;
+  color: #333;
+  width: 50%;
 }
 .container-right-price {
+  font-size: 26px;
+  color: #c8191f;
+  margin: 10px 0;
+  font-weight: 600;
+}
+
+.container-right-btn {
+  cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    background-color: #c8191f;
+    color: #fff;
+    opacity: 0.8;
+}
+
+.container-right-btn:hover {
+  opacity: 1;
 }
 
 .related-products {
@@ -52,7 +74,7 @@
 
 .item {
   width: 330px;
-  padding: 0 10px 10px;
+  padding: 0 20px 10px;
   background: #fff;
 }
 
@@ -90,7 +112,6 @@
 }
 
 .item-manufactory {
-  height: 50px;
   display: block;
 }
 
@@ -101,13 +122,14 @@
 
 .item-name {
   margin: 10px 0;
-  height: 45px;
+  height: 55px;
   overflow: hidden;
 }
 
 .item-price {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
+  color: #c8191f;
 }
 .item:hover {
   box-shadow: 0 3px 10px 0 #ccc;
@@ -125,4 +147,10 @@
   border-radius: 10px;
   margin: 5px 0;
   display: none;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.btn-addCart:hover {
+  opacity: 1;
 }

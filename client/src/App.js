@@ -41,6 +41,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ViewCategory from "./pages/Admin/Conponents/View/ViewCategory";
 import ViewManufacture from "./pages/Admin/Conponents/View/ViewManufacture";
 import ProductsAll from "./API/ProductsAll";
+import Search from "./pages/Search/Search";
 
 function App() {
   const [categoryAll, setCategoryAll] = useState([]);
@@ -139,31 +140,39 @@ function App() {
           <Route
             path="/detail/:id"
             element={
-              <Layout>
-                <DetailProduct products={products} />
+              <Layout cartItems={cartItems}>
+                <DetailProduct products={products} handleAddProducts={handleAddProducts}/>
               </Layout>
             }
           />
           <Route
             path="/category/:id"
             element={
-              <Layout>
-                <Category />
+              <Layout cartItems={cartItems}>
+                <Category handleAddProducts={handleAddProducts}/>
               </Layout>
             }
           />
           <Route
             path="/cart"
             element={
-              <Layout>
+              <Layout cartItems={cartItems}>
                 <Cart cartItems={cartItems} setCartItems={setCartItems} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <Layout>
+                <Search handleAddProducts={handleAddProducts}/>
               </Layout>
             }
           />
           <Route
             path="/profile"
             element={
-              <Layout>
+              <Layout cartItems={cartItems}>
                 <Profile />
               </Layout>
             }

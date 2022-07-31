@@ -9,7 +9,6 @@ import { toast} from "react-toastify";
 function ViewCategory({ title, isFile }) {
   const param = useParams();
   const [name, setName] = useState("");
-  const [nameManufacture,setNameManufacture]= useState('')
   const [file, setFile] = useState("");
  
   const nav = useNavigate()
@@ -30,7 +29,6 @@ function ViewCategory({ title, isFile }) {
 
         if(data) {
           setName(data.category.name)
-          setNameManufacture(data.foundManufacture.name)
         }
 
       } catch (error) {
@@ -43,7 +41,6 @@ function ViewCategory({ title, isFile }) {
   }, []);
   const categoryUpdate = {
     name,
-    nameManufacture
     
   }
   const handleUpdate = async (e) => {
@@ -118,19 +115,6 @@ function ViewCategory({ title, isFile }) {
                   }}
                   value={name}
                 
-                />
-              </div>
-              <div className={style.formInput}>
-                <label>Name</label>
-                <input
-                  type="text"
-                  placeholder="Enter Name"
-                  name="nameManufacture"
-                  onChange={(e) => {
-                    setNameManufacture(e.target.value);
-                  }}
-                  value={nameManufacture}
-                  disabled
                 />
               </div>
               

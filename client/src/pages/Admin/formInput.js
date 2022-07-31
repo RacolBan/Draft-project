@@ -112,9 +112,9 @@ export const manufactureInputs = [
   },
   {
     id: 2,
-    label: "categoryId",
+    label: "nameCategory",
     type: "text",
     placeholder: "Dell",
-    name:"categoryId"
+    name:"nameCategory"
   },
 ];

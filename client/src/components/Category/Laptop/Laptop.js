@@ -39,10 +39,10 @@ function Apple({handleAddProducts}) {
               />
             </Link>
             <span className={style["item-manufactory"]}>
-              {product.manufactureId === 6 && (
+              {product.manufactureId === 2 && (
                 <img src="../../../images/Manufactory/asus.PNG" alt="" />
               )}
-              {product.manufactureId === 5 && (
+              {product.manufactureId === 1 && (
                 <img src="../../../images/Manufactory/dell.PNG" alt="" />
               )}
             </span>

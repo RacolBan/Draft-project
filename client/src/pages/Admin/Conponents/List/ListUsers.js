@@ -41,7 +41,7 @@ function ListUsers({ columns, title }) {
               to={`view/${params.row.id}`}
               style={{ textDecoration: "none" }}
             >
-              <div className={style.viewButton}>View</div>
+              <div className={style.viewButton}>Update</div>
             </Link>
             <div
               className={style.deleteButton}

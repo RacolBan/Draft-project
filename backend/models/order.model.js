@@ -1,16 +1,17 @@
-const sequelize = require('./config.model.js');
-const DataTypes = require('sequelize');
+const sequelize = require("./config.model.js");
+const DataTypes = require("sequelize");
 
-const OrderModel = sequelize.define("orders",
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
+const OrderModel = sequelize.define(
+  "orders",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    {
-        timestamps: true
-    }
+  },
+  {
+    timestamps: true,
+  }
 );
-module.exports = OrderModel
+module.exports = OrderModel;

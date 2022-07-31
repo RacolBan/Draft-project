@@ -1,5 +1,6 @@
 import React from "react";
 import useCustomRouter from "../../Hooks/useCustomRouter";
+import style from './SelectPrice.module.css'
 
 const SelectPrice = ({page,manufacture}) => {
   const {pushQuery} = useCustomRouter();
@@ -10,7 +11,7 @@ const SelectPrice = ({page,manufacture}) => {
   };
 
   return (
-    <div>
+    <div className={style.selectPrice}>
       <select onChange={handleChange}>
         <option value="">Sort</option>
         <option value="asc">ASCENDING</option>

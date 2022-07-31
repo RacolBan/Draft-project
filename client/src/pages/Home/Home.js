@@ -11,7 +11,7 @@ function Home({categoryList,handleAddProducts}) {
       <CategoryProduct categoryList= {categoryList}/>
       <Slider />
       <Laptop handleAddProducts={handleAddProducts}/>
-      <Apple />
+      <Apple handleAddProducts={handleAddProducts}/>
     </div>
   );
 }

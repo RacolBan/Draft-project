@@ -150,7 +150,7 @@ const paginationByCategory = async (req, res) => {
           rows,
         });
       }
-    }else {
+    } else {
       if (price == "asc") {
         const offset = (parseInt(page) - 1) * parseInt(limit);
 
@@ -158,7 +158,7 @@ const paginationByCategory = async (req, res) => {
           limit: parseInt(limit),
           offset: parseInt(offset),
           where: {
-            manufactureId:manufacture,
+            manufactureId: manufacture,
           },
           order: [["price", "ASC"]],
           attributes: [
@@ -184,7 +184,7 @@ const paginationByCategory = async (req, res) => {
           limit: parseInt(limit),
           offset: parseInt(offset),
           where: {
-            manufactureId:manufacture,
+            manufactureId: manufacture,
           },
           order: [["price", "DESC"]],
           attributes: [
@@ -210,7 +210,7 @@ const paginationByCategory = async (req, res) => {
           limit: parseInt(limit),
           offset: parseInt(offset),
           where: {
-            manufactureId:manufacture,
+            manufactureId: manufacture,
           },
         });
         res.status(200).json({
@@ -370,6 +370,24 @@ const removeProduct = async (req, res) => {
   }
 };
 
+const searchProducts = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const foundProducts = await ProductModel.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${query}%`,
+        },
+      },
+    });
+    res.status(200).json({
+      message: "Search successfully",foundProducts
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllProduct,
   getProductById,
@@ -381,4 +399,5 @@ module.exports = {
   removeProduct,
   paginationByCategory,
   paginationByManufacture,
+  searchProducts,
 };

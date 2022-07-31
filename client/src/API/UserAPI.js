@@ -16,7 +16,6 @@ function UserAPI() {
     username: "",
     userId: "",
   });
-
   useEffect(() => {
     if (login) {
       const getUser = async () => {
@@ -67,7 +66,7 @@ function UserAPI() {
 
       getUser();
     }
-  }, []);
+  }, [isLogged]);
 
   return {
     isLogged: [isLogged, setIsLogged],

@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { toast } from "react-toastify";
 
-function DetailProduct({products}) {
+function DetailProduct({products,handleAddProducts}) {
   const params = useParams();
   const [productDetail, setProductDetail] = useState([]);
   useEffect(() => {
@@ -54,7 +54,7 @@ function DetailProduct({products}) {
           <p className={style["container-right-price"]}>
             {`$${productDetail.price}`}
           </p>
-          <button>Add To Cart</button>
+          <button className={style["container-right-btn"]} onClick={()=>{handleAddProducts(productDetail)}}>Add To Cart</button>
         </div>
       </div>
       <div className={style.wrapper}>
@@ -73,12 +73,13 @@ function DetailProduct({products}) {
                     <img src={`http://localhost:8000/${product.image}`} alt="image" />
                   </Link>
                   <span className={style["item-manufactory"]}>
-                    {productDetail.manufactureId === 6 && <img src="../../../../images/Manufactory/asus.PNG" alt="" /> }
-                    {productDetail.manufactureId === 5 && <img src="../../../../images/Manufactory/dell.PNG" alt="" /> }
+                    {productDetail.manufactureId === 2 && <img src="../../../../images/Manufactory/asus.PNG" alt="" /> }
+                    {productDetail.manufactureId === 1 && <img src="../../../../images/Manufactory/dell.PNG" alt="" /> }
+                    {productDetail.manufactureId === 3 && <img src="../../../../images/Manufactory/apple.PNG" alt="" /> }
                   </span>
                   <h4 className={style["item-name"]}>{product.name}</h4>
-                  <span className={style["item-price"]}>{product.price}</span>
-                  <span className={style["btn-addCart"]}>Add To Cart</span>
+                  <span className={style["item-price"]}>${product.price}</span>
+                  <span className={style["btn-addCart"]} onClick={()=>{handleAddProducts(product)}}>Add To Cart</span>
                 </div>
               ) : null
             )}

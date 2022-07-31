@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { GlobalState } from "../../../GlobalState";
@@ -7,16 +7,21 @@ import style from "./Header.module.css";
 function Header() {
   const state = useContext(GlobalState);
   const [isLogged, setIsLogged] = state.UserAPI.isLogged;
-  const nav= useNavigate()
-
+  const nav = useNavigate();
+  const searchRef = useRef(0);
+  const handleSearch = () => {
+    const value = searchRef.current.value;
+    nav(value ? `/search/?query=${value}` : '/search');
+    searchRef.current.value = "";
+  };
   const user = state.UserAPI.user[0];
   const handleLogout = () => {
     localStorage.clear();
     setIsLogged(false);
     toast.success("Logout successfully", {
-      position: toast.POSITION.TOP_CENTER
+      position: toast.POSITION.TOP_CENTER,
     });
-    return nav('/')
+    nav("/");
   };
   return (
     <div className={style.header}>
@@ -27,8 +32,14 @@ function Header() {
           </Link>
         </div>
         <div className={style.search}>
-          <input type="text" placeholder="search products..." />
-          <span className={style["btn-search"]}>
+          <input
+            type="text"
+            placeholder="search products..."
+            spellCheck={false}
+            ref={searchRef}
+          />
+
+          <span className={style["btn-search"]} onClick={handleSearch}>
             <i className="fas fa-search"></i>
           </span>
         </div>

@@ -99,4 +99,5 @@ export const columnsCategory = [
 export const columnsManufacture = [
   { field: "id", headerName: "ID", width: 100 },
   { field: "name", headerName: "Name", width: 150 },
+  { field: "nameCategory", headerName: "Name Category", width: 150 }
 ];

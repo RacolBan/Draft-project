@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
-import style from './List.module.css'
+import style from "./List.module.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-function ListCategory({columns,title,categoryAll,setCategoryAll}) {
-  const nav = useNavigate()
-  const [isDlt,setIsDlt] = useState(false)
-  useEffect(()=>{
-    
-  },[isDlt])
+function ListCategory({ columns, title, categoryAll }) {
+  const nav = useNavigate();
+
   const actionColumn = [
     {
       field: "action",
@@ -19,8 +16,11 @@ function ListCategory({columns,title,categoryAll,setCategoryAll}) {
       renderCell: (params) => {
         return (
           <div className={style.cellAction}>
-            <Link to={`view/${params.row.id}`} style={{ textDecoration: "none" }}>
-              <div className={style.viewButton}>View</div>
+            <Link
+              to={`view/${params.row.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className={style.viewButton}>Update</div>
             </Link>
             <div
               className={style.deleteButton}
@@ -33,9 +33,9 @@ function ListCategory({columns,title,categoryAll,setCategoryAll}) {
       },
     },
   ];
-  const handleDelete =async (id) => {
+  const handleDelete = async (id) => {
     try {
-      const { data } = await axios.delete(
+      const {data} = await axios.delete(
         `http://localhost:8000/category/${id}`,
         {
           headers: {
@@ -44,14 +44,14 @@ function ListCategory({columns,title,categoryAll,setCategoryAll}) {
           },
         }
       );
-      setIsDlt(!isDlt)
+      
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
       return nav("/admin/category");
     } catch (error) {
       toast.error(error.response.data.message, {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };

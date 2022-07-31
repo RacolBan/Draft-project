@@ -7,7 +7,7 @@ import style from "./Category.module.css";
 import SelectManu from "./SelectManu";
 import SelectPrice from "./SelectPrice";
 
-function Category() {
+function Category({ handleAddProducts }) {
   const params = useParams();
   const [products, setProducts] = useState([]);
   const { search } = useLocation();
@@ -44,40 +44,62 @@ function Category() {
 
   return (
     <div className={style.category}>
-      <div className={style["category-head"]}>
-        <div className={style["category-head-select-manu"]}>
-          <SelectManu
-            categoryId={params.id}
-            page={page}
-            manufacture={manufacture}
-            price={price}
-          />
-        </div>
-        <div className={style["category-head-select-price"]}>
-          <SelectPrice page={page} manufacture={manufacture} />
-        </div>
-      </div>
-      <div className={`${style["category-container"]} row .grid.wide`}>
-        {products?.map((product, index) => (
-          <div className={`${style.item} col l-3`} key={index}>
-            <Link to={`/detail/${product.id}`} className={style["item-image"]}>
-              <img src={`http://localhost:8000/${product.image}`} alt="Apple" />
-            </Link>
-            <span className={style["item-manufactory"]}>
-              <img src="./images/Manufactory/apple.png" alt="" />
-            </span>
-            <h4 className={style["item-name"]}>{product.name}</h4>
-            <span className={style["item-price"]}>${product.price}</span>
-            <span className={style["btn-addCart"]}>Add To Cart</span>
+      <div className={`${style.container}`}>
+        <div className={`${style["category-head"]}`}>
+          <div className={style["category-head-select-manu"]}>
+            <SelectManu
+              categoryId={params.id}
+              page={page}
+              manufacture={manufacture}
+              price={price}
+            />
           </div>
-        ))}
+          <div className={style["category-head-select-price"]}>
+            <SelectPrice page={page} manufacture={manufacture} />
+          </div>
+        </div>
+        <div className={`${style["category-content"]} row `}>
+          {products?.map((product, index) => (
+            <div className={`${style.cover} col l-2-4`} key={index}>
+              <div className={`${style.item} `} >
+                <Link
+                  to={`/detail/${product.id}`}
+                  className={style["item-image"]}
+                >
+                  <img
+                    src={`http://localhost:8000/${product.image}`}
+                    alt="Apple"
+                  />
+                </Link>
+                <span className={style["item-manufactory"]}>
+                  {product.manufactureId === 2 && (
+                    <img src="../../../images/Manufactory/asus.PNG" alt="" />
+                  )}
+                  {product.manufactureId === 1 && (
+                    <img src="../../../images/Manufactory/dell.PNG" alt="" />
+                  )}
+                </span>
+                <h4 className={style["item-name"]}>{product.name}</h4>
+                <span className={style["item-price"]}>${product.price}</span>
+                <span
+                  className={style["btn-addCart"]}
+                  onClick={() => {
+                    handleAddProducts(product);
+                  }}
+                >
+                  Add To Cart
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <Pagination
+          totalPages={totalPages}
+          page={page}
+          manufacture={manufacture}
+          price={price}
+        />
       </div>
-      <Pagination
-        totalPages={totalPages}
-        page={page}
-        manufacture={manufacture}
-        price={price}
-      />
     </div>
   );
 }

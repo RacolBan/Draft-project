@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import { GlobalState } from '../../../GlobalState'
 
-function Apple() {
+function Apple({handleAddProducts}) {
   const settings = {
     dots: false,
     infinite: true,
@@ -39,7 +39,7 @@ function Apple() {
             </span>
             <h4 className={style["item-name"]}>{product.name}</h4>
             <span className={style["item-price"]}>${product.price}</span>
-            <span className={style["btn-addCart"]}>Add To Cart</span>
+            <span className={style["btn-addCart"]} onClick={()=>{handleAddProducts(product)}}>Add To Cart</span>
           </div>
         ))}
       </Slider>

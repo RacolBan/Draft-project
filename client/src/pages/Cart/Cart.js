@@ -110,11 +110,11 @@ function Cart({ cartItems, setCartItems }) {
 
           <div className={style["list-orders-total"]}>
             <span className={style["total-left"]}>Total: </span>
-            <span className={style["total-right"]}>{total}</span>
+            <span className={style["total-right"]}>${total}</span>
           </div>
         </div>
         <div className={style.checkout}>
-          <span>Checkout</span>
+          <span>Purchase</span>
         </div>
       </div>
     </div>

@@ -20,17 +20,11 @@ const getCategoryByCategoryId = async (req, res) => {
       return res.status(404).json({ message: "Not found Categories" });
     }
 
-    const foundManufacture = await ManufactureModel.findOne({
-      where: {
-        id: category.manufactureId,
-      },
-    });
     res
       .status(200)
       .json({
         message: "Get Category successfully",
         category,
-        foundManufacture,
       });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -93,7 +87,7 @@ const removeCategory = async (req, res) => {
   try {
     const { categoryId: id } = req.params;
 
-    const foundCategory = await CategoryModel.findByPk(id);
+    const foundCategory = await CategoryModel.findOne({where:{id:id}});
 
     if (!foundCategory) {
       return res.status(404).json({ message: "Not Found Data" });

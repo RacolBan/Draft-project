@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useCustomRouter from "../../Hooks/useCustomRouter";
+import style from './SelectManu.module.css'
 
 const SelectManu = ({ page, categoryId,price }) => {
   const [manufacture, setManufacture] = useState([]);
@@ -28,7 +29,7 @@ const SelectManu = ({ page, categoryId,price }) => {
   };
 
   return (
-    <div>
+    <div className={style.selectManu}>
       <select onChange={handleChange}>
         <option value="0">Select Manufacture</option>
         {manufacture.map((item) => (
