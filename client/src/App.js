@@ -164,7 +164,7 @@ function App() {
           <Route
             path="/search"
             element={
-              <Layout>
+              <Layout cartItems={cartItems}>
                 <Search handleAddProducts={handleAddProducts}/>
               </Layout>
             }
