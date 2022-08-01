@@ -5,12 +5,13 @@ import { toast } from "react-toastify";
 import { GlobalState } from "../../GlobalState";
 import style from "./Cart.module.css";
 
-function Cart({ cartItems, setCartItems }) {
+function Cart({ cartItems, setCartItems,setIsPm,isPm }) {
   const [total, setTotal] = useState(0);
   const login = JSON.parse(localStorage.getItem("login")) || null;
-  const state = useContext(GlobalState)
-  const user= state.UserAPI.user[0];
+  const state = useContext(GlobalState);
+  const user = state.UserAPI.user[0];
   
+
   useEffect(() => {
     const getTotal = () => {
       const tt = cartItems.reduce((prev, item) => {
@@ -67,28 +68,26 @@ function Cart({ cartItems, setCartItems }) {
   };
 
   const handlePayment = async () => {
-    if (login) {
-      const newPayment = {
-        products: cartItems,
-        userId: login.userId,
-        totalPrice: total,
-        method: "Ship Cod",
-        email:user.email
-      };
-      try {
-        const res = await axios.post(
-          `http://localhost:8000/payment`,
-          newPayment
-        );
-        console.log(res);
-        // toast.success(data.message, {
-        //   position: toast.POSITION.TOP_CENTER,
-        // });
-      } catch (error) {
-        toast.error(error.response.data.message, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      }
+    const newPayment = {
+      products: cartItems,
+      userId: login.userId,
+      totalPrice: total,
+      method: "Ship Cod",
+      email: user.email,
+    };
+    try {
+      const { data } = await axios.post(
+        `http://localhost:8000/payment`,
+        newPayment
+      );
+      setIsPm(!isPm)
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 

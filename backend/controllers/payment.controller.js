@@ -94,7 +94,7 @@ const initPay = async (req, res) => {
         Good luck and have fun!
     `
     );
-    res.status(200).json({ mesasge: "Payment successfully !" });
+    res.status(200).json({ message: "Payment successfully !" });
   } catch (error) {
     await t.rollback();
     return res.status(500).json({ message: error.mesasge });

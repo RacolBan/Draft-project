@@ -49,6 +49,7 @@ function App() {
   const [categoryAll, setCategoryAll] = useState([]);
   const products = ProductsAll().productsAll;
   const [cartItems, setCartItems] = useState([]);
+  const [isPm,setIsPm] = useState(false)
   const login = JSON.parse(localStorage.getItem("login")) || null;
   useEffect(() => {
     if (login) {
@@ -70,7 +71,7 @@ function App() {
       };
       getCart();
     }
-  }, []);
+  }, [isPm]);
 
   const handleAddProducts = async (product) => {
     if (login) {
@@ -159,7 +160,7 @@ function App() {
             path="/cart"
             element={
               <Layout cartItems={cartItems}>
-                <Cart cartItems={cartItems} setCartItems={setCartItems} />
+                <Cart cartItems={cartItems} setCartItems={setCartItems} isPm={isPm} setIsPm={setIsPm}/>
               </Layout>
             }
           />
@@ -280,7 +281,6 @@ function App() {
                     columns={columnsCategory}
                     title="Category"
                     categoryAll={categoryAll}
-                    setCategoryAll={setCategoryAll}
                   />
                 </LayoutAdmin>
               }
