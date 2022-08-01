@@ -1,12 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { GlobalState } from "../../GlobalState";
 import style from "./Cart.module.css";
 
 function Cart({ cartItems, setCartItems }) {
   const [total, setTotal] = useState(0);
   const login = JSON.parse(localStorage.getItem("login")) || null;
+  const state = useContext(GlobalState)
+  const user= state.UserAPI.user[0];
+  
   useEffect(() => {
     const getTotal = () => {
       const tt = cartItems.reduce((prev, item) => {
@@ -58,6 +62,32 @@ function Cart({ cartItems, setCartItems }) {
             position: toast.POSITION.TOP_CENTER,
           });
         }
+      }
+    }
+  };
+
+  const handlePayment = async () => {
+    if (login) {
+      const newPayment = {
+        products: cartItems,
+        userId: login.userId,
+        totalPrice: total,
+        method: "Ship Cod",
+        email:user.email
+      };
+      try {
+        const res = await axios.post(
+          `http://localhost:8000/payment`,
+          newPayment
+        );
+        console.log(res);
+        // toast.success(data.message, {
+        //   position: toast.POSITION.TOP_CENTER,
+        // });
+      } catch (error) {
+        toast.error(error.response.data.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
       }
     }
   };
@@ -118,8 +148,19 @@ function Cart({ cartItems, setCartItems }) {
               <span className={style["total-right"]}>${total}</span>
             </div>
           </div>
+          <div className={style["select-payment"]}>
+            <h3>Select Method Payment</h3>
+            <form>
+              <input type="radio" id="visa" name="payMethod" />
+              <label htmlFor="visa">Visa</label>
+              <input type="radio" id="master" name="payMethod" />
+              <label htmlFor="master">Master Cart</label>
+              <input type="radio" id="cod" name="payMethod" />
+              <label htmlFor="cod">Ship COD</label>
+            </form>
+          </div>
           <div className={style.checkout}>
-            <span>Purchase</span>
+            <span onClick={handlePayment}>Purchase</span>
           </div>
         </div>
       ) : (

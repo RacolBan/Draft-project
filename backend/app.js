@@ -35,7 +35,7 @@ app.use("/product", productRouter);
 app.use("/api", orderRouter);
 app.use("/api", orderDetailRouter);
 app.use("/cart", CartRouter);
-app.use("/api", PaymentRouter);
+app.use("/payment", PaymentRouter);
 
 
 
