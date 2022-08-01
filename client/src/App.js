@@ -23,6 +23,7 @@ import {
   columnsProducts,
   columnsCategory,
   columnsManufacture,
+  columnsOrder,
 } from "./pages/Admin/Conponents/Table/Columns";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -42,6 +43,7 @@ import ViewCategory from "./pages/Admin/Conponents/View/ViewCategory";
 import ViewManufacture from "./pages/Admin/Conponents/View/ViewManufacture";
 import ProductsAll from "./API/ProductsAll";
 import Search from "./pages/Search/Search";
+import ListOrders from "./pages/Admin/Conponents/List/ListOrders";
 
 function App() {
   const [categoryAll, setCategoryAll] = useState([]);
@@ -333,6 +335,19 @@ function App() {
               element={
                 <LayoutAdmin>
                   <ViewManufacture title="Update Manufacture" isFile={false} />
+                </LayoutAdmin>
+              }
+            />
+          </Route>
+          <Route path="admin/orders">
+            <Route
+              index
+              element={
+                <LayoutAdmin>
+                  <ListOrders
+                    columns={columnsOrder}
+                    title="Order"
+                  />
                 </LayoutAdmin>
               }
             />

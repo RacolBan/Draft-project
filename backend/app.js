@@ -14,9 +14,6 @@ const orderDetailRouter = require('./routers/orderDetail.router');
 const CartRouter = require('./routers/cart.router');
 const PaymentRouter = require('./routers/payment.router');
 
-
-
-
 const app = express();
 
 require("dotenv").config();
@@ -32,7 +29,7 @@ app.use("/user", userRouter);
 app.use("/category", categoryRouter);
 app.use("/manufacture", manufactureRouter);
 app.use("/product", productRouter);
-app.use("/api", orderRouter);
+app.use("/order", orderRouter);
 app.use("/api", orderDetailRouter);
 app.use("/cart", CartRouter);
 app.use("/payment", PaymentRouter);
