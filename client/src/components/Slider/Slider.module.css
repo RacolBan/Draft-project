@@ -9,17 +9,25 @@
 .carousel {
   margin: 0 auto;
   overflow: hidden;
+  height: 100%;
 }
 
 .carousel-inner {
   white-space: nowrap;
   transform: translateX(0);
+  height: 100%;
 }
 
 .carousel-item {
   display: inline-block;
   width: 100%;
   transition: ease 1s;
+  height: 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
 }
 
 .carousel-indicators {
@@ -40,4 +48,16 @@
 }
 .active {
   opacity: 1;
+}
+
+@media (min-width: 901px) {
+  .container {
+    max-width: 83.33333%;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    display: none;
+  }
 }

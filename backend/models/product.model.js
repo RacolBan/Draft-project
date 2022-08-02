@@ -5,6 +5,7 @@ const ProductModel = sequelize.define("products",
     {
         name: {
             type: DataTypes.STRING,
+            unique: true,
             allowNull: false,
             validate: {
                 len: {
@@ -24,7 +25,7 @@ const ProductModel = sequelize.define("products",
             allowNull: true,
         },
         image: {
-            type: DataTypes.BLOB("medium"),
+            type: DataTypes.STRING,
             allowNull: true
         }
 

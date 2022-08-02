@@ -131,15 +131,15 @@ ProductModel.belongsTo(ManufactureModel, {
 
 //ManufactureModel vs CategoryModel: one to many
 
-ManufactureModel.hasOne(CategoryModel, {
+CategoryModel.hasMany(ManufactureModel, {
     foreignKey: {
-        name: "manufactureId",
+        name: "categoryId",
     }
 });
 
-CategoryModel.belongsTo(ManufactureModel, {
+ManufactureModel.belongsTo(CategoryModel, {
     foreignKey: {
-        name: "manufactureId",
+        name: "categoryId",
     },
 });
 

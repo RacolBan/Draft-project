@@ -119,3 +119,22 @@
   background: #f5f5f5;
   min-width: 150px;
 }
+
+@media (min-width: 901px) {
+  .header-menu {
+    max-width: 83.33333%;
+  }
+}
+
+@media (max-width: 900px) {
+  .menu:hover .menu-nav {
+    display: block;
+  }
+  .menu-nav {
+    display: none;
+  }
+
+  .header-menu {
+    max-width: 83.33333%;
+  }
+}
