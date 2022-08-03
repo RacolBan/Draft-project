@@ -4,10 +4,11 @@ import style from "./ForgotPassword.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function ForgotPassword({ isTempToken }) {
+function ForgotPassword({ isTempToken,setLoading }) {
   const [email, setEmail] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
   const handlerSubmit = async () => {
+    setLoading(true)
     const dataSend = {
       email: email,
     };
@@ -22,6 +23,7 @@ function ForgotPassword({ isTempToken }) {
       }
       localStorage.setItem("tempToken", JSON.stringify(tempToken));
       setIsSubmit(true);
+      setLoading(false)
       toast.warning("A link has been sent to your email", {
         position: toast.POSITION.TOP_CENTER
       });
@@ -44,11 +46,11 @@ function ForgotPassword({ isTempToken }) {
               <p>Your password reset link has expired or not exist</p>
             </div>
           )}
-          {/* {isSubmit && (
+          {isSubmit && (
             <div className={style["forgot-head-send"]}>
               <p>A link has been sent to your email</p>
             </div>
-          )} */}
+          )}
           {!isSubmit && (
             <div className={style["forgot-head-description"]}>
               <p>No worries. We'll send you a link to reset you password</p>

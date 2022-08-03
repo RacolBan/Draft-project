@@ -16,7 +16,6 @@ function Apple({handleAddProducts}) {
     arrows: false,
     autoplay: true,
     autoplaySpeed: 3000,
-<<<<<<< HEAD
     responsive: [
       {
         breakpoint: 1024,
@@ -24,7 +23,7 @@ function Apple({handleAddProducts}) {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
+          dots: false
         }
       },
       {
@@ -43,8 +42,6 @@ function Apple({handleAddProducts}) {
         }
       }
     ]
-=======
->>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
   };
   const state = useContext(GlobalState);
   const productsLaptop = state.ProductsLaptop.productsLaptop[0];
@@ -52,7 +49,7 @@ function Apple({handleAddProducts}) {
     <div className={style.wrapper}>
       <div className={style.head}>
         <h3>Laptop</h3>
-        <Link to="#">
+        <Link to={`/category/1`}>
           See all
           <i className="fa fa-angle-double-right"></i>
         </Link>

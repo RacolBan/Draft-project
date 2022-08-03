@@ -40,15 +40,13 @@
 }
 
 .cart .list-orders .list-orders-item-img {
-  max-width: 10%;
+  max-width: 6%;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #e2e2e2;
   text-align: center;
 }
 
 .cart .list-orders .list-orders-item-img img {
-  width: 100%;
+  width: 75px;
   height: auto;
   vertical-align: middle;
 }
@@ -56,7 +54,7 @@
 .cart .list-orders .list-orders-item-content {
   width: 100%;
   max-width: 60%;
-  padding: 0 20px;
+  margin: 0 30px;
 }
 
 .cart .name {
@@ -81,11 +79,7 @@
   max-width: 16%;
   width: 100%;
   text-align: right;
-<<<<<<< HEAD
   padding-right: 4%;
-=======
-  padding-right: 1%;
->>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
 }
 
 .cart .list-orders .list-orders-item-quantity {
@@ -102,10 +96,7 @@
   background: #fff;
   cursor: pointer;
   font-size: 16px;
-<<<<<<< HEAD
   padding-left: 4%;
-=======
->>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
 }
 
 .cart .list-orders .list-orders-item-up-down {
@@ -185,7 +176,6 @@
   letter-spacing: 1px;
   text-decoration: none;
 }
-<<<<<<< HEAD
 
 .cart .select-payment {
 }
@@ -204,10 +194,75 @@
   margin: 0 10px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .cart .description {
     display: none;
   }
+  .cart .list-orders .list-orders-item-content {
+    margin: 0 50px;
+  }
+  .cart .name {
+    font-size: 16px;
+  }
 }
-=======
->>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
+
+@media (max-width: 600px) {
+  .cart .name {
+    margin-left: 10px;
+  }
+  .cart .list-orders .list-orders-item {
+    flex-wrap: wrap;
+  }
+
+  .cart .list-orders .list-orders-item-img {
+    width: 20%;
+  }
+  .cart .list-orders .list-orders-item-content {
+    width: 80%;
+  }
+
+  .cart .list-orders .list-orders-item-price {
+    max-width: 100%;
+    justify-content: center;
+    display: flex;
+    margin: 5px 0;
+  }
+
+  .cart .list-orders .list-orders-item-quantity {
+    max-width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+}
+
+@media (max-width: 400px) {
+  .cart .name {
+    margin-left: 10px;
+  }
+  .cart .list-orders .list-orders-item {
+    flex-wrap: wrap;
+  }
+  .cart .list-orders .list-orders-item-img {
+    max-width: 25%;
+    width: 100%;
+    text-align: center;
+  }
+  .cart .list-orders .list-orders-item-content {
+    width: 80%;
+    font-size: 16px;
+    margin: 0 5px;
+  }
+
+  .cart .list-orders .list-orders-item-price {
+    max-width: 100%;
+    justify-content: center;
+    display: flex;
+    margin: 5px 0;
+  }
+
+  .cart .list-orders .list-orders-item-quantity {
+    max-width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+}

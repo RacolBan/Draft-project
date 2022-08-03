@@ -44,31 +44,22 @@ import ViewManufacture from "./pages/Admin/Conponents/View/ViewManufacture";
 import ProductsAll from "./API/ProductsAll";
 import Search from "./pages/Search/Search";
 import ListOrders from "./pages/Admin/Conponents/List/ListOrders";
-<<<<<<< HEAD
 import FadeLoader from "react-spinners/FadeLoader";
-=======
->>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
 
 function App() {
   const [categoryAll, setCategoryAll] = useState([]);
+  const [loading, setLoading] = useState(false);
   const products = ProductsAll().productsAll;
   const [cartItems, setCartItems] = useState([]);
-<<<<<<< HEAD
   const [isPm, setIsPm] = useState(false);
-  const [loading, setLoading] = useState(false);
   const login = JSON.parse(localStorage.getItem("login")) || null;
 
   const override = {
     display: "block",
     margin: "0 auto",
   };
-  useEffect(()=>{
+  useEffect(() => {}, [loading]);
 
-  },[loading])
-=======
-  const [isPm,setIsPm] = useState(false)
-  const login = JSON.parse(localStorage.getItem("login")) || null;
->>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
   useEffect(() => {
     if (login) {
       const getCart = async () => {
@@ -154,7 +145,7 @@ function App() {
               path="/register"
               element={
                 <Layout>
-                  <Register />
+                  <Register setLoading={setLoading}/>
                 </Layout>
               }
             />
@@ -227,7 +218,7 @@ function App() {
               path="/forgot"
               element={
                 <Layout>
-                  <ForgotPassword />
+                  <ForgotPassword setLoading={setLoading}/>
                 </Layout>
               }
             />
@@ -235,7 +226,7 @@ function App() {
               path="/reset/:tempToken"
               element={
                 <Layout>
-                  <Reset />
+                  <Reset setLoading={setLoading}/>
                 </Layout>
               }
             />

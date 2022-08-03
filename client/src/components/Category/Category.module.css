@@ -5,6 +5,18 @@
   margin: auto;
   z-index: 2;
 }
+
+.scroll-header-menu {
+  background-color: #fff;
+  box-shadow: 0px 5px 20px rgb(0 0 0 / 10%);
+  height: 40px;
+  margin: auto;
+  z-index: 2;
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+}
 .menu {
   width: 250px;
   float: left;
@@ -50,11 +62,14 @@
   color: #bfbfbf;
   transition: 0.5s ease-out;
 }
-
+.menu:hover .menu-nav {
+  display: block;
+}
 .sub-menu {
   display: none;
 }
 .menu-nav {
+  display: none;
 }
 .menu-list {
   list-style: none;

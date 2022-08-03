@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { GlobalState } from "../../GlobalState";
 import style from "./Register.module.css";
 
-function Register() {
+function Register({setLoading}) {
   const nav = useNavigate()
   const state = useContext(GlobalState)
   const [isLogged, setIsLogged] = state.UserAPI.isLogged;
@@ -151,6 +151,7 @@ function Register() {
     email: input.email,
   };
   const registerSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const { data } = await axios.post(
@@ -169,6 +170,7 @@ function Register() {
       localStorage.clear()
       localStorage.setItem("login", JSON.stringify(login));
       setIsLogged(true)
+      setLoading(false)
       toast.success("Register successfully", {
         position: toast.POSITION.TOP_CENTER,
       });

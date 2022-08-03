@@ -34,11 +34,7 @@ function Search({ handleAddProducts }) {
       <div className={style.container}>
         <div className={`${style.content} row`}>
           {showResult?.map((product, index) => (
-<<<<<<< HEAD
             <div className={`${style.cover} col l-2-4 m-6 c-12`} key={index}>
-=======
-            <div className={`${style.cover} col l-2-4`} key={index}>
->>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
               <div className={`${style.item} `}>
                 <Link
                   to={`/detail/${product.id}`}

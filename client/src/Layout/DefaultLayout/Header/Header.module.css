@@ -169,8 +169,23 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 720px) {
+  .header .header-container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
   .cart {
     display: none;
   }
+  .header .logo {
+    order: 1;
+  }
+  .header .search {
+    order: 2;
+    width: 100%;
+  }
+  .header .header-right {
+    order: 1;
+  }
 }
+

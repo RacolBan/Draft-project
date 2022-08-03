@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import style from "./Reset.module.css";
 
-function Reset() {
+function Reset({setLoading}) {
   const [password, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isTempToken, setIsTempToken] = useState(true);
@@ -26,6 +26,7 @@ function Reset() {
       });
       return;
     }
+    setLoading(true)
     const newPwd = {
       newPassword: password,
     };
@@ -37,7 +38,7 @@ function Reset() {
           ...newPwd,
         }
       );
-
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

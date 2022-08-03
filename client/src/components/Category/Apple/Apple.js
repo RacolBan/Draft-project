@@ -23,7 +23,7 @@ function Apple({handleAddProducts}) {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
+          dots: false
         }
       },
       {
@@ -49,7 +49,7 @@ function Apple({handleAddProducts}) {
     <div className={style.wrapper}>
       <div className={style.head}>
         <h3>Apple Center</h3>
-        <Link to="#">
+        <Link to={`/category/2`}>
           See all
           <i className="fa fa-angle-double-right"></i>
         </Link>
