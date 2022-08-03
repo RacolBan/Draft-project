@@ -2,7 +2,10 @@
   padding: 20px;
   display: flex;
   gap: 20px;
+<<<<<<< HEAD
   flex-direction: column;
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
 }
 
 .admin .left {

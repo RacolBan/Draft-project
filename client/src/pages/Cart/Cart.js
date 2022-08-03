@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { GlobalState } from "../../GlobalState";
 import style from "./Cart.module.css";
 
+<<<<<<< HEAD
 
 function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
   const [total, setTotal] = useState(0);
@@ -16,6 +17,15 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
 
  
   
+=======
+function Cart({ cartItems, setCartItems,setIsPm,isPm }) {
+  const [total, setTotal] = useState(0);
+  const login = JSON.parse(localStorage.getItem("login")) || null;
+  const state = useContext(GlobalState);
+  const user = state.UserAPI.user[0];
+  
+
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
   useEffect(() => {
     const getTotal = () => {
       const tt = cartItems.reduce((prev, item) => {
@@ -49,7 +59,10 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
   const handleDelete = async (id) => {
     if (login) {
       if (window.confirm("Do you want to delete this product?")) {
+<<<<<<< HEAD
         setLoading(true)
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
         try {
           const { data } = await axios.delete(
             `http://localhost:8000/cart/users/${login.userId}/products/${id}`
@@ -59,7 +72,10 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
               cartItems.splice(index, 1);
             }
           });
+<<<<<<< HEAD
           setLoading(false)
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
           setCartItems([...cartItems]);
           toast.success(data.message, {
             position: toast.POSITION.TOP_CENTER,
@@ -74,12 +90,19 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
   };
 
   const handlePayment = async () => {
+<<<<<<< HEAD
     setLoading(true)
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
     const newPayment = {
       products: cartItems,
       userId: login.userId,
       totalPrice: total,
+<<<<<<< HEAD
       method: method,
+=======
+      method: "Ship Cod",
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
       email: user.email,
     };
     try {
@@ -88,7 +111,10 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
         newPayment
       );
       setIsPm(!isPm)
+<<<<<<< HEAD
       setLoading(false)
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -99,6 +125,7 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
     }
   };
 
+<<<<<<< HEAD
   const handleChange = (e) =>{
     setMethod(e.target.value);
   }
@@ -108,6 +135,13 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
       {cartItems.length > 0 ? (
         <div className={style.container}>
           <div className={`${style["list-orders"]} row`}>
+=======
+  return (
+    <div className={style.cart}>
+      {cartItems.length > 0 ? (
+        <div className={style.container}>
+          <div className={style["list-orders"]}>
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
             {cartItems.map((cart) => (
               <div className={style["list-orders-item"]} key={cart.id}>
                 <div className={style["list-orders-item-img"]}>
@@ -118,7 +152,11 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
                 </div>
                 <div className={style["list-orders-item-content"]}>
                   <span className={style.name}>{cart.name}</span>
+<<<<<<< HEAD
                   <span className={`${style.description}`}>{cart.description}</span>
+=======
+                  <span className={style.description}>{cart.description}</span>
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
                 </div>
                 <div className={style["list-orders-item-price"]}>
                   <span>${cart.price}</span>
@@ -159,6 +197,7 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
               <span className={style["total-right"]}>${total}</span>
             </div>
           </div>
+<<<<<<< HEAD
           <div className={style["select-payment"]} >
             <h3>Select Method Payment</h3>
             <form>
@@ -167,6 +206,16 @@ function Cart({ cartItems, setCartItems,setIsPm,isPm ,setLoading}) {
               <input type="radio" id="master" name="payMethod" value="Master" onChange={handleChange}/>
               <label htmlFor="master">Master Cart</label>
               <input type="radio" id="cod" name="payMethod" value="Ship COD" onChange={handleChange}/>
+=======
+          <div className={style["select-payment"]}>
+            <h3>Select Method Payment</h3>
+            <form>
+              <input type="radio" id="visa" name="payMethod" />
+              <label htmlFor="visa">Visa</label>
+              <input type="radio" id="master" name="payMethod" />
+              <label htmlFor="master">Master Cart</label>
+              <input type="radio" id="cod" name="payMethod" />
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
               <label htmlFor="cod">Ship COD</label>
             </form>
           </div>

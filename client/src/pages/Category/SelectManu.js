@@ -4,7 +4,11 @@ import { toast } from "react-toastify";
 import useCustomRouter from "../../Hooks/useCustomRouter";
 import style from './SelectManu.module.css'
 
+<<<<<<< HEAD
 const SelectManu = ({ page, categoryId,sort }) => {
+=======
+const SelectManu = ({ page, categoryId,price }) => {
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
   const [manufacture, setManufacture] = useState([]);
   const {pushQuery} = useCustomRouter();
 
@@ -25,7 +29,11 @@ const SelectManu = ({ page, categoryId,sort }) => {
   }, []);
   const handleChange = (e) => {
     const { value } = e.target;
+<<<<<<< HEAD
     pushQuery({page,manufacture:value,sort})
+=======
+    pushQuery({page,manufacture:value,price})
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
   };
 
   return (

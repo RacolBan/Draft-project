@@ -14,6 +14,7 @@ function Category({ handleAddProducts }) {
   const [limit, setLimit] = useState(5);
   const [totalPages, setToTalPages] = useState(0);
 
+<<<<<<< HEAD
   const { page, manufacture, sort } = useMemo(() => {
     const page = new URLSearchParams(search).get("page") || 1;
     const manufacture = new URLSearchParams(search).get("manufacture") || 0;
@@ -22,6 +23,16 @@ function Category({ handleAddProducts }) {
       page: Number(page),
       manufacture: Number(manufacture),
       sort: sort,
+=======
+  const { page, manufacture, price } = useMemo(() => {
+    const page = new URLSearchParams(search).get("page") || 1;
+    const manufacture = new URLSearchParams(search).get("manufacture") || 0;
+    const price = new URLSearchParams(search).get("price") || "";
+    return {
+      page: Number(page),
+      manufacture: Number(manufacture),
+      price: price,
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
     };
   }, [search]);
 
@@ -29,7 +40,11 @@ function Category({ handleAddProducts }) {
     const getProducts = async () => {
       try {
         const { data } = await axios.get(
+<<<<<<< HEAD
           `http://localhost:8000/product/pagination/category/${params.id}?manufacture=${manufacture}&limit=${limit}&page=${page}&sort=${sort}`
+=======
+          `http://localhost:8000/product/pagination/category/${params.id}?manufacture=${manufacture}&limit=${limit}&page=${page}&price=${price}`
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
         );
         const total = Math.ceil(data.count / limit);
         setToTalPages(total);
@@ -41,7 +56,11 @@ function Category({ handleAddProducts }) {
       }
     };
     getProducts();
+<<<<<<< HEAD
   }, [page, manufacture, sort]);
+=======
+  }, [page, manufacture, price]);
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
 
   return (
     <div className={style.category}>
@@ -52,7 +71,11 @@ function Category({ handleAddProducts }) {
               categoryId={params.id}
               page={page}
               manufacture={manufacture}
+<<<<<<< HEAD
               sort={sort}
+=======
+              price={price}
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
             />
           </div>
           <div className={style["category-head-select-price"]}>
@@ -61,7 +84,11 @@ function Category({ handleAddProducts }) {
         </div>
         <div className={`${style["category-content"]} row `}>
           {products?.map((product, index) => (
+<<<<<<< HEAD
             <div className={`${style.cover} col l-2-4 m-6 c-12`} key={index}>
+=======
+            <div className={`${style.cover} col l-2-4`} key={index}>
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
               <div className={`${style.item} `}>
                 <Link
                   to={`/detail/${product.id}`}
@@ -98,7 +125,11 @@ function Category({ handleAddProducts }) {
           totalPages={totalPages}
           page={page}
           manufacture={manufacture}
+<<<<<<< HEAD
           sort={sort}
+=======
+          price={price}
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
         />
       </div>
     </div>

@@ -81,7 +81,11 @@
   max-width: 16%;
   width: 100%;
   text-align: right;
+<<<<<<< HEAD
   padding-right: 4%;
+=======
+  padding-right: 1%;
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
 }
 
 .cart .list-orders .list-orders-item-quantity {
@@ -98,7 +102,10 @@
   background: #fff;
   cursor: pointer;
   font-size: 16px;
+<<<<<<< HEAD
   padding-left: 4%;
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
 }
 
 .cart .list-orders .list-orders-item-up-down {
@@ -178,6 +185,7 @@
   letter-spacing: 1px;
   text-decoration: none;
 }
+<<<<<<< HEAD
 
 .cart .select-payment {
 }
@@ -201,3 +209,5 @@
     display: none;
   }
 }
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6

@@ -4,7 +4,11 @@ import style from "./Category.module.css";
 
 function CategoryProduct({ categoryList }) {
   return (
+<<<<<<< HEAD
     <div className={`${style["header-menu"]}`}>
+=======
+    <div className={`l-10 ${style["header-menu"]}`}>
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
       <div className="row no-gutters">
         <div className={style.menu}>
           <div className={style["menu-left"]}>

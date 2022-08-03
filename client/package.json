@@ -18,7 +18,10 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.4.0",
     "react-slick": "^0.29.0",
+<<<<<<< HEAD
     "react-spinners": "^0.13.4",
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
     "react-toastify": "^9.0.7",
     "recharts": "^2.1.13",
     "slick-carousel": "^1.8.1",

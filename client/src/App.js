@@ -44,12 +44,16 @@ import ViewManufacture from "./pages/Admin/Conponents/View/ViewManufacture";
 import ProductsAll from "./API/ProductsAll";
 import Search from "./pages/Search/Search";
 import ListOrders from "./pages/Admin/Conponents/List/ListOrders";
+<<<<<<< HEAD
 import FadeLoader from "react-spinners/FadeLoader";
+=======
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
 
 function App() {
   const [categoryAll, setCategoryAll] = useState([]);
   const products = ProductsAll().productsAll;
   const [cartItems, setCartItems] = useState([]);
+<<<<<<< HEAD
   const [isPm, setIsPm] = useState(false);
   const [loading, setLoading] = useState(false);
   const login = JSON.parse(localStorage.getItem("login")) || null;
@@ -61,6 +65,10 @@ function App() {
   useEffect(()=>{
 
   },[loading])
+=======
+  const [isPm,setIsPm] = useState(false)
+  const login = JSON.parse(localStorage.getItem("login")) || null;
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
   useEffect(() => {
     if (login) {
       const getCart = async () => {

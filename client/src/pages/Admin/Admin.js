@@ -41,8 +41,13 @@ function Admin() {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
        <div className={style.right}>
         <Chart aspect={3/ 1} title="User Spending ( Last 6 Months)" />
+=======
+      <div className={style.right}>
+        <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" />
+>>>>>>> 79a9a69eeca10882ab6e98b7a901247d0e6cdcb6
       </div>
     </div>
   );
