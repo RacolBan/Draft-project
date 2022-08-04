@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast} from "react-toastify";
 
 
-function ViewCategory({ title, isFile }) {
+function ViewCategory({ title, isFile,setLoading }) {
   const param = useParams();
   const [name, setName] = useState("");
   const [file, setFile] = useState("");
@@ -44,6 +44,7 @@ function ViewCategory({ title, isFile }) {
     
   }
   const handleUpdate = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const { data } = await axios.put(
@@ -56,12 +57,13 @@ function ViewCategory({ title, isFile }) {
           },
         }
       );
-      
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER
       });
       return nav('/admin/category')
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
       });
@@ -88,21 +90,6 @@ function ViewCategory({ title, isFile }) {
           )}
           <div className={style.right}>
             <form>
-              {/* {isFile && (
-                <div className={style.formInput}>
-                  <label htmlFor="file">
-                    Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    name="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    style={{ display: "none" }}
-                    disabled
-                  />
-                </div>
-              )} */}
 
               <div className={style.formInput}>
                 <label>Name</label>

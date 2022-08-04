@@ -28,6 +28,7 @@ function ForgotPassword({ isTempToken,setLoading }) {
         position: toast.POSITION.TOP_CENTER
       });
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
       });

@@ -133,7 +133,7 @@ function App() {
             <Route
               path="/"
               element={
-                <Layout cartItems={cartItems}>
+                <Layout cartItems={cartItems} >
                   <Home
                     categoryList={categoryAll}
                     handleAddProducts={handleAddProducts}
@@ -153,7 +153,7 @@ function App() {
               path="/login"
               element={
                 <Layout>
-                  <Login />
+                  <Login setLoading={setLoading}/>
                 </Layout>
               }
             />
@@ -194,7 +194,7 @@ function App() {
               path="/search"
               element={
                 <Layout cartItems={cartItems}>
-                  <Search handleAddProducts={handleAddProducts} />
+                  <Search handleAddProducts={handleAddProducts}/>
                 </Layout>
               }
             />
@@ -202,7 +202,7 @@ function App() {
               path="/profile"
               element={
                 <Layout cartItems={cartItems}>
-                  <Profile />
+                  <Profile setLoading={setLoading}/>
                 </Layout>
               }
             />
@@ -210,7 +210,7 @@ function App() {
               path="/changepass"
               element={
                 <Layout>
-                  <ChangePassword />
+                  <ChangePassword setLoading={setLoading}/>
                 </Layout>
               }
             />
@@ -243,7 +243,7 @@ function App() {
                 index
                 element={
                   <LayoutAdmin>
-                    <ListUsers columns={columnsUsers} title="Users" />
+                    <ListUsers columns={columnsUsers} title="Users" setLoading={setLoading}/>
                   </LayoutAdmin>
                 }
               />
@@ -255,6 +255,7 @@ function App() {
                       inputs={userInputs}
                       title="Add New User"
                       isFile={true}
+                      setLoading={setLoading}
                     />
                   </LayoutAdmin>
                 }
@@ -263,7 +264,7 @@ function App() {
                 path="view/:id"
                 element={
                   <LayoutAdmin>
-                    <ViewUser title="Update User" isFile={true} />
+                    <ViewUser title="Update User" isFile={true} setLoading={setLoading}/>
                   </LayoutAdmin>
                 }
               />
@@ -273,7 +274,7 @@ function App() {
                 index
                 element={
                   <LayoutAdmin>
-                    <ListProducts columns={columnsProducts} title="Products" />
+                    <ListProducts columns={columnsProducts} title="Products" setLoading={setLoading}/>
                   </LayoutAdmin>
                 }
               />
@@ -285,6 +286,7 @@ function App() {
                       inputs={productInputs}
                       title="Add New Product"
                       isFile={true}
+                      setLoading={setLoading}
                     />
                   </LayoutAdmin>
                 }
@@ -293,7 +295,7 @@ function App() {
                 path="view/:id"
                 element={
                   <LayoutAdmin>
-                    <ViewProduct title="Update Product" isFile={true} />
+                    <ViewProduct title="Update Product" isFile={true} setLoading={setLoading}/>
                   </LayoutAdmin>
                 }
               />
@@ -307,6 +309,7 @@ function App() {
                       columns={columnsCategory}
                       title="Category"
                       categoryAll={categoryAll}
+                      setLoading={setLoading}
                     />
                   </LayoutAdmin>
                 }
@@ -319,6 +322,7 @@ function App() {
                       inputs={categoryInputs}
                       title="Add New Category"
                       isFile={false}
+                      setLoading={setLoading}
                     />
                   </LayoutAdmin>
                 }
@@ -327,7 +331,7 @@ function App() {
                 path="view/:id"
                 element={
                   <LayoutAdmin>
-                    <ViewCategory title="Update Category" isFile={false} />
+                    <ViewCategory title="Update Category" isFile={false} setLoading={setLoading}/>
                   </LayoutAdmin>
                 }
               />
@@ -340,6 +344,7 @@ function App() {
                     <ListManufacture
                       columns={columnsManufacture}
                       title="Manufacture"
+                      setLoading={setLoading}
                     />
                   </LayoutAdmin>
                 }
@@ -352,6 +357,7 @@ function App() {
                       inputs={manufactureInputs}
                       title="Add New Manufacture"
                       isFile={false}
+                      setLoading={setLoading}
                     />
                   </LayoutAdmin>
                 }
@@ -363,6 +369,7 @@ function App() {
                     <ViewManufacture
                       title="Update Manufacture"
                       isFile={false}
+                      setLoading={setLoading}
                     />
                   </LayoutAdmin>
                 }
@@ -373,7 +380,7 @@ function App() {
                 index
                 element={
                   <LayoutAdmin>
-                    <ListOrders columns={columnsOrder} title="Order" />
+                    <ListOrders columns={columnsOrder} title="Order" setLoading={setLoading}/>
                   </LayoutAdmin>
                 }
               />

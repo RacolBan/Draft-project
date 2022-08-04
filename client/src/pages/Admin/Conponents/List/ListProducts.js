@@ -5,7 +5,7 @@ import style from "./List.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function ListProducts({ columns, title }) {
+function ListProducts({ columns, title,setLoading }) {
   const login = JSON.parse(localStorage.getItem("login")) || null;
 
   const [productsAll, setProductsAll] = useState([]);
@@ -56,6 +56,7 @@ function ListProducts({ columns, title }) {
     },
   ];
   const handleDelete = async (id) => {
+    setLoading(true)
     try {
       const { data } = await axios.delete(
         `http://localhost:8000/product/${id}`,
@@ -66,12 +67,14 @@ function ListProducts({ columns, title }) {
           },
         }
       );
+      setLoading(false)
       setIsDlt(!isDlt)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
       return nav("/admin/products");
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

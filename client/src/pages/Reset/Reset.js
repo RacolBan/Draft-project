@@ -20,13 +20,15 @@ function Reset({setLoading}) {
   }, []);
 
   const handlerSubmit = async () => {
+    setLoading(true)
     if (password !== confirmPassword) {
+      setLoading(false)
       toast.error("Password and Confirm Password does not match.", {
         position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
-    setLoading(true)
+    
     const newPwd = {
       newPassword: password,
     };
@@ -44,6 +46,7 @@ function Reset({setLoading}) {
       });
       return nav("/login");
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

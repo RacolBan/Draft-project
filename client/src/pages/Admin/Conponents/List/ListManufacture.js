@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import style from "./List.module.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-function ListManufacture({ columns, title }) {
+function ListManufacture({ columns, title,setLoading }) {
   
   const [manufactureAll, setManufactureAll] = useState([]);
   const login = JSON.parse(localStorage.getItem("login")) || null;
@@ -56,6 +56,7 @@ function ListManufacture({ columns, title }) {
     },
   ];
   const handleDelete = async (id) => {
+    setLoading(true)
     try {
       const { data } = await axios.delete(
         `http://localhost:8000/manufacture/${id}`,
@@ -67,11 +68,13 @@ function ListManufacture({ columns, title }) {
         }
       );
       setDlt(!isDlt)
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
 
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

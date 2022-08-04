@@ -62,6 +62,7 @@ function Cart({ cartItems, setCartItems, setIsPm, isPm, setLoading }) {
             position: toast.POSITION.TOP_CENTER,
           });
         } catch (error) {
+          setLoading(false)
           toast.error(error.response.data.message, {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -90,6 +91,7 @@ function Cart({ cartItems, setCartItems, setIsPm, isPm, setLoading }) {
         position: toast.POSITION.TOP_CENTER,
       });
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

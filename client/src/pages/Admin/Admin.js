@@ -6,7 +6,6 @@ import { GlobalState } from "../../GlobalState";
 function Admin() {
   const state = useContext(GlobalState)
   const user= state.UserAPI.user[0];
-  console.log(user);
 
   return (
     <div className={style.admin}>

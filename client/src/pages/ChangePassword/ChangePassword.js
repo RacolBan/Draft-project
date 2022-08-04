@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { GlobalState } from "../../GlobalState";
 import style from "./ChangePassword.module.css";
 
-function ChangePassword() {
+function ChangePassword({setLoading}) {
   const state = useContext(GlobalState);
   const user = state.UserAPI.user[0];
   const [currentPassword, setCurrentPassword] = useState("");
@@ -17,9 +17,11 @@ function ChangePassword() {
     newPassword,
   };
   const updateSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     if (newPassword !== ConfirmPassword) {
-      alert("New Password and Confirm Password does not match.");
+      setLoading(false)
+      toast.warning("New Password and Confirm Password does not match.");
       return;
     }
     try {
@@ -28,11 +30,13 @@ function ChangePassword() {
         updatePassword,
         { headers: { "access-token": "Bearer " + user.accesstoken } }
       );
+      setLoading(false)
       toast.success("Update Password successfully", {
         position: toast.POSITION.TOP_CENTER
       });
-      return nav('/')
+      nav('/')
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
       });

@@ -7,7 +7,7 @@ import style from "./Profile.module.css";
 import FormData from "form-data";
 import { toast } from "react-toastify";
 
-function Profile() {
+function Profile({setLoading}) {
   const state = useContext(GlobalState);
   const [user, setUser] = state.UserAPI.user;
   
@@ -18,7 +18,7 @@ function Profile() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [file, setFile] = useState(null);
-
+  
   useEffect(() => {
     setFirstname(user.firstname);
     setLastname(user.lastname);
@@ -34,6 +34,7 @@ function Profile() {
     phone,
   };
   const updateSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
 
     try {
@@ -42,12 +43,14 @@ function Profile() {
         newUser,
         { headers: { "access-token": "Bearer " + user.accesstoken } }
       );
-
+      setLoading(false)
+      setUser({...user,firstname,lastname,address})
       toast.success("Update successfully", {
         position: toast.POSITION.TOP_CENTER,
       });
       return nav("/profile");
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

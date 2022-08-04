@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function NewManufacture({ inputs, title, isFile }) {
+function NewManufacture({ inputs, title, isFile,setLoading }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
   const nav = useNavigate()
@@ -23,6 +23,7 @@ function NewManufacture({ inputs, title, isFile }) {
   };
   const handleCreateManufacture = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const newManufacture = {
       name:info.name,
       nameCategory:info.nameCategory
@@ -39,11 +40,13 @@ function NewManufacture({ inputs, title, isFile }) {
           },
         }
       );
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER
       });
       return nav('/admin/manufacture')
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
       });

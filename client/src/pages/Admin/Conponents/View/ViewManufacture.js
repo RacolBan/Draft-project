@@ -3,21 +3,21 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import style from "./New.module.css";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 
-
-function ViewManufacture({ title, isFile }) {
+function ViewManufacture({ title, isFile, setLoading }) {
   const param = useParams();
   const [name, setName] = useState("");
   const [file, setFile] = useState("");
- 
-  const nav = useNavigate()
+
+  const nav = useNavigate();
 
   useEffect(() => {
     const getData = async () => {
+      
       try {
-        const {data} =  await axios.get(
-          `http://localhost:8000/api/${param.id}/manufacture`,
+        const { data } = await axios.get(
+          `http://localhost:8000/manufacture/${param.id}`,
           {
             headers: {
               "access-token":
@@ -26,12 +26,12 @@ function ViewManufacture({ title, isFile }) {
             },
           }
         );
-          if(data) {
-            setName(data.manufacturer.name)
-          }
+        
+        setName(data.manufacturer.name);
       } catch (error) {
+        
         toast.error(error.response.data.message, {
-          position: toast.POSITION.TOP_CENTER
+          position: toast.POSITION.TOP_CENTER,
         });
       }
     };
@@ -39,13 +39,13 @@ function ViewManufacture({ title, isFile }) {
   }, []);
   const manufactureUpdate = {
     name,
-    
-  }
+  };
   const handleUpdate = async (e) => {
+    setLoading(true);
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:8000/api/${param.id}/manufacture`,
+        `http://localhost:8000/manufacture/${param.id}`,
         manufactureUpdate,
         {
           headers: {
@@ -54,14 +54,15 @@ function ViewManufacture({ title, isFile }) {
           },
         }
       );
-      
+      setLoading(false);
       toast.success(data.message, {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
-      return nav('/admin/manufacture')
+      return nav("/admin/manufacture");
     } catch (error) {
+      setLoading(false);
       toast.error(error.response.data.message, {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };
@@ -86,22 +87,6 @@ function ViewManufacture({ title, isFile }) {
           )}
           <div className={style.right}>
             <form>
-              {/* {isFile && (
-                <div className={style.formInput}>
-                  <label htmlFor="file">
-                    Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    name="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    style={{ display: "none" }}
-                    disabled
-                  />
-                </div>
-              )} */}
-
               <div className={style.formInput}>
                 <label>Name</label>
                 <input
@@ -112,11 +97,9 @@ function ViewManufacture({ title, isFile }) {
                     setName(e.target.value);
                   }}
                   value={name}
-                
                 />
               </div>
-              
-              
+
               <button type="submit" onClick={handleUpdate}>
                 Save
               </button>

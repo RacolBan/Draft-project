@@ -80,13 +80,13 @@ export const columnsProducts = [
     },
   },
   {
-    field: "categoryId",
-    headerName: "categoryId",
+    field: "nameCategory",
+    headerName: "Name Category",
     width: 150,
   },
   {
-    field: "manufactureId",
-    headerName: "manufactureId",
+    field: "nameManufacture",
+    headerName: "Name Manufacture",
     width: 150,
   },
 ];

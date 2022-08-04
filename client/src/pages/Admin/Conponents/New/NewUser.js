@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-function NewUser({ inputs, title, isFile }) {
+function NewUser({ inputs, title, isFile,setLoading }) {
   const nav = useNavigate();
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
@@ -28,20 +28,24 @@ function NewUser({ inputs, title, isFile }) {
   const isMail = regexEmail.test(info.email);
 
   const handleCreateUser = async (e) => {
+    setLoading(true)
     e.preventDefault();
     if (!isMail) {
+      setLoading(false)
       toast.error("Email invalid", {
         position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
     if (!isPhone) {
+      setLoading(false)
       toast.error("Phone invalid", {
         position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
     if (info.password !== info.confirmPassword) {
+      setLoading(false)
       toast.error("Password and Confirm Password does not match.", {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -71,11 +75,13 @@ function NewUser({ inputs, title, isFile }) {
             "Bearer " + JSON.parse(localStorage.getItem("login")).accesstoken,
         },
       });
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
       return nav("/admin/users");
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

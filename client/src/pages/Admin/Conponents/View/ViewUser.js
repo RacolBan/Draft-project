@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast} from "react-toastify";
 
-function ViewUser({ title, isFile }) {
+function ViewUser({ title, isFile,setLoading }) {
   const [file, setFile] = useState(null);
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -56,6 +56,7 @@ function ViewUser({ title, isFile }) {
     role,
   };
   const handleUpdate = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const { data } = await axios.put(
@@ -68,12 +69,13 @@ function ViewUser({ title, isFile }) {
           },
         }
       );
-      
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER
       });
       return nav('/admin/users')
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
       });

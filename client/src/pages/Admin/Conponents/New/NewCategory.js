@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-function NewCategory({ inputs, title, isFile }) {
+function NewCategory({ inputs, title, isFile,setLoading }) {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState(null);
   const nav = useNavigate();
@@ -21,11 +21,11 @@ function NewCategory({ inputs, title, isFile }) {
     });
   };
   const handleCreateCategory = async (e) => {
+    setLoading(true)
     e.preventDefault();
     const newCategory = {
       name: info.name,
     };
-    console.log(newCategory);
     try {
       const { data } = await axios.post(
         `http://localhost:8000/category`,
@@ -38,12 +38,13 @@ function NewCategory({ inputs, title, isFile }) {
           },
         }
       );
-      
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
       nav("/admin/category");
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

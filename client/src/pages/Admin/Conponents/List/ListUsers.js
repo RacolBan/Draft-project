@@ -5,7 +5,7 @@ import style from "./List.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function ListUsers({ columns, title }) {
+function ListUsers({ columns, title,setLoading }) {
   const login = JSON.parse(localStorage.getItem("login")) || null;
   const [usersAll, setUsersAll] = useState([]);
   const [isDlt,setIsDlt] = useState(false)
@@ -55,6 +55,7 @@ function ListUsers({ columns, title }) {
     },
   ];
   const handleDelete = async (id) => {
+    setLoading(true)
     try {
       const { data } = await axios.delete(
         `http://localhost:8000/user/${id}/deleteInfor`,
@@ -65,12 +66,14 @@ function ListUsers({ columns, title }) {
           },
         }
       );
+      setLoading(false)
       setIsDlt(!isDlt)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
       return nav("/admin/users");
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

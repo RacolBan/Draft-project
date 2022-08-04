@@ -79,6 +79,9 @@ function Category({ handleAddProducts }) {
                   {product.manufactureId === 1 && (
                     <img src="../../../images/Manufactory/dell.PNG" alt="" />
                   )}
+                  {product.manufactureId === 3 && (
+                    <img src="../../../images/Manufactory/apple.PNG" alt="" />
+                  )}
                 </span>
                 <h4 className={style["item-name"]}>{product.name}</h4>
                 <span className={style["item-price"]}>${product.price}</span>

@@ -1,11 +1,10 @@
 .category {
-  max-width: 83.33333%;
-  margin: auto;
+ background-color: #f0f0f0;
 }
 
 .category .container {
-  margin-right: auto;
-  margin-left: auto;
+  max-width: 83.33333%;
+  margin: auto;
   padding-left: 15px;
   padding-right: 15px;
 }

@@ -5,7 +5,7 @@ import style from "./List.module.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-function ListCategory({ columns, title }) {
+function ListCategory({ columns, title,setLoading }) {
   const [categoryAll, setCategoryAll] = useState([]);
   const login = JSON.parse(localStorage.getItem("login")) || null;
   const [isDlt,setDlt] = useState(false)
@@ -55,6 +55,7 @@ function ListCategory({ columns, title }) {
     },
   ];
   const handleDelete = async (id) => {
+    setLoading(true)
     try {
       const {data} = await axios.delete(
         `http://localhost:8000/category/${id}`,
@@ -66,11 +67,13 @@ function ListCategory({ columns, title }) {
         }
       );
       setDlt(!isDlt)
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
       
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });

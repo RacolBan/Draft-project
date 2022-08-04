@@ -5,7 +5,7 @@ import axios from "axios";
 import { GlobalState } from "../../GlobalState";
 import { toast} from "react-toastify";
 
-function Login() {
+function Login({setLoading}) {
   const state = useContext(GlobalState);
   const nav = useNavigate()
   const [isLogged, setIsLogged] = state.UserAPI.isLogged;
@@ -20,6 +20,7 @@ function Login() {
   };
 
   const loginSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const { data } = await axios.post("http://localhost:8000/account/login", {
@@ -39,6 +40,7 @@ function Login() {
       if (data.role === 0) {
         setIsLogged(true);
         setIsAdmin(true)
+        setLoading(false)
         toast.success("Login successfully !", {
           position: toast.POSITION.TOP_CENTER
         });
@@ -46,6 +48,7 @@ function Login() {
         
       } else {
         setIsLogged(true);
+        setLoading(false)
         toast.success("Login successfully !", {
           position: toast.POSITION.TOP_CENTER
         });
@@ -53,6 +56,7 @@ function Login() {
         
       }
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
       });

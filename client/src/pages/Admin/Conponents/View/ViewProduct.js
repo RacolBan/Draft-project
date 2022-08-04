@@ -6,13 +6,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast} from "react-toastify";
 
 
-function ViewProduct({ title, isFile }) {
+function ViewProduct({ title, isFile,setLoading }) {
   const param = useParams();
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [categoryId, setCategoryId] = useState("");
-  const [manufactureId, setManufactureId] = useState("");
+  const [nameCategory, setNameCategory] = useState("");
+  const [nameManufacture, setNameManufacture] = useState("");
   const [file, setFile] = useState(null);
 
   const nav = useNavigate()
@@ -30,13 +30,13 @@ function ViewProduct({ title, isFile }) {
             },
           }
         );
-        if(data.found) {
-          setName(data.found.name)
-          setPrice(data.found.price)
-          setDescription(data.found.description)
-          setCategoryId(data.found.categoryId)
-          setManufactureId(data.found.manufactureId)
-          setFile(data.found.image)
+        if(data.product) {
+          setName(data.product.name)
+          setPrice(data.product.price)
+          setDescription(data.product.description)
+          setNameCategory(data.product.nameCategory)
+          setNameManufacture(data.product.nameManufacture)
+          setFile(data.product.image)
         }
 
       } catch (error) {
@@ -51,10 +51,11 @@ function ViewProduct({ title, isFile }) {
     name,
     price,
     description,
-    categoryId,
-    manufactureId
+    nameCategory,
+    nameManufacture
   }
   const handleUpdate = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const { data } = await axios.put(
@@ -67,12 +68,13 @@ function ViewProduct({ title, isFile }) {
           },
         }
       );
-
+      setLoading(false)
       toast.success(data.message, {
         position: toast.POSITION.TOP_CENTER
       });
       return nav('/admin/products')
     } catch (error) {
+      setLoading(false)
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER
       });
@@ -99,21 +101,6 @@ function ViewProduct({ title, isFile }) {
           )}
           <div className={style.right}>
             <form>
-              {/* {isFile && (
-                <div className={style.formInput}>
-                  <label htmlFor="file">
-                    Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    name="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    style={{ display: "none" }}
-                    disabled
-                  />
-                </div>
-              )} */}
 
               <div className={style.formInput}>
                 <label>Name</label>
@@ -153,27 +140,27 @@ function ViewProduct({ title, isFile }) {
                 />
               </div>
               <div className={style.formInput}>
-                <label>CategoryID</label>
+                <label>Category</label>
                 <input
                   type="text"
-                  placeholder="Enter CategoryID"
-                  name="categoryId"
+                  placeholder="Enter Category"
+                  name="nameCategory"
                   onChange={(e) => {
-                    setCategoryId(e.target.value);
+                    setNameCategory(e.target.value);
                   }}
-                  value={categoryId}
+                  value={nameCategory}
                 />
               </div>
               <div className={style.formInput}>
-                <label>ManufactureId</label>
+                <label>Manufacture</label>
                 <input
-                  type="ManufactureId"
-                  placeholder="Enter ManufactureId"
-                  name="manufactureId"
+                  type="text"
+                  placeholder="Enter Manufacture"
+                  name="nameManufacture"
                   onChange={(e) => {
-                    setManufactureId(e.target.value);
+                    setNameManufacture(e.target.value);
                   }}
-                  value={manufactureId}
+                  value={nameManufacture}
                  
                 />
               </div>
