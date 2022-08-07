@@ -18,7 +18,11 @@ export default function defaultLayout({ children, cartItems }) {
             </Link>
           </div>
         )}
-        
+        <div className={style["message-fixed"]}>
+          <a href="https://www.messenger.com/t/100791439412241" target="_blank" >
+            <i className="fa-solid fa-comment"></i>
+          </a>
+        </div>
       </div>
       <Footer />
     </div>
