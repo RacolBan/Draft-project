@@ -62,7 +62,7 @@ function Cart({ cartItems, setCartItems, setIsPm, isPm, setLoading }) {
             position: toast.POSITION.TOP_CENTER,
           });
         } catch (error) {
-          setLoading(false)
+          setLoading(false);
           toast.error(error.response.data.message, {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -72,6 +72,12 @@ function Cart({ cartItems, setCartItems, setIsPm, isPm, setLoading }) {
   };
 
   const handlePayment = async () => {
+    if (!method) {
+      toast.warning("Please select method payment", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     setLoading(true);
     const newPayment = {
       products: cartItems,
@@ -91,7 +97,7 @@ function Cart({ cartItems, setCartItems, setIsPm, isPm, setLoading }) {
         position: toast.POSITION.TOP_CENTER,
       });
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -175,7 +181,7 @@ function Cart({ cartItems, setCartItems, setIsPm, isPm, setLoading }) {
                 type="radio"
                 id="master"
                 name="payMethod"
-                value="Master"
+                value="Master Card"
                 onChange={handleChange}
               />
               <label htmlFor="master">Master Cart</label>
@@ -189,8 +195,8 @@ function Cart({ cartItems, setCartItems, setIsPm, isPm, setLoading }) {
               <label htmlFor="cod">Ship COD</label>
             </form>
           </div>
-          <div className={style.checkout}>
-            <span onClick={handlePayment}>Purchase</span>
+          <div className={style.checkout} onClick={handlePayment}>
+            <span>Purchase</span>
           </div>
         </div>
       ) : (
