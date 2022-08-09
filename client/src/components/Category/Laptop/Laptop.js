@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../../GlobalState";
 
-function Apple({handleAddProducts}) {
+function Laptop({handleAddProducts}) {
   const settings = {
     dots: false,
     infinite: true,
@@ -82,4 +82,4 @@ function Apple({handleAddProducts}) {
   );
 }
 
-export default Apple;
+export default Laptop;

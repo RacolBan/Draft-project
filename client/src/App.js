@@ -380,7 +380,7 @@ function App() {
                 index
                 element={
                   <LayoutAdmin>
-                    <ListOrders columns={columnsOrder} title="Order" setLoading={setLoading}/>
+                    <ListOrders columns={columnsOrder} title="Order"/>
                   </LayoutAdmin>
                 }
               />
